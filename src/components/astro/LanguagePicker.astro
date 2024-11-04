@@ -16,10 +16,25 @@ const currentPath = Astro.url.pathname;
 
 <style>
   .language-picker {
+    z-index: 1000;
+    position: fixed;
     display: flex;
     gap: 1rem;
+    bottom: 1rem;
+    right: 1rem;
+    background: black;
+    padding: 0.2rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
   .lang-link {
     padding: 0.5rem;
+    color: white;
+    text-decoration: none;
+  }
+
+  .lang-link:hover {
+    text-decoration: underline;
   }
 </style>

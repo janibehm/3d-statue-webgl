@@ -2,6 +2,7 @@
 import Footer from "../components/astro/Footer.astro";
 import Navigation from "../components/astro/Navigation.astro";
 import Header from "../components/astro/Header.astro";
+import LanguagePicker from "../components/astro/LanguagePicker.astro";
 
 interface Props {
   title: string;
@@ -10,10 +11,11 @@ interface Props {
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 const isHomePage = currentPath === "/";
+const lang = Astro.params.lang || "fi"; // Default to Finnish
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <title>{title}</title>
@@ -22,6 +24,8 @@ const isHomePage = currentPath === "/";
     <Header />
     <Navigation />
     <slot />
+    <LanguagePicker currentLang={lang} />
+
     {!isHomePage && <Footer />}
   </body>
 </html>

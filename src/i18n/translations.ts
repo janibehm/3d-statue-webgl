@@ -1,10 +1,10 @@
 export const languages = {
-  fi: "Suomi",
   en: "English",
+  fi: "Suomi",
   // Add more languages as needed
 };
 
-export const defaultLang = "en";
+export const defaultLang = "fi";
 
 export const ui = {
   en: {

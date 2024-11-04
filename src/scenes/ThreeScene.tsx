@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Html } from "@react-three/drei";
-import { ScrollIndicator } from "../components/react/ScrollIndicator";
 import { LucyModel } from "../components/react/threeJs/LucyModel";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
 import { globalAnimationState } from "../components/react/threeJs/hooks/globalAnimationState";
 import { Sphere } from "../components/react/threeJs/Sphere";
 import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
+import { ScrollIndicator } from "../components/react/ScrollIndicator";
 
 // Loading canvas
 function Loader({ onLoad }: { onLoad: () => void }) {
