@@ -1,0 +1,25 @@
+---
+import { languages } from "../../i18n/translations";
+
+const currentPath = Astro.url.pathname;
+---
+
+<div class="language-picker">
+  {
+    Object.entries(languages).map(([lang, label]) => (
+      <a href={`/${lang}${currentPath}`} class="lang-link">
+        {label}
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .language-picker {
+    display: flex;
+    gap: 1rem;
+  }
+  .lang-link {
+    padding: 0.5rem;
+  }
+</style>

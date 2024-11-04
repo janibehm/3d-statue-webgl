@@ -1,26 +1,27 @@
 ---
+import Footer from "../components/astro/Footer.astro";
+import Navigation from "../components/astro/Navigation.astro";
+import Header from "../components/astro/Header.astro";
+
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
-import Header from "@/components/astro/Header.astro";
-import Navigation from "@/components/astro/Navigation.astro";
+const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === "/";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body>
     <Header />
     <Navigation />
     <slot />
+    {!isHomePage && <Footer />}
   </body>
 </html>
