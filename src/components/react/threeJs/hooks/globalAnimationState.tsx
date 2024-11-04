@@ -1,3 +1,3 @@
 export const globalAnimationState = {
-    isLucyInPosition: false
-  };
+  isLucyInPosition: false,
+};

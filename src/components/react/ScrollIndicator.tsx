@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 
 interface ScrollIndicatorProps {
   isSceneLoaded: boolean;
@@ -12,8 +12,8 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
       setIsVisible(false);
     };
 
-    window.addEventListener('wheel', handleScroll, { once: true });
-    return () => window.removeEventListener('wheel', handleScroll);
+    window.addEventListener("wheel", handleScroll, { once: true });
+    return () => window.removeEventListener("wheel", handleScroll);
   }, []);
 
   if (!isSceneLoaded) return null;
@@ -21,39 +21,39 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
   return (
     <div
       style={{
-        position: 'fixed',
-        bottom: '40px',
-        right: '40px',
-        color: 'white',
-        textAlign: 'center',
+        position: "fixed",
+        bottom: "40px",
+        right: "40px",
+        color: "white",
+        textAlign: "center",
         opacity: isVisible ? 1 : 0,
-        transition: 'opacity 0.5s ease-out',
+        transition: "opacity 0.5s ease-out",
         zIndex: 2,
-        pointerEvents: 'none',
+        pointerEvents: "none",
       }}
     >
-      <div style={{ fontSize: '14px', marginBottom: '8px' }}>Selaa alas</div>
+      <div style={{ fontSize: "14px", marginBottom: "8px" }}>Selaa alas</div>
       <div
         style={{
-          width: '20px',
-          height: '30px',
-          border: '2px solid white',
-          borderRadius: '10px',
-          margin: '0 auto',
-          position: 'relative',
+          width: "20px",
+          height: "30px",
+          border: "2px solid white",
+          borderRadius: "10px",
+          margin: "0 auto",
+          position: "relative",
         }}
       >
         <div
           style={{
-            width: '4px',
-            height: '8px',
-            backgroundColor: 'white',
-            borderRadius: '2px',
-            position: 'absolute',
-            left: '50%',
-            top: '6px',
-            transform: 'translateX(-50%)',
-            animation: 'scrollAnimation 1.5s ease-in-out infinite',
+            width: "4px",
+            height: "8px",
+            backgroundColor: "white",
+            borderRadius: "2px",
+            position: "absolute",
+            left: "50%",
+            top: "6px",
+            transform: "translateX(-50%)",
+            animation: "scrollAnimation 1.5s ease-in-out infinite",
           }}
         />
       </div>

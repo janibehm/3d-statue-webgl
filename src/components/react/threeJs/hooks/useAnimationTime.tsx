@@ -1,5 +1,5 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
 export function useAnimationTime() {
-    return useRef({ startTime: performance.now(), isAnimating: true });
-  }
+  return useRef({ startTime: performance.now(), isAnimating: true });
+}

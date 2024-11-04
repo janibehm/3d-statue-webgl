@@ -1,0 +1,222 @@
+---
+// Get current path
+const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === "/";
+
+// No need for useState/useEffect in Astro - this will be handled by client script
+---
+
+<nav class="side-nav" id="navigation">
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul>
+    <li>
+      <a href="/" class={`nav-link ${currentPath === "/" ? "active" : ""}`}> Etusivu </a>
+    </li>
+    <li>
+      <a href="/palvelut" class={`nav-link ${currentPath === "/palvelut" ? "active" : ""}`}>
+        Palvelut
+      </a>
+    </li>
+    <li>
+      <a href="/hinnasto" class="nav-link" target="_blank" rel="noopener noreferrer"> Hinnasto </a>
+    </li>
+    <li>
+      <a href="/tietoa" class="nav-link" target="_blank" rel="noopener noreferrer"> Tietoa </a>
+    </li>
+    <li>
+      <a href="/yhteydenotto" class={`nav-link ${currentPath === "/yhteydenotto" ? "active" : ""}`}>
+        Yhteydenotto
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<script>
+  // Client-side interactivity
+  const nav = document.getElementById("navigation");
+  const hamburger = nav?.querySelector(".hamburger");
+
+  // Toggle menu
+  hamburger?.addEventListener("click", () => {
+    nav?.classList.toggle("open");
+  });
+
+  // Mobile view on scroll (only if not homepage)
+  if (window.location.pathname !== "/") {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        nav?.classList.add("mobile-view");
+      } else {
+        nav?.classList.remove("mobile-view");
+      }
+    });
+  }
+</script>
+
+<style>
+  .side-nav {
+    position: fixed;
+    right: 10%;
+    top: 20px;
+    z-index: 9999;
+    padding: 10px;
+    pointer-events: auto;
+  }
+
+  .side-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .side-nav li {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: "Exo", sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:hover::before {
+    width: 14px;
+    height: 14px;
+    background-color: #00ff00;
+  }
+
+  .nav-link:hover {
+    color: #00ff00;
+  }
+
+  .nav-link.active {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .nav-link.active::before {
+    background-color: #ffffff99;
+    width: 14px;
+    height: 14px;
+  }
+
+  .hamburger {
+    display: none;
+    cursor: pointer;
+    background-color: #00000080;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+  }
+
+  .side-nav.mobile-view {
+    right: 20px;
+  }
+
+  .side-nav.mobile-view ul {
+    display: none;
+  }
+
+  .side-nav.mobile-view .hamburger {
+    display: block;
+  }
+
+  .side-nav.mobile-view.open {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+  }
+
+  .side-nav.mobile-view.open ul {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .side-nav.mobile-view.open .hamburger span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .side-nav.mobile-view.open .hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .side-nav.mobile-view.open .hamburger span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  .side-nav.mobile-view .nav-link::before {
+    display: none;
+  }
+
+  .side-nav.mobile-view .nav-link {
+    padding: 8px 0;
+  }
+
+  @media (max-width: 1128px) {
+    .side-nav:not(.mobile-view) ul {
+      display: none;
+    }
+
+    .side-nav:not(.mobile-view) .hamburger {
+      display: block;
+    }
+
+    .side-nav:not(.mobile-view).open {
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 5px;
+    }
+
+    .side-nav:not(.mobile-view).open ul {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .side-nav:not(.mobile-view).open .hamburger span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .side-nav:not(.mobile-view).open .hamburger span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .side-nav:not(.mobile-view).open .hamburger span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .side-nav:not(.mobile-view) .nav-link::before {
+      display: none;
+    }
+
+    .side-nav:not(.mobile-view) .nav-link {
+      padding: 8px 0;
+    }
+  }
+</style>

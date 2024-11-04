@@ -1,15 +1,14 @@
 ---
-import '@/styles/globals.css'
-import Layout from '../layouts/Layout.astro';
-import Scene3D from '../scenes/ThreeScene';
-import { Suspense } from 'react';
-import type { ReactElement } from 'react';
-
+import "@/styles/globals.css";
+import Layout from "../layouts/Layout.astro";
+import Scene3D from "../scenes/ThreeScene";
+import ScrollContent from "@/components/astro/ScrollContent.astro";
+import Header from "@/components/astro/Header.astro";
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
-	<Scene3D client:only="react" />
-	</main>
+  <main>
+    <Scene3D client:only="react" />
+    <ScrollContent />
+  </main>
 </Layout>
-
