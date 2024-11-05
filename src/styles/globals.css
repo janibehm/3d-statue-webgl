@@ -67,7 +67,10 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+}
 
+/* Move these outside of @layer base */
+@layer components {
   html {
     font-family: "Exo", sans-serif;
   }
@@ -81,9 +84,6 @@
   html,
   body,
   #root {
-    background-color: black;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+    @apply min-h-screen m-0 p-0 bg-black;
   }
 }

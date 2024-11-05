@@ -9,13 +9,14 @@ interface TranslatedTextProps {
 }
 
 export function TranslatedText({ translationKey }: TranslatedTextProps) {
-  const [currentLang, setCurrentLang] = useState<"en" | "fi">(
-    typeof window !== "undefined"
-      ? ((localStorage.getItem("preferredLanguage") as "en" | "fi") ?? "fi")
-      : "fi",
-  );
+  const [currentLang, setCurrentLang] = useState<"en" | "fi">("fi");
 
   const t = useTranslations(currentLang);
+
+  useEffect(() => {
+    const savedLang = (localStorage.getItem("preferredLanguage") as "en" | "fi") || "fi";
+    setCurrentLang(savedLang);
+  }, []);
 
   useEffect(() => {
     // Set up language change listener

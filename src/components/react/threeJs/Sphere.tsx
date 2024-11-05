@@ -28,9 +28,6 @@ export function Sphere() {
   useEffect(() => {
     // Create loaders outside of load calls to reuse them
     const textureLoader = new TextureLoader();
-    const ktx2Loader = new KTX2Loader();
-    ktx2Loader.setTranscoderPath("/basis/");
-    ktx2Loader.detectSupport(gl);
 
     // Load regular PNG/JPEG instead of KTX2 for better initial performance
     textureLoader.load("/textures/painted-worn-asphalt_albedo.jpg", (jpegTexture) => {
