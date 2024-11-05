@@ -2,8 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { easeOutCubic } from "./hooks/easeOutCubix";
 import { useAnimationTime } from "./hooks/useAnimationTime";
-import { Mesh, Texture, CompressedTexture, TextureLoader, MeshStandardMaterial } from "three";
-import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
+import { Mesh, Texture, CompressedTexture, TextureLoader, MeshBasicMaterial } from "three";
 import { useThree } from "@react-three/fiber";
 
 export function Sphere() {
@@ -36,7 +35,7 @@ export function Sphere() {
     });
 
     textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (jpegNormalTexture) => {
-      if (meshRef.current && meshRef.current.material instanceof MeshStandardMaterial) {
+      if (meshRef.current && meshRef.current.material instanceof MeshBasicMaterial) {
         meshRef.current.material.normalMap = jpegNormalTexture;
         meshRef.current.material.needsUpdate = true;
         setNormalMapLoaded(true);
@@ -82,8 +81,8 @@ export function Sphere() {
 
   return (
     <mesh ref={meshRef} position={[0, startY, startZ]} castShadow visible={isVisible}>
-      <sphereGeometry args={[3, 32, 32]} />
-      <meshStandardMaterial map={texture} displacementScale={0} roughness={0.8} metalness={0.2} />
+      <sphereGeometry args={[3, 20, 20]} />
+      <meshLambertMaterial map={texture} />
     </mesh>
   );
 }
