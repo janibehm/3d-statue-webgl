@@ -8,8 +8,11 @@
           sm:px-8 sm:col-span-10 sm:col-start-2
           md:col-start-1"
   >
-    <p class="text-white bg-transparent text-4xl inline leading-none">
-      Rakennetaan sinulle jotain upeaa!
+    <p
+      class="text-white bg-transparent text-4xl inline leading-none"
+      id="animated-text"
+      data-text="Rakennetaan sinulle jotain upeaa!"
+    >
     </p>
   </blockquote>
 
@@ -82,3 +85,27 @@
 
   <div class="h-[80vh] col-span-12"></div>
 </main>
+
+<script>
+  import { animate, stagger } from "motion";
+
+  const element = document.getElementById("animated-text");
+  const text = element?.getAttribute("data-text") || "";
+
+  // Split text into spans
+  element!.innerHTML = text
+    .split("")
+    .map((char) => `<span style="opacity: 0">${char}</span>`)
+    .join("");
+
+  // Animate each character
+  animate(
+    "#animated-text span",
+    { opacity: [0, 1] },
+    {
+      duration: 0.05,
+      delay: stagger(0.05),
+      easing: "ease-out",
+    },
+  );
+</script>

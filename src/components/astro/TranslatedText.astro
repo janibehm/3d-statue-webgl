@@ -37,7 +37,7 @@ const t = useTranslations(lang);
 </script>
 
 <script>
-  function updateTranslations(lang: string) {
+  /*   function updateTranslations(lang: string) {
     document.querySelectorAll(".translation").forEach((elem) => {
       const key = elem.getAttribute("data-key");
       // Get translation from your translations object
@@ -49,11 +49,11 @@ const t = useTranslations(lang);
   // Listen for language changes
   window.addEventListener("languageChange", (event: any) => {
     updateTranslations(event.detail.lang);
-  });
+  }); */
 
   // Initial load
   const savedLang = localStorage.getItem("preferredLanguage") || "fi";
-  updateTranslations(savedLang);
+  /*   updateTranslations(savedLang); */
 </script>
 
 <script>
