@@ -1,3 +1,7 @@
+---
+import TranslatedText from "./TranslatedText.astro";
+---
+
 <main
   class="absolute w-full text-white z-[1] grid grid-cols-12 pointer-events-auto
         top-[70vh]
@@ -8,104 +12,317 @@
           sm:px-8 sm:col-span-10 sm:col-start-2
           md:col-start-1"
   >
-    <p
+    <!-- First execute this -->
+    <!--      <p
       class="text-white bg-transparent text-4xl inline leading-none"
       id="animated-text"
-      data-text="Rakennetaan sinulle jotain upeaa!"
+      data-text={heroText}
     >
+    </p> -->
+
+    <!-- Then change to this -->
+    <p class="text-white bg-transparent text-3xl relative w-full max-w-[800px]">
+      <span
+        id="animated-text"
+        class="block w-full leading-none tracking-[-0.1em] whitespace-nowrap"
+      >
+        <span class="letter">R</span>
+        <span class="letter">a</span>
+        <span class="letter">k</span>
+        <span class="letter">e</span>
+        <span class="letter">n</span>
+        <span class="letter">n</span>
+        <span class="letter">e</span>
+        <span class="letter">t</span>
+        <span class="letter">a</span>
+        <span class="letter">a</span>
+        <span class="letter">n</span>
+        <span class="letter">&nbsp;</span>
+        <span class="letter">s</span>
+        <span class="letter">i</span>
+        <span class="letter">n</span>
+        <span class="letter">u</span>
+        <span class="letter">l</span>
+        <span class="letter">l</span>
+        <span class="letter">e</span>
+        <span class="letter">&nbsp;</span>
+        <span class="letter">j</span>
+        <span class="letter">o</span>
+        <span class="letter">t</span>
+        <span class="letter">a</span>
+        <span class="letter">i</span>
+        <span class="letter">n</span>
+        <span class="letter">&nbsp;</span>
+        <span class="letter">u</span>
+        <span class="letter">p</span>
+        <span class="letter">e</span>
+        <span class="letter">a</span>
+        <span class="letter">a</span>
+        <span class="letter">!</span>
+      </span>
+      <span
+        id="translated-text"
+        class="animate-fade-in absolute top-0 left-0 block w-full tracking-widest whitespace-nowrap leading-none"
+      >
+        <TranslatedText translationKey="scroll.hero" />
+      </span>
     </p>
+
+    <style>
+      /*      #animated-text {
+        position: relative;
+      } */
+
+      .letter {
+        opacity: 0;
+        display: inline-block;
+        animation: appear 0.01s forwards;
+      }
+
+      /* Individual letter delays */
+      .letter:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .letter:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .letter:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .letter:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .letter:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+      .letter:nth-child(6) {
+        animation-delay: 0.3s;
+      }
+      .letter:nth-child(7) {
+        animation-delay: 0.35s;
+      }
+      .letter:nth-child(8) {
+        animation-delay: 0.4s;
+      }
+      .letter:nth-child(9) {
+        animation-delay: 0.45s;
+      }
+      .letter:nth-child(10) {
+        animation-delay: 0.5s;
+      }
+      .letter:nth-child(11) {
+        animation-delay: 0.55s;
+      }
+      .letter:nth-child(12) {
+        animation-delay: 0.6s;
+      }
+      .letter:nth-child(13) {
+        animation-delay: 0.65s;
+      }
+      .letter:nth-child(14) {
+        animation-delay: 0.7s;
+      }
+      .letter:nth-child(15) {
+        animation-delay: 0.75s;
+      }
+      .letter:nth-child(16) {
+        animation-delay: 0.8s;
+      }
+      .letter:nth-child(17) {
+        animation-delay: 0.85s;
+      }
+      .letter:nth-child(18) {
+        animation-delay: 0.9s;
+      }
+      .letter:nth-child(19) {
+        animation-delay: 0.95s;
+      }
+      .letter:nth-child(20) {
+        animation-delay: 1s;
+      }
+      .letter:nth-child(21) {
+        animation-delay: 1.05s;
+      }
+      .letter:nth-child(22) {
+        animation-delay: 1.1s;
+      }
+      .letter:nth-child(23) {
+        animation-delay: 1.15s;
+      }
+      .letter:nth-child(24) {
+        animation-delay: 1.2s;
+      }
+      .letter:nth-child(25) {
+        animation-delay: 1.25s;
+      }
+      .letter:nth-child(26) {
+        animation-delay: 1.3s;
+      }
+      .letter:nth-child(27) {
+        animation-delay: 1.35s;
+      }
+      .letter:nth-child(28) {
+        animation-delay: 1.4s;
+      }
+      .letter:nth-child(29) {
+        animation-delay: 1.45s;
+      }
+      .letter:nth-child(30) {
+        animation-delay: 1.5s;
+      }
+      .letter:nth-child(31) {
+        animation-delay: 1.55s;
+      }
+      .letter:nth-child(32) {
+        animation-delay: 1.6s;
+      }
+      .letter:nth-child(33) {
+        animation-delay: 1.65s;
+      }
+
+      #animated-text {
+        animation: fadeOut 1s forwards;
+        animation-delay: 3s;
+        letter-spacing: -0.085em;
+      }
+
+      .animate-fade-in {
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+        animation-delay: 3s;
+      }
+
+      @keyframes appear {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+
+    <div class="h-[25vh] col-span-12"></div>
+    {/* spacer */}
+
+    <section
+      class="col-span-12 px-4 bg-dark-bg text-base leading-relaxed mb-spacing
+          sm:px-8 sm:col-span-10 sm:col-start-2
+          md:text-xl"
+    >
+      <h2 class="font-['exo'] font-bold py-4 text-2xl">
+        <TranslatedText translationKey="scroll.whyUs.title" />
+      </h2>
+      <div class="feature max-w-[95%] mx-auto">
+        <h3 class="font-['exo'] font-bold py-4 text-xl">
+          <TranslatedText translationKey="scroll.whyUs.brand.title" />
+        </h3>
+        <p class="mb-6">
+          <TranslatedText translationKey="scroll.whyUs.brand.description" />
+        </p>
+      </div>
+
+      <div class="feature max-w-[95%] mx-auto">
+        <h3 class="font-['exo'] font-bold py-4 text-xl">Käyttäjäkokemus</h3>
+        <p class="mb-6">
+          Sivut voidaan optimoida tarjoamaan käyttäjäystävällinen kokemus. Tämä tarkoittaa
+          intuitiivista navigointia, nopeita latausaikoja ja responsiivista designia, joka toimii
+          hyvin kaikilla laitteilla.
+        </p>
+      </div>
+
+      <div class="feature max-w-[95%] mx-auto">
+        <h3 class="font-['exo'] font-bold py-4 text-xl">Skaalautuvuus</h3>
+        <p class="mb-6">
+          Kotisivut voidaan suunnitella siten, että ne kasvavat yrityksesi mukana. Voit lisätä uusia
+          toimintoja, sivuja tai integraatioita ilman, että koko sivustoa tarvitsee rakentaa
+          uusiksi.
+        </p>
+      </div>
+
+      <div class="feature max-w-[95%] mx-auto">
+        <h3 class="font-['exo'] font-bold py-4 text-xl">Kilpailuetu</h3>
+        <p class="mb-6">
+          Innovatiivinen design ja ainutlaatuinen sisältö voivat herättää asiakkaan mielenkiinnon ja
+          houkutella valitsemaan juuri sinun yrityksesi.
+        </p>
+      </div>
+
+      <div class="feature max-w-[95%] mx-auto">
+        <h3 class="font-['exo'] font-bold py-4 text-xl">Hakusana optimointi</h3>
+        <p class="mb-6">
+          Hyvin suunniteltu rakenne ja SEO optimointi nostavat mahdollisuuksia nousta
+          hakutuloksissa, mikä voi johtaa lisääntyneeseen liikenteeseen ja asiakaskuntaan.
+        </p>
+      </div>
+
+      <div class="feature max-w-[95%] mx-auto">
+        <h3 class="font-['exo'] font-bold py-4 text-xl">Ammattimaisuus</h3>
+        <p class="mb-6">
+          Laadukkaat kotisivut antavat yrityksestäsi ammattimaisen kuvan, mikä lisää luottamusta.
+          Hyvin suunnitellut websivut voivat tehdä eron asiakkaiden päätöksenteossa.
+        </p>
+      </div>
+    </section>
+
+    <section
+      class="col-span-12 px-4 text-base leading-relaxed mb-spacing
+          sm:px-8 sm:col-span-10 sm:col-start-2
+          md:text-xl"
+    >
+      <h2 class="font-['Exo'] font-bold py-4 text-2xl">
+        <TranslatedText translationKey="scroll.contact" />
+      </h2>
+    </section>
+    <div class="h-[80vh] col-span-12"></div>
   </blockquote>
+  <!-- 
+  <script is:inline type="module">
+    import { animate, stagger } from "motion";
 
-  <div class="h-[25vh] col-span-12"></div>
-  {/* spacer */}
+    document.addEventListener("DOMContentLoaded", () => {
+      const animatedText = document.getElementById("animated-text");
+      const translatedText = document.getElementById("translated-text");
 
-  <section
-    class="col-span-12 px-4 bg-dark-bg text-base leading-relaxed mb-spacing
-          sm:px-8 sm:col-span-10 sm:col-start-2
-          md:text-xl"
-  >
-    <h2 class="font-['exo'] font-bold py-4 text-2xl">Miksi hankkia kotisivut juuri meiltä?</h2>
-    <div class="feature max-w-[95%] mx-auto">
-      <h3 class="font-['exo'] font-bold py-4 text-xl">Brändin Yksilöllisyys</h3>
-      <p class="mb-6">
-        Laadukkaat kotisivut mahdollistavat brändisi ainutlaatuisen ilmeen ja viestin esittämisen.
-        Voimme räätälöidä sivuston ulkoasun ja sisällön vastaamaan yrityksesi arvoja ja tavoitteita.
-      </p>
-    </div>
+      if (animatedText) {
+        // Split text into spans
+        animatedText.innerHTML = animatedText.textContent
+          .split("")
+          .map((char) => `<span style="opacity: 0">${char}</span>`)
+          .join("");
 
-    <div class="feature max-w-[95%] mx-auto">
-      <h3 class="font-['exo'] font-bold py-4 text-xl">Käyttäjäkokemus</h3>
-      <p class="mb-6">
-        Sivut voidaan optimoida tarjoamaan käyttäjäystävällinen kokemus. Tämä tarkoittaa
-        intuitiivista navigointia, nopeita latausaikoja ja responsiivista designia, joka toimii
-        hyvin kaikilla laitteilla.
-      </p>
-    </div>
-
-    <div class="feature max-w-[95%] mx-auto">
-      <h3 class="font-['exo'] font-bold py-4 text-xl">Skaalautuvuus</h3>
-      <p class="mb-6">
-        Kotisivut voidaan suunnitella siten, että ne kasvavat yrityksesi mukana. Voit lisätä uusia
-        toimintoja, sivuja tai integraatioita ilman, että koko sivustoa tarvitsee rakentaa uusiksi.
-      </p>
-    </div>
-
-    <div class="feature max-w-[95%] mx-auto">
-      <h3 class="font-['exo'] font-bold py-4 text-xl">Kilpailuetu</h3>
-      <p class="mb-6">
-        Innovatiivinen design ja ainutlaatuinen sisältö voivat herättää asiakkaan mielenkiinnon ja
-        houkutella valitsemaan juuri sinun yrityksesi.
-      </p>
-    </div>
-
-    <div class="feature max-w-[95%] mx-auto">
-      <h3 class="font-['exo'] font-bold py-4 text-xl">Hakusana optimointi</h3>
-      <p class="mb-6">
-        Hyvin suunniteltu rakenne ja SEO optimointi nostavat mahdollisuuksia nousta hakutuloksissa,
-        mikä voi johtaa lisääntyneeseen liikenteeseen ja asiakaskuntaan.
-      </p>
-    </div>
-
-    <div class="feature max-w-[95%] mx-auto">
-      <h3 class="font-['exo'] font-bold py-4 text-xl">Ammattimaisuus</h3>
-      <p class="mb-6">
-        Laadukkaat kotisivut antavat yrityksestäsi ammattimaisen kuvan, mikä lisää luottamusta.
-        Hyvin suunnitellut websivut voivat tehdä eron asiakkaiden päätöksenteossa.
-      </p>
-    </div>
-  </section>
-
-  <section
-    class="col-span-12 px-4 text-base leading-relaxed mb-spacing
-          sm:px-8 sm:col-span-10 sm:col-start-2
-          md:text-xl"
-  >
-    <h2 class="font-['Exo'] font-bold py-4 text-2xl">Ota yhteyttä jo tänään.</h2>
-  </section>
-
-  <div class="h-[80vh] col-span-12"></div>
+        // Animate each character
+        animate(
+          "#animated-text span",
+          { opacity: [0, 1] },
+          {
+            duration: 0.05,
+            delay: stagger(0.05),
+            easing: "ease-out",
+            onComplete: () => {
+              // After animation completes, wait a bit then switch to translated text
+              setTimeout(() => {
+                if (animatedText && translatedText) {
+                  animatedText.classList.add("hidden");
+                  translatedText.classList.remove("hidden");
+                }
+              }, 1000);
+            },
+          },
+        );
+      }
+    });
+  </script> -->
 </main>
-
-<script>
-  import { animate, stagger } from "motion";
-
-  const element = document.getElementById("animated-text");
-  const text = element?.getAttribute("data-text") || "";
-
-  // Split text into spans
-  element!.innerHTML = text
-    .split("")
-    .map((char) => `<span style="opacity: 0">${char}</span>`)
-    .join("");
-
-  // Animate each character
-  animate(
-    "#animated-text span",
-    { opacity: [0, 1] },
-    {
-      duration: 0.05,
-      delay: stagger(0.05),
-      easing: "ease-out",
-    },
-  );
-</script>

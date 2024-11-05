@@ -1,0 +1,20 @@
+en:
+  hero: "Let's build something amazing for you!"
+  whyUs:
+    title: "Why choose us for your website?"
+    brand:
+      title: "Brand Uniqueness"
+      description: >
+        High-quality websites allow you to present your brand's unique look and message.
+        We can customize the appearance and content of the site to reflect your company's values and goals.
+  contact: "Get in touch today."
+fi:
+  hero: "Rakennetaan sinulle jotain upeaa!"
+  whyUs:
+    title: "Miksi hankkia kotisivut juuri meiltä?"
+    brand:
+      title: "Brändin Yksilöllisyys"
+      description: >
+        Laadukkaat kotisivut mahdollistavat brändisi ainutlaatuisen ilmeen ja viestin esittämisen.
+        Voimme räätälöidä sivuston ulkoasun ja sisällön vastaamaan yrityksesi arvoja ja tavoitteita.
+  contact: "Ota yhteyttä jo tänään."
