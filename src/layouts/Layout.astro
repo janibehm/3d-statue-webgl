@@ -2,8 +2,8 @@
 import Footer from "../components/astro/Footer.astro";
 import Navigation from "../components/astro/Navigation.astro";
 import Header from "../components/astro/Header.astro";
-import LanguagePicker from "../components/astro/LanguagePicker.astro";
-
+/* import LanguagePicker from "../components/astro/LanguagePicker.astro"; */
+import LangButton from "../components/astro/LangButton.astro";
 interface Props {
   title: string;
 }
@@ -24,8 +24,8 @@ const lang = Astro.params.lang || "fi"; // Default to Finnish
     <Header />
     <Navigation />
     <slot />
-    <LanguagePicker currentLang={lang} />
-
+    <!-- <LanguagePicker currentLang={lang} /> -->
+    <LangButton />
     {!isHomePage && <Footer />}
   </body>
 </html>

@@ -6,7 +6,7 @@ export const languages = {
 
 export const defaultLang = "fi";
 
-export const ui = {
+export const NavLang = {
   en: {
     "nav.home": "Home",
     "nav.services": "Services",

@@ -1,10 +1,8 @@
 ---
 // Get current path
 const currentPath = Astro.url.pathname;
-import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+/* const isHomePage = currentPath === "/"; */
+import TranslatedText from "./TranslatedText.astro";
 
 // No need for useState/useEffect in Astro - this will be handled by client script
 ---
@@ -17,28 +15,28 @@ const t = useTranslations(lang);
   </div>
   <ul>
     <li>
-      <a href={`/${lang}/`} class={`nav-link ${currentPath === `/${lang}/` ? "active" : ""}`}>
-        {t("nav.home")}
+      <a href="/" class={`nav-link ${currentPath === "/" ? "active" : ""}`}>
+        <TranslatedText translationKey="nav.home" />
       </a>
     </li>
     <li>
       <a href="/palvelut" class={`nav-link ${currentPath === "/palvelut" ? "active" : ""}`}>
-        {t("nav.services")}
+        <TranslatedText translationKey="nav.services" />
       </a>
     </li>
     <li>
       <a href="/hinnasto" class="nav-link" target="_blank" rel="noopener noreferrer">
-        {t("nav.pricing")}
+        <TranslatedText translationKey="nav.pricing" />
       </a>
     </li>
     <li>
       <a href="/tietoa" class="nav-link" target="_blank" rel="noopener noreferrer">
-        {t("nav.about")}
+        <TranslatedText translationKey="nav.about" />
       </a>
     </li>
     <li>
       <a href="/yhteydenotto" class={`nav-link ${currentPath === "/yhteydenotto" ? "active" : ""}`}>
-        {t("nav.contact")}
+        <TranslatedText translationKey="nav.contact" />
       </a>
     </li>
   </ul>

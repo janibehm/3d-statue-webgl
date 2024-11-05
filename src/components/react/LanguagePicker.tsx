@@ -1,4 +1,4 @@
-import { languages } from "../../i18n/translations";
+/* import { languages } from "../../i18n/translations";
 
 interface LanguagePickerProps {
   currentLang: string;
@@ -17,3 +17,4 @@ const LanguagePicker = ({ currentLang }: LanguagePickerProps) => {
 };
 
 export default LanguagePicker;
+ */

@@ -1,10 +1,10 @@
 ---
-import { languages } from "../../i18n/translations";
+import { languages } from "../../i18n/navTranslations";
 
 const currentPath = Astro.url.pathname;
 ---
 
-<div class="language-picker">
+<!-- change the url language between en and fi --><!-- <div class="language-picker">
   {
     Object.entries(languages).map(([lang, label]) => (
       <a href={`/${lang}${currentPath}`} class="lang-link">
@@ -13,7 +13,6 @@ const currentPath = Astro.url.pathname;
     ))
   }
 </div>
-
 <style>
   .language-picker {
     z-index: 1000;
@@ -37,4 +36,4 @@ const currentPath = Astro.url.pathname;
   .lang-link:hover {
     text-decoration: underline;
   }
-</style>
+</style> -->
