@@ -2,7 +2,7 @@
 // Get current path
 const currentPath = Astro.url.pathname;
 /* const isHomePage = currentPath === "/"; */
-import TranslatedText from "./TranslatedText.astro";
+import { TranslatedText } from "../react/TranslatedText";
 
 // No need for useState/useEffect in Astro - this will be handled by client script
 ---
@@ -16,27 +16,27 @@ import TranslatedText from "./TranslatedText.astro";
   <ul>
     <li>
       <a href="/" class={`nav-link ${currentPath === "/" ? "active" : ""}`}>
-        <TranslatedText translationKey="nav.home" />
+        <TranslatedText client:load translationKey="nav.home" />
       </a>
     </li>
     <li>
       <a href="/palvelut" class={`nav-link ${currentPath === "/palvelut" ? "active" : ""}`}>
-        <TranslatedText translationKey="nav.services" />
+        <TranslatedText client:load translationKey="nav.services" />
       </a>
     </li>
     <li>
       <a href="/hinnasto" class="nav-link" target="_blank" rel="noopener noreferrer">
-        <TranslatedText translationKey="nav.pricing" />
+        <TranslatedText client:load translationKey="nav.pricing" />
       </a>
     </li>
     <li>
       <a href="/tietoa" class="nav-link" target="_blank" rel="noopener noreferrer">
-        <TranslatedText translationKey="nav.about" />
+        <TranslatedText client:load translationKey="nav.about" />
       </a>
     </li>
     <li>
       <a href="/yhteydenotto" class={`nav-link ${currentPath === "/yhteydenotto" ? "active" : ""}`}>
-        <TranslatedText translationKey="nav.contact" />
+        <TranslatedText client:load translationKey="nav.contact" />
       </a>
     </li>
   </ul>

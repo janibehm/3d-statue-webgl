@@ -1,10 +1,14 @@
+---
+import { TranslatedText } from "../react/TranslatedText";
+---
+
 <header
   class="absolute z-50 w-full min-h-[260px] flex flex-col justify-center text-white z-[3] bg-dark-bg"
 >
   <div class="px-4 max-w-[90%] mx-auto sm:px-8 md:ml-[60px] md:max-w-none">
     <h1 class="text-3xl sm:text-4xl">BEHM Digital</h1>
     <p class="text-lg leading-relaxed mt-4 sm:text-xl">
-      Verkkoratkaisuja jotka luovat tunnistettavan brändin liiketoiminnallesi.
+      <TranslatedText client:load translationKey="header.slogan" />
     </p>
   </div>
 </header>
