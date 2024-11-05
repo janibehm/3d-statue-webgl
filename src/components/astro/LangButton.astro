@@ -9,6 +9,7 @@ const languages = ["fi", "en"];
       <button
         class="p-2 text-white hover:underline"
         onclick={`
+        localStorage.setItem('preferredLanguage', '${lang}');
         window.dispatchEvent(
           new CustomEvent('languageChange', { 
             detail: { lang: '${lang}' } 
