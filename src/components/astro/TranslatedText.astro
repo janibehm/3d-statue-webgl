@@ -1,9 +1,9 @@
 ---
 import { useTranslations, getLangFromUrl } from "../../i18n/utils";
-import { NavLang } from "../../i18n/navTranslations";
+import { Languages } from "../../i18n/translations";
 
 interface Props {
-  translationKey: keyof (typeof NavLang)["en"];
+  translationKey: keyof (typeof Languages)["en"];
 }
 
 const { translationKey } = Astro.props;
@@ -17,7 +17,7 @@ const t = useTranslations(lang);
   {t(translationKey)}
 </span>
 
-<script define:vars={{ NavLang }}>
+<script define:vars={{ Languages }}>
   if (!window.translationListenerAdded) {
     window.translationListenerAdded = true;
 
@@ -25,8 +25,8 @@ const t = useTranslations(lang);
       const { lang } = e.detail;
       document.querySelectorAll(".translated-text").forEach((element) => {
         const key = element.getAttribute("data-translation-key");
-        if (key && lang in NavLang && key in NavLang[lang]) {
-          const translation = NavLang[lang][key];
+        if (key && lang in Languages && key in Languages[lang]) {
+          const translation = Languages[lang][key];
           element.textContent = translation;
         } else {
           console.warn(`Translation missing for key: ${key} in language: ${lang}`);

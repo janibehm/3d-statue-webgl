@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TranslatedText from "../astro/TranslatedText.astro";
 
 interface ScrollIndicatorProps {
   isSceneLoaded: boolean;
@@ -32,7 +33,9 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
         pointerEvents: "none",
       }}
     >
-      <div style={{ fontSize: "14px", marginBottom: "8px" }}>Selaa alas</div>
+      <div style={{ fontSize: "14px", marginBottom: "8px" }}>
+        <TranslatedText translationKey="scroll.scrollIndicator" />
+      </div>
       <div
         style={{
           width: "20px",

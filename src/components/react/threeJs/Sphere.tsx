@@ -1,19 +1,22 @@
 import { useRef, useEffect, useState } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { easeOutCubic } from "./hooks/easeOutCubix";
 import { useAnimationTime } from "./hooks/useAnimationTime";
-import { Mesh } from "three";
-import { TextureLoader } from "three";
-
-// Preload texture
-const textureLoader = new TextureLoader();
-textureLoader.load("/textures/painted-worn-asphalt_albedo.png");
+import { Mesh, Texture, CompressedTexture, TextureLoader, MeshStandardMaterial } from "three";
+import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
+import { useThree } from "@react-three/fiber";
 
 export function Sphere() {
+  const { gl } = useThree();
   const meshRef = useRef<Mesh>(null);
   const timeRef = useAnimationTime();
-  const [isModelReady, setIsModelReady] = useState(false);
   const hasStartedAnimation = useRef(false);
+
+  const [texture, setTexture] = useState<CompressedTexture | Texture | null>(null);
+  const [normalMapLoaded, setNormalMapLoaded] = useState(false);
+  const [albedoLoaded, setAlbedoLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isModelReady, setIsModelReady] = useState(false);
 
   // Match Lucy's position constants
   const startY = -20;
@@ -21,11 +24,42 @@ export function Sphere() {
   const startZ = -30;
   const endZ = 0;
 
-  const [albedoTexture, normalTexture, heightTexture] = useLoader(TextureLoader, [
-    "/textures/painted-worn-asphalt_albedo.png",
-    // '/textures/rough-igneous-rock-normal-ogl.png',
-    // '/textures/rough-igneous-rock-height.png'
-  ]);
+  // Preload textures
+  useEffect(() => {
+    // Create loaders outside of load calls to reuse them
+    const textureLoader = new TextureLoader();
+    const ktx2Loader = new KTX2Loader();
+    ktx2Loader.setTranscoderPath("/basis/");
+    ktx2Loader.detectSupport(gl);
+
+    // Load regular PNG/JPEG instead of KTX2 for better initial performance
+    textureLoader.load("/textures/painted-worn-asphalt_albedo.jpg", (jpegTexture) => {
+      setTexture(jpegTexture);
+      setAlbedoLoaded(true);
+    });
+
+    textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (jpegNormalTexture) => {
+      if (meshRef.current && meshRef.current.material instanceof MeshStandardMaterial) {
+        meshRef.current.material.normalMap = jpegNormalTexture;
+        meshRef.current.material.needsUpdate = true;
+        setNormalMapLoaded(true);
+      }
+    });
+  }, [gl]);
+
+  // Start animation only when everything is loaded
+  useEffect(() => {
+    if (hasStartedAnimation.current) return;
+    if (!normalMapLoaded || !albedoLoaded) return;
+
+    if (meshRef.current) {
+      meshRef.current.position.set(0, startY, startZ);
+      hasStartedAnimation.current = true;
+      timeRef.current.startTime = performance.now();
+      setIsModelReady(true);
+      setIsVisible(true);
+    }
+  }, [normalMapLoaded, albedoLoaded]);
 
   useFrame(() => {
     if (
@@ -49,28 +83,10 @@ export function Sphere() {
     }
   });
 
-  useEffect(() => {
-    if (hasStartedAnimation.current) return;
-
-    if (meshRef.current) {
-      meshRef.current.position.set(0, startY, startZ);
-      hasStartedAnimation.current = true;
-      timeRef.current.startTime = performance.now();
-      setIsModelReady(true);
-    }
-  }, []);
-
   return (
-    <mesh ref={meshRef} position={[0, startY, startZ]} castShadow>
+    <mesh ref={meshRef} position={[0, startY, startZ]} castShadow visible={isVisible}>
       <sphereGeometry args={[3, 32, 32]} />
-      <meshStandardMaterial
-        map={albedoTexture}
-        normalMap={normalTexture}
-        displacementMap={heightTexture}
-        displacementScale={0}
-        roughness={0.8}
-        metalness={0.2}
-      />
+      <meshStandardMaterial map={texture} displacementScale={0} roughness={0.8} metalness={0.2} />
     </mesh>
   );
 }

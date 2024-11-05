@@ -12,16 +12,9 @@ import TranslatedText from "./TranslatedText.astro";
           sm:px-8 sm:col-span-10 sm:col-start-2
           md:col-start-1"
   >
-    <!-- First execute this -->
-    <!--      <p
-      class="text-white bg-transparent text-4xl inline leading-none"
-      id="animated-text"
-      data-text={heroText}
+    <h1
+      class="text-white bg-transparent lg:text-3xl md:text-3xl text-5xl relative w-full max-w-[800px]"
     >
-    </p> -->
-
-    <!-- Then change to this -->
-    <p class="text-white bg-transparent text-3xl relative w-full max-w-[800px]">
       <span
         id="animated-text"
         class="block w-full leading-none tracking-[-0.1em] whitespace-nowrap"
@@ -66,7 +59,7 @@ import TranslatedText from "./TranslatedText.astro";
       >
         <TranslatedText translationKey="scroll.hero" />
       </span>
-    </p>
+    </h1>
 
     <style>
       /*      #animated-text {
@@ -218,14 +211,14 @@ import TranslatedText from "./TranslatedText.astro";
     {/* spacer */}
 
     <section
-      class="col-span-12 px-4 bg-dark-bg text-base leading-relaxed mb-spacing
-          sm:px-8 sm:col-span-10 sm:col-start-2
+      class="col-span-full w-screen bg-dark-bg text-base leading-relaxed mb-spacing
+          sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
           md:text-xl"
     >
-      <h2 class="font-['exo'] font-bold py-4 text-2xl">
+      <h2 class="font-['exo'] font-bold py-4 lg:text-2xl md:text-2xl text-3xl px-4 sm:px-0">
         <TranslatedText translationKey="scroll.whyUs.title" />
       </h2>
-      <div class="feature max-w-[95%] mx-auto">
+      <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
         <h3 class="font-['exo'] font-bold py-4 text-xl">
           <TranslatedText translationKey="scroll.whyUs.brand.title" />
         </h3>
@@ -234,7 +227,7 @@ import TranslatedText from "./TranslatedText.astro";
         </p>
       </div>
 
-      <div class="feature max-w-[95%] mx-auto">
+      <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
         <h3 class="font-['exo'] font-bold py-4 text-xl">Käyttäjäkokemus</h3>
         <p class="mb-6">
           Sivut voidaan optimoida tarjoamaan käyttäjäystävällinen kokemus. Tämä tarkoittaa
@@ -243,7 +236,7 @@ import TranslatedText from "./TranslatedText.astro";
         </p>
       </div>
 
-      <div class="feature max-w-[95%] mx-auto">
+      <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
         <h3 class="font-['exo'] font-bold py-4 text-xl">Skaalautuvuus</h3>
         <p class="mb-6">
           Kotisivut voidaan suunnitella siten, että ne kasvavat yrityksesi mukana. Voit lisätä uusia
@@ -252,7 +245,7 @@ import TranslatedText from "./TranslatedText.astro";
         </p>
       </div>
 
-      <div class="feature max-w-[95%] mx-auto">
+      <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
         <h3 class="font-['exo'] font-bold py-4 text-xl">Kilpailuetu</h3>
         <p class="mb-6">
           Innovatiivinen design ja ainutlaatuinen sisältö voivat herättää asiakkaan mielenkiinnon ja
@@ -260,7 +253,7 @@ import TranslatedText from "./TranslatedText.astro";
         </p>
       </div>
 
-      <div class="feature max-w-[95%] mx-auto">
+      <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
         <h3 class="font-['exo'] font-bold py-4 text-xl">Hakusana optimointi</h3>
         <p class="mb-6">
           Hyvin suunniteltu rakenne ja SEO optimointi nostavat mahdollisuuksia nousta
@@ -268,7 +261,7 @@ import TranslatedText from "./TranslatedText.astro";
         </p>
       </div>
 
-      <div class="feature max-w-[95%] mx-auto">
+      <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
         <h3 class="font-['exo'] font-bold py-4 text-xl">Ammattimaisuus</h3>
         <p class="mb-6">
           Laadukkaat kotisivut antavat yrityksestäsi ammattimaisen kuvan, mikä lisää luottamusta.
@@ -278,51 +271,14 @@ import TranslatedText from "./TranslatedText.astro";
     </section>
 
     <section
-      class="col-span-12 px-4 text-base leading-relaxed mb-spacing
-          sm:px-8 sm:col-span-10 sm:col-start-2
+      class="col-span-full w-screen text-base leading-relaxed mb-spacing
+          sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
           md:text-xl"
     >
-      <h2 class="font-['Exo'] font-bold py-4 text-2xl">
+      <h2 class="font-['Exo'] font-bold py-4 text-2xl px-4 sm:px-0">
         <TranslatedText translationKey="scroll.contact" />
       </h2>
     </section>
     <div class="h-[80vh] col-span-12"></div>
   </blockquote>
-  <!-- 
-  <script is:inline type="module">
-    import { animate, stagger } from "motion";
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const animatedText = document.getElementById("animated-text");
-      const translatedText = document.getElementById("translated-text");
-
-      if (animatedText) {
-        // Split text into spans
-        animatedText.innerHTML = animatedText.textContent
-          .split("")
-          .map((char) => `<span style="opacity: 0">${char}</span>`)
-          .join("");
-
-        // Animate each character
-        animate(
-          "#animated-text span",
-          { opacity: [0, 1] },
-          {
-            duration: 0.05,
-            delay: stagger(0.05),
-            easing: "ease-out",
-            onComplete: () => {
-              // After animation completes, wait a bit then switch to translated text
-              setTimeout(() => {
-                if (animatedText && translatedText) {
-                  animatedText.classList.add("hidden");
-                  translatedText.classList.remove("hidden");
-                }
-              }, 1000);
-            },
-          },
-        );
-      }
-    });
-  </script> -->
 </main>

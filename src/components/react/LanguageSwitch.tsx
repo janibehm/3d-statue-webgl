@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { languages } from "../../i18n/navTranslations";
+import { languages } from "../../i18n/translations";
 
 interface Props {
   initialLang: "en" | "fi";
