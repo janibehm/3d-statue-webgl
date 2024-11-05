@@ -1,11 +1,11 @@
 ---
 // In your layout or component
-const languages = ["fi", "en"];
+const LanguageOptions = ["fi", "en"];
 ---
 
 <div class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000]">
   {
-    languages.map((lang) => (
+    LanguageOptions.map((lang) => (
       <button
         class="p-2 text-white hover:underline"
         onclick={`

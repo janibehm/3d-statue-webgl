@@ -1,9 +1,9 @@
-export const languages = {
+export const Languages = {
   en: "English",
   fi: "Suomi",
 };
 
-export const defaultLang = "fi";
+export const DefaultLang = "fi";
 
 export const LanguageText = {
   en: {
