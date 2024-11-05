@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { easeOutCubic } from "./hooks/easeOutCubix";
 import { useAnimationTime } from "./hooks/useAnimationTime";
-import { Mesh, Texture, CompressedTexture, TextureLoader, MeshBasicMaterial } from "three";
+import { Mesh, Texture, CompressedTexture, TextureLoader, MeshLambertMaterial } from "three";
 import { useThree } from "@react-three/fiber";
 
 export function Sphere() {
@@ -35,7 +35,7 @@ export function Sphere() {
     });
 
     textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (jpegNormalTexture) => {
-      if (meshRef.current && meshRef.current.material instanceof MeshBasicMaterial) {
+      if (meshRef.current && meshRef.current.material instanceof MeshLambertMaterial) {
         meshRef.current.material.normalMap = jpegNormalTexture;
         meshRef.current.material.needsUpdate = true;
         setNormalMapLoaded(true);

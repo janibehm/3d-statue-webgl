@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { SpotLight } from "@react-three/drei";
-import { TextureLoader, SpotLight as ThreeSpotLight, Object3D } from "three";
+import { SpotLight as ThreeSpotLight, Object3D } from "three";
 import { useTexture } from "@react-three/drei";
 
 export function SpotLightAnimation() {
@@ -37,11 +37,11 @@ export function SpotLightAnimation() {
         decay={2}
         distance={100}
         castShadow
-        shadow-mapSize={[524, 524]}
+        shadow-mapSize={[124, 124]}
         shadow-camera-near={2}
         shadow-camera-far={100}
         shadow-focus={1}
-        intensity={150}
+        intensity={100}
         map={texture}
       />
       <object3D ref={targetRef} position={[0, -0.5, 0]} />
