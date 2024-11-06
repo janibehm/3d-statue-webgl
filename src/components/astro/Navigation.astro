@@ -78,6 +78,8 @@ import { TranslatedText } from "../react/TranslatedText";
     list-style-type: none;
     padding: 0;
     margin: 0;
+    width: 100%;
+    padding: 0 15px;
   }
 
   .side-nav li {
@@ -157,9 +159,12 @@ import { TranslatedText } from "../react/TranslatedText";
     display: block;
   }
 
-  .side-nav.mobile-view.open {
+  .side-nav.mobile-view.open,
+  .side-nav:not(.mobile-view).open {
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 5px;
+    width: 200px;
+    min-width: 200px;
   }
 
   .side-nav.mobile-view.open ul {
@@ -199,6 +204,7 @@ import { TranslatedText } from "../react/TranslatedText";
     .side-nav:not(.mobile-view).open {
       background-color: rgba(0, 0, 0, 0.8);
       border-radius: 5px;
+      width: 200px;
     }
 
     .side-nav:not(.mobile-view).open ul {

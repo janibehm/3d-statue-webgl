@@ -79,7 +79,7 @@ export const LanguageText = {
     "nav.services": "Palvelut",
     "nav.pricing": "Hinnasto",
     "nav.about": "Tietoa",
-    "nav.contact": "Yhteydenotto",
+    "nav.contact": "Ota Yhteyttä",
     //Scroll Indicator
     scrollIndicator: "Selaa alas",
     //Hero

@@ -36,6 +36,7 @@ function Loader({ onLoad }: { onLoad: () => void }) {
     </Html>
   );
 }
+
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
