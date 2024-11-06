@@ -1,72 +1,140 @@
+---
+import { TranslatedText } from "../react/TranslatedText";
+---
+
 <footer class="w-full min-h-[260px] text-white bg-dark-bg">
   <div class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       {/* Company Info */}
       <div>
-        <h3 class="text-lg font-bold mb-4">Yritys</h3>
+        <h3 class="text-lg font-bold mb-4">
+          <TranslatedText client:load translationKey="footer.company.title" />
+        </h3>
         <ul class="space-y-2">
-          <li><a href="/tietoa" class="hover:text-gray-300">Tietoa meistä</a></li>
-          <li><a href="/hinnasto" class="hover:text-gray-300">Hinnasto</a></li>
-          <li><a href="/palvelut" class="hover:text-gray-300">Palvelut</a></li>
+          <li>
+            <a href="/about" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.company.aboutUs" /></a>
+          </li>
+          <li>
+            <a href="/pricing" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.company.pricing" /></a>
+          </li>
+          <li>
+            <a href="/services" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.company.services" /></a>
+          </li>
         </ul>
       </div>
 
       {/* Legal */}
       <div>
-        <h3 class="text-lg font-bold mb-4">Ehdot & Käytänteet</h3>
+        <h3 class="text-lg font-bold mb-4">
+          <TranslatedText client:load translationKey="footer.legal.title" />
+        </h3>
         <ul class="space-y-2">
-          <li><a href="/kayttoehdot" class="hover:text-gray-300">Käyttöehdot</a></li>
-          <li><a href="/tietosuoja" class="hover:text-gray-300">Tietosuojaseloste</a></li>
-          <li><a href="/sopimusehdot" class="hover:text-gray-300">Sopimusehdot</a></li>
-          <li><a href="/evasteet" class="hover:text-gray-300">Evästeet</a></li>
+          <li>
+            <a href="/kayttoehdot" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.legal.termsOfService" /></a>
+          </li>
+          <li>
+            <a href="/tietosuoja" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.legal.privacyPolicy" /></a>
+          </li>
+          <li>
+            <a href="/sopimusehdot" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.legal.agreementTerms" /></a>
+          </li>
+          <li>
+            <a href="/evasteet" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.legal.cookies" /></a>
+          </li>
         </ul>
       </div>
 
       {/* Locations Part 1 */}
       <div>
-        <h3 class="text-lg font-bold mb-4">Palvelualueita</h3>
+        <h3 class="text-lg font-bold mb-4">
+          <TranslatedText client:load translationKey="footer.locations.title" />
+        </h3>
         <ul class="space-y-2">
-          <li><a href="/kotisivut-espoo" class="hover:text-gray-300">Kotisivut Espoo</a></li>
-          <li><a href="/kotisivut-helsinki" class="hover:text-gray-300">Kotisivut Helsinki</a></li>
           <li>
-            <a href="/kotisivut-hameenlinna" class="hover:text-gray-300">Kotisivut Hämeenlinna</a>
-          </li>
-          <li><a href="/kotisivut-joensuu" class="hover:text-gray-300">Kotisivut Joensuu</a></li>
-          <li>
-            <a href="/kotisivut-jyvaskyla" class="hover:text-gray-300">Kotisivut Jyväskylä</a>
+            <a href="/kotisivut-espoo" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.espoo" /></a>
           </li>
           <li>
-            <a href="/kotisivut-kirkkonummi" class="hover:text-gray-300">Kotisivut Kirkkonummi</a>
+            <a href="/kotisivut-helsinki" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.helsinki" /></a>
           </li>
-          <li><a href="/kotisivut-kouvola" class="hover:text-gray-300">Kotisivut Kouvola</a></li>
-          <li><a href="/kotisivut-kuopio" class="hover:text-gray-300">Kotisivut Kuopio</a></li>
-          <li><a href="/kotisivut-lahti" class="hover:text-gray-300">Kotisivut Lahti</a></li>
           <li>
-            <a href="/kotisivut-lappeenranta" class="hover:text-gray-300">Kotisivut Lappeenranta</a>
+            <a href="/kotisivut-hameenlinna" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.hameenlinna" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-joensuu" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.joensuu" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-jyvaskyla" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.jyvaskyla" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-kirkkonummi" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.kirkkonummi" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-kuopio" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.kuopio" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-lahti" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.lahti" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-lappeenranta" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.lappeenranta" /></a>
           </li>
         </ul>
       </div>
 
       {/* Locations Part 2 */}
       <div class="mt-0 md:mt-[52px]">
-        {/* Aligned with the list above */}
         <ul class="space-y-2">
-          <li><a href="/kotisivut-mikkeli" class="hover:text-gray-300">Kotisivut Mikkeli</a></li>
-          <li><a href="/kotisivut-oulu" class="hover:text-gray-300">Kotisivut Oulu</a></li>
-          <li><a href="/kotisivut-pori" class="hover:text-gray-300">Kotisivut Pori</a></li>
           <li>
-            <a href="/kotisivut-rovaniemi" class="hover:text-gray-300">Kotisivut Rovaniemi</a>
+            <a href="/kotisivut-mikkeli" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.mikkeli" /></a>
           </li>
           <li>
-            <a href="/kotisivut-savonlinna" class="hover:text-gray-300">Kotisivut Savonlinna</a>
+            <a href="/kotisivut-oulu" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.oulu" /></a>
           </li>
           <li>
-            <a href="/kotisivut-seinajoki" class="hover:text-gray-300">Kotisivut Seinäjoki</a>
+            <a href="/kotisivut-rovaniemi" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.rovaniemi" /></a>
           </li>
-          <li><a href="/kotisivut-tampere" class="hover:text-gray-300">Kotisivut Tampere</a></li>
-          <li><a href="/kotisivut-turku" class="hover:text-gray-300">Kotisivut Turku</a></li>
-          <li><a href="/kotisivut-vaasa" class="hover:text-gray-300">Kotisivut Vaasa</a></li>
-          <li><a href="/kotisivut-vantaa" class="hover:text-gray-300">Kotisivut Vantaa</a></li>
+          <li>
+            <a href="/kotisivut-savonlinna" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.savonlinna" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-seinajoki" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.seinajoki" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-tampere" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.tampere" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-turku" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.turku" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-vaasa" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.vaasa" /></a>
+          </li>
+          <li>
+            <a href="/kotisivut-vantaa" class="hover:text-gray-300"
+              ><TranslatedText client:load translationKey="footer.locations.vantaa" /></a>
+          </li>
         </ul>
       </div>
     </div>
@@ -74,11 +142,19 @@
     {/* Bottom Bar */}
     <div class="border-t border-gray-700 mt-8 pt-8">
       <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <p class="text-sm text-gray-400">© 2024 Behm Digital. All rights reserved.</p>
+        <p class="text-sm text-gray-400">
+          <TranslatedText client:load translationKey="footer.bottomBar.copyright" />
+        </p>
         <div class="flex space-x-6">
-          <a href="/tietosuoja" class="text-sm text-gray-400 hover:text-white">Tietosuojaseloste</a>
-          <a href="/sopimusehdot" class="text-sm text-gray-400 hover:text-white">Sopimusehdot</a>
-          <a href="/evasteet" class="text-sm text-gray-400 hover:text-white">Evästeet</a>
+          <a href="/tietosuoja" class="text-sm text-gray-400 hover:text-white"
+            ><TranslatedText client:load translationKey="footer.bottomBar.privacyPolicy" /></a
+          >
+          <a href="/sopimusehdot" class="text-sm text-gray-400 hover:text-white"
+            ><TranslatedText client:load translationKey="footer.bottomBar.agreementTerms" /></a
+          >
+          <a href="/evasteet" class="text-sm text-gray-400 hover:text-white"
+            ><TranslatedText client:load translationKey="footer.bottomBar.cookies" /></a
+          >
         </div>
       </div>
     </div>

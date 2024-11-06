@@ -2,47 +2,39 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "../../i18n/utils";
 import { LanguageText } from "../../i18n/translations";
 
-type TranslationKey = keyof (typeof LanguageText)["en"];
+// Make sure the key exists in both language versions
+type TranslationKey = keyof (typeof LanguageText)["en"] & keyof (typeof LanguageText)["fi"];
 
 interface TranslatedTextProps {
   translationKey: TranslationKey;
 }
 
 export function TranslatedText({ translationKey }: TranslatedTextProps) {
-  const [currentLang, setCurrentLang] = useState<"en" | "fi">("fi");
-
+  const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>("fi");
   const t = useTranslations(currentLang);
 
   useEffect(() => {
-    const savedLang = (localStorage.getItem("preferredLanguage") as "en" | "fi") || "fi";
+    const savedLang =
+      (localStorage.getItem("preferredLanguage") as keyof typeof LanguageText) || "fi";
     setCurrentLang(savedLang);
   }, []);
 
   useEffect(() => {
-    // Set up language change listener
     const handleLanguageChange = (e: CustomEvent<{ lang: string }>) => {
       const { lang } = e.detail;
       if (lang in LanguageText) {
-        setCurrentLang(lang as "en" | "fi");
+        setCurrentLang(lang as keyof typeof LanguageText);
       }
     };
 
     window.addEventListener("languageChange", handleLanguageChange as EventListener);
-
-    // Cleanup listener on unmount
     return () => {
       window.removeEventListener("languageChange", handleLanguageChange as EventListener);
     };
   }, []);
 
-  return (
-    <>
-      <span className="translation" data-key={translationKey}></span>
-      <span data-translation-key={translationKey} className="translated-text">
-        {t(translationKey)}
-      </span>
-    </>
-  );
+  // Type assertion to ensure TypeScript knows the key exists
+  return <>{t(translationKey as keyof (typeof LanguageText)[typeof currentLang])}</>;
 }
 
 // Type declarations for the custom event
