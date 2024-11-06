@@ -1,161 +1,131 @@
-// src/pages/Contact.tsx
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Checkbox } from "../ui/checkbox";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 
-import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-
-// Form validation schema
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Nimen täyty olla vähintään kaksi merkkiä" })
-    .max(50, { message: "Nimen täyty olla enintään 50 merkkiä" }),
-  email: z
-    .string()
-    .min(1, { message: "Sähköposti on pakollinen" })
-    .email({ message: "Lisää sähköposti oikeassa muodossa" }),
-  message: z
-    .string()
-    .min(10, { message: "Message must be at least 10 characters" })
-    .max(500, { message: "Message must be less than 500 characters" }),
-  phone: z.string().optional(),
-  privacy: z.boolean().refine((value) => value === true, {
-    message: "Hyväksyn tietosuojakäytännön ja minuun voi olla yhteydessä",
-  }),
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .min(2, "Nimen täyty olla vähintään kaksi merkkiä")
+    .max(50, "Nimen täyty olla enintään 50 merkkiä")
+    .required("Nimi on pakollinen"),
+  email: Yup.string()
+    .email("Lisää sähköposti oikeassa muodossa")
+    .required("Sähköposti on pakollinen"),
+  message: Yup.string()
+    .min(10, "Message must be at least 10 characters")
+    .max(500, "Message must be less than 500 characters")
+    .required("Viesti on pakollinen"),
+  phone: Yup.string(),
+  privacy: Yup.boolean()
+    .oneOf([true], "Hyväksyn tietosuojakäytännön ja minuun voi olla yhteydessä")
+    .required(),
 });
 
-export default function Contact() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      message: "",
-      privacy: false,
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Handle form submission
-  }
-
+export default function ContactForm() {
   return (
-    <div className="bg-slate-400 relative w-full min-h-screen flex items-start justify-center pt-[32vh]">
-      <div className="w-full max-w-md mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-6 text-black text-center">Ota Yhteyttä</h2>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-black">Nimi</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Nimesi"
-                      {...field}
-                      className="bg-white text-black border-black/20 placeholder:text-black/50"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
+    <div className="min-h-[calc(100vh-260px)] flex items-center justify-center bg-white">
+      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+        <h2 className="text-3xl font-bold mb-6 text-center">Ota Yhteyttä</h2>
+
+        <Formik
+          initialValues={{
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+            privacy: false,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting }) => {
+            console.log(values);
+            setSubmitting(false);
+          }}
+        >
+          {({ errors, touched }) => (
+            <Form className="space-y-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-1">
+                  Nimi
+                </label>
+                <Field
+                  name="name"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="Nimesi"
+                />
+                {errors.name && touched.name && (
+                  <div className="text-red-500 text-sm mt-1">{errors.name}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-1">
+                  Sähköposti <span className="text-red-500">*</span>
+                </label>
+                <Field
+                  name="email"
+                  type="email"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="esimerkki@sähköposti.com"
+                />
+                {errors.email && touched.email && (
+                  <div className="text-red-500 text-sm mt-1">{errors.email}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium mb-1">
+                  Puhelinnumero
+                </label>
+                <Field
+                  name="phone"
+                  type="tel"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="+358 40 123 4567"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium mb-1">
+                  Viestisi meille
+                </label>
+                <Field
+                  name="message"
+                  as="textarea"
+                  rows={5}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="Viestisi meille..."
+                />
+                {errors.message && touched.message && (
+                  <div className="text-red-500 text-sm mt-1">{errors.message}</div>
+                )}
+              </div>
+
+              <div className="flex items-start space-x-2">
+                <Field type="checkbox" name="privacy" className="mt-1" />
+                <label htmlFor="privacy" className="text-sm">
+                  Hyväksyn{" "}
+                  <a
+                    href="/privacy-policy"
+                    className="underline hover:text-gray-600"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    tietosuojakäytännön
+                  </a>
+                  <span className="text-red-500">*</span>
+                </label>
+              </div>
+              {errors.privacy && touched.privacy && (
+                <div className="text-red-500 text-sm">{errors.privacy}</div>
               )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-black">
-                    Sähköposti <span className="text-red-500">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="esimerkki@sähköposti.com"
-                      {...field}
-                      className="bg-white text-black border-black/20 placeholder:text-black/50"
-                      required
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-black">Puhelinnumero</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="+358 40 123 4567"
-                      {...field}
-                      type="tel"
-                      className="bg-white text-black border-black/20 placeholder:text-black/50"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-black">Viestisi meille</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Viestisi meille..."
-                      {...field}
-                      className="bg-white text-black border-black/20 placeholder:text-black/50"
-                      rows={5}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="privacy"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
-                  <FormControl>
-                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm text-black">
-                      Hyväksyn{" "}
-                      <a
-                        href="/privacy-policy"
-                        className="text-black underline hover:text-black/80"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        tietosuojakäytännön
-                      </a>
-                      <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormMessage className="text-red-600" />
-                  </div>
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full bg-black text-white hover:bg-black/90">
-              Lähetä
-            </Button>
-          </form>
-        </Form>
+
+              <button
+                type="submit"
+                className="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-800 transition-colors"
+              >
+                Lähetä
+              </button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
