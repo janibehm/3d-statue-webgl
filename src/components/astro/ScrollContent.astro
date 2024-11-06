@@ -17,7 +17,7 @@ import { TranslatedText } from "../react/TranslatedText";
     >
       <span
         id="animated-text"
-        class="block w-full leading-none tracking-[-0.1em] whitespace-nowrap"
+        class="block w-full leading-none tracking-[-0.1em] whitespace-nowrap text-sm sm:text-base md:text-lg"
       >
         <span class="letter">R</span>
         <span class="letter">a</span>
@@ -55,17 +55,13 @@ import { TranslatedText } from "../react/TranslatedText";
       </span>
       <span
         id="translated-text"
-        class="animate-fade-in absolute top-0 left-0 block w-full tracking-widest whitespace-nowrap leading-none"
+        class="animate-fade-in absolute top-0 left-0 block w-full tracking-widest whitespace-nowrap leading-none text-sm sm:text-base md:text-lg"
       >
         <TranslatedText client:load translationKey="hero" />
       </span>
     </h1>
 
     <style>
-      /*      #animated-text {
-        position: relative;
-      } */
-
       .letter {
         opacity: 0;
         display: inline-block;
@@ -207,7 +203,7 @@ import { TranslatedText } from "../react/TranslatedText";
       }
     </style>
 
-    <div class="h-[50vh] col-span-12"></div>
+    <div class="h-[100vh] lg:h-[50vh] md:h-[100vh] col-span-12"></div>
     {/* spacer */}
 
     <section

@@ -3,7 +3,10 @@
 const LanguageOptions = ["fi", "en"];
 ---
 
-<div class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000]">
+<div
+  id="langButtons"
+  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000] transition-transform duration-300"
+>
   {
     LanguageOptions.map((lang) => (
       <button
@@ -22,3 +25,28 @@ const LanguageOptions = ["fi", "en"];
     ))
   }
 </div>
+
+<script>
+  let lastScrollY = 0;
+  const langButtons = document.getElementById("langButtons");
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      const currentScrollY = window.scrollY;
+
+      if (langButtons) {
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          langButtons.style.transform = "translateY(100%)";
+        } else {
+          // Scrolling up
+          langButtons.style.transform = "translateY(100%)";
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    },
+    { passive: true },
+  );
+</script>
