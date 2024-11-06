@@ -14,7 +14,7 @@ export function Sphere() {
   const [texture, setTexture] = useState<CompressedTexture | Texture | null>(null);
   const [normalMapLoaded, setNormalMapLoaded] = useState(false);
   const [albedoLoaded, setAlbedoLoaded] = useState(false);
-  const [_isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isModelReady, setIsModelReady] = useState(false);
 
   // Match Lucy's position constants
@@ -80,7 +80,7 @@ export function Sphere() {
   });
 
   return (
-    <mesh ref={meshRef} position={[0, startY, startZ]}>
+    <mesh ref={meshRef} position={[0, startY, startZ]} visible={isVisible}>
       <sphereGeometry args={[3, 20, 20]} />
       <meshLambertMaterial map={texture} />
     </mesh>

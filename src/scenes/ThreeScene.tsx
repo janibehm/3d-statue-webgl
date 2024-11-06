@@ -9,6 +9,7 @@ import { Sphere } from "../components/react/threeJs/Sphere";
 import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
+import { isMobileDevice } from "../utils/deviceDetection";
 
 // Loading canvas
 function Loader({ onLoad }: { onLoad: () => void }) {
@@ -71,7 +72,7 @@ function ThreeScene() {
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
           <ambientLight intensity={0.1} />
           <SpotLightAnimation />
-          <Sphere />
+          {!isMobileDevice && <Sphere />}
           <LucyModel />
           <Stars />
           <CameraControl />
