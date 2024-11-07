@@ -1,13 +1,13 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import ContactForm from "@/components/react/ContactForm";
+import Services from "../../../components/astro/Services.astro";
 
 const slugs = {
   en: {
-    contact: "contact",
+    services: "contact",
   },
   fi: {
-    contact: "yhteydenotto",
+    yhteydenotto: "yhteydenotto",
   },
 };
 
@@ -25,9 +25,9 @@ if (currentPath !== correctPath) {
   return Astro.redirect(correctPath);
 }
 
-const translations = await import(`../../../i18n/${lang}.json`);
+/* const translations = await import(`../../../i18n/${lang}.json`); */
 ---
 
 <Layout title={lang}>
-  <ContactForm client:load initialLang={lang} translations={translations.default} />
+  <Services client:load initialLang={lang} />
 </Layout>

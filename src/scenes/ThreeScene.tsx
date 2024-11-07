@@ -64,14 +64,13 @@ function ThreeScene() {
         height: "100%",
         overflow: "hidden",
         zIndex: 1,
-        /*  background: 'radial-gradient(circle at center, #0066cc 0%, #000000 100%)' */ // Added blue gradient
       }}
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded && isLucyReady} />
       <Canvas key={key} camera={{ position: [0, 2, 5], fov: 75 }}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
-          <ambientLight intensity={0.1} />
+          <ambientLight intensity={0.15} />
           <SpotLightAnimation />
           {!isMobileDevice && <Sphere />}
           <LucyModel />

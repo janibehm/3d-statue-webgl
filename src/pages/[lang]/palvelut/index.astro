@@ -1,6 +1,6 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import ContactForm from "@/components/react/ContactForm";
+import Services from "../../../components/astro/Services.astro";
 
 const slugs = {
   en: {
@@ -16,6 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
+console.log(lang);
 const currentPath = Astro.url.pathname;
 const correctSlug = slugs[lang as keyof typeof slugs].contact;
 const correctPath = `/${lang}/${correctSlug}`;
@@ -29,5 +30,5 @@ const translations = await import(`../../../i18n/${lang}.json`);
 ---
 
 <Layout title={lang}>
-  <ContactForm client:load initialLang={lang} translations={translations.default} />
+  <Services client:load initialLang={lang} translations={translations.default} />
 </Layout>
