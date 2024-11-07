@@ -11,12 +11,17 @@ interface TranslatedTextProps {
 
 export function TranslatedText({ translationKey }: TranslatedTextProps) {
   const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>("fi");
+  const [key, setKey] = useState(0);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const t = useTranslations(currentLang);
 
   useEffect(() => {
     const savedLang =
       (localStorage.getItem("preferredLanguage") as keyof typeof LanguageText) || "fi";
     setCurrentLang(savedLang);
+    requestAnimationFrame(() => {
+      setIsInitialLoad(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -24,6 +29,7 @@ export function TranslatedText({ translationKey }: TranslatedTextProps) {
       const { lang } = e.detail;
       if (lang in LanguageText) {
         setCurrentLang(lang as keyof typeof LanguageText);
+        setKey((prev) => prev + 1);
       }
     };
 
@@ -33,8 +39,40 @@ export function TranslatedText({ translationKey }: TranslatedTextProps) {
     };
   }, []);
 
-  // Type assertion to ensure TypeScript knows the key exists
-  return <>{t(translationKey as keyof (typeof LanguageText)[typeof currentLang])}</>;
+  return (
+    <span
+      key={key}
+      className={`inline-block animate-fadeIn ${isInitialLoad ? "opacity-0" : ""}`}
+      style={{
+        animation: "fadeIn 0.8s ease-in-out forwards",
+      }}
+    >
+      {t(translationKey as keyof (typeof LanguageText)[typeof currentLang])}
+    </span>
+  );
+}
+
+// Add this to your global CSS file (e.g., globals.css)
+const styles = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fadeIn {
+    opacity: 0;
+  }
+`;
+
+// Insert styles into document
+if (typeof document !== "undefined") {
+  const styleSheet = document.createElement("style");
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
 }
 
 // Type declarations for the custom event

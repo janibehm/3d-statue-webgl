@@ -19,11 +19,9 @@ const LanguageOptions = ["fi", "en"];
             })
           );
           const currentPath = window.location.pathname;
-          const newPath = currentPath.replace(/^\\/\\w+/, '/${lang}');
-          if (currentPath !== '/') {
+          if (currentPath !== '/' && currentPath !== '') {
+            const newPath = currentPath.replace(/^\\/\\w+/, '/${lang}');
             window.location.pathname = newPath;
-          } else {
-            window.location.reload();
           }
         `}
       >
