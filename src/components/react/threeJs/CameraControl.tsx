@@ -34,8 +34,8 @@ export function CameraControl() {
     camera.position.x = Math.sin(currentAngle.current) * radius;
     camera.position.z = Math.cos(currentAngle.current) * radius;
 
-    const targetY = 2 + scrollY.current * 3;
-    camera.position.y += (targetY - camera.position.y) * 0.05;
+    /*   const targetY = 2 + scrollY.current * 3;
+    camera.position.y += (targetY - camera.position.y) * 0.05; */
 
     // Create a look-at point that's slightly above the center
     const lookAtY = 2; // Adjust this value to change the tilt angle (higher = more tilt up)
