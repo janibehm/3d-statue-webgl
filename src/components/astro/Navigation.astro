@@ -4,6 +4,10 @@ const currentPath = Astro.url.pathname;
 /* const isHomePage = currentPath === "/"; */
 import { TranslatedText } from "../react/TranslatedText";
 
+const { lang } = Astro.params;
+console.log(lang);
+const contactPath = lang === "fi" || "/" ? "/fi/yhteydenotto" : "/en/contact";
+
 // No need for useState/useEffect in Astro - this will be handled by client script
 ---
 
@@ -35,7 +39,7 @@ import { TranslatedText } from "../react/TranslatedText";
       </a>
     </li>
     <li>
-      <a href="/yhteydenotto" class={`nav-link ${currentPath === "/yhteydenotto" ? "active" : ""}`}>
+      <a href={contactPath} class={`nav-link ${currentPath === contactPath ? "active" : ""}`}>
         <TranslatedText client:load translationKey="nav.contact" />
       </a>
     </li>

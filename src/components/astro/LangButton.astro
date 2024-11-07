@@ -12,13 +12,20 @@ const LanguageOptions = ["fi", "en"];
       <button
         class="p-2 text-white hover:underline"
         onclick={`
-        localStorage.setItem('preferredLanguage', '${lang}');
-        window.dispatchEvent(
-          new CustomEvent('languageChange', { 
-            detail: { lang: '${lang}' } 
-          })
-        );
-      `}
+          localStorage.setItem('preferredLanguage', '${lang}');
+          window.dispatchEvent(
+            new CustomEvent('languageChange', { 
+              detail: { lang: '${lang}' } 
+            })
+          );
+          const currentPath = window.location.pathname;
+          const newPath = currentPath.replace(/^\\/\\w+/, '/${lang}');
+          if (currentPath !== '/') {
+            window.location.pathname = newPath;
+          } else {
+            window.location.reload();
+          }
+        `}
       >
         {lang.toUpperCase()}
       </button>
