@@ -90,6 +90,8 @@ const contactPath = lang === "fi" || "/" ? "/fi/yhteydenotto" : "/en/contact";
     margin: 15px 0;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .nav-link {
@@ -102,6 +104,7 @@ const contactPath = lang === "fi" || "/" ? "/fi/yhteydenotto" : "/en/contact";
     font-size: 16px;
     font-weight: 700;
     transition: all 0.3s ease;
+    min-width: 120px;
   }
 
   .nav-link::before {
@@ -112,6 +115,8 @@ const contactPath = lang === "fi" || "/" ? "/fi/yhteydenotto" : "/en/contact";
     background-color: #ffffff;
     margin-right: 10px;
     transition: all 0.3s ease;
+    position: absolute;
+    left: 0;
   }
 
   .nav-link:hover::before {
