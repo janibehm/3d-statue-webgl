@@ -17,11 +17,14 @@ export function SpotLightAnimation() {
       decay: 2,
       distance: 100,
       shadowMapSize: [124, 124] as [number, number],
-      shadowCameraNear: 2,
+      shadowCameraNear: 5,
       shadowCameraFar: 100,
       shadowFocus: 1,
       intensity: 100,
-      radius: 5,
+      radius: 3, // Increase radius for wider orbit
+      height: 8, // Height of the light
+      speed: 1, // Rotation speed
+      offsetZ: 2,
     }),
     [],
   );

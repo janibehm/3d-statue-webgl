@@ -70,7 +70,7 @@ function ThreeScene() {
       <Canvas key={key} camera={{ position: [0, 2, 5], fov: 75 }}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
-          <ambientLight intensity={0.15} />
+          <ambientLight intensity={0.1} />
           <SpotLightAnimation />
           {!isMobileDevice && <Sphere />}
           <LucyModel />
