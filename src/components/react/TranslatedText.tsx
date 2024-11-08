@@ -12,16 +12,15 @@ interface TranslatedTextProps {
 export function TranslatedText({ translationKey }: TranslatedTextProps) {
   const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>("fi");
   const [key, setKey] = useState(0);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const t = useTranslations(currentLang);
 
   useEffect(() => {
-    const savedLang =
-      (localStorage.getItem("preferredLanguage") as keyof typeof LanguageText) || "fi";
-    setCurrentLang(savedLang);
-    requestAnimationFrame(() => {
-      setIsInitialLoad(false);
-    });
+    const savedLang = localStorage.getItem("preferredLanguage") as keyof typeof LanguageText;
+    if (savedLang) {
+      setCurrentLang(savedLang);
+      setIsVisible(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -30,6 +29,7 @@ export function TranslatedText({ translationKey }: TranslatedTextProps) {
       if (lang in LanguageText) {
         setCurrentLang(lang as keyof typeof LanguageText);
         setKey((prev) => prev + 1);
+        setIsVisible(true);
       }
     };
 
@@ -42,12 +42,12 @@ export function TranslatedText({ translationKey }: TranslatedTextProps) {
   return (
     <span
       key={key}
-      className={`inline-block animate-fadeIn ${isInitialLoad ? "opacity-0" : ""}`}
+      className={`inline-block ${isVisible ? "animate-fadeIn" : "opacity-0"}`}
       style={{
-        animation: "fadeIn 0.8s ease-in-out forwards",
+        animation: isVisible ? "fadeIn 0.8s ease-in-out forwards" : undefined,
       }}
     >
-      {t(translationKey as keyof (typeof LanguageText)[typeof currentLang])}
+      {t(translationKey)}
     </span>
   );
 }
