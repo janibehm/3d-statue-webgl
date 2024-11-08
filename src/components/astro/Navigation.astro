@@ -5,10 +5,25 @@ const currentPath = Astro.url.pathname;
 import { TranslatedText } from "../react/TranslatedText";
 
 const { lang } = Astro.params;
-console.log(lang);
-const contactPath = lang === "fi" || "/" ? "/fi/yhteydenotto" : "/en/contact";
 
-// No need for useState/useEffect in Astro - this will be handled by client script
+// Define paths for each language
+const paths = {
+  fi: {
+    services: "/fi/palvelut",
+    contact: "/fi/yhteydenotto",
+    about: "/fi/tietoa",
+    // ... other paths
+  },
+  en: {
+    services: "/en/services",
+    contact: "/en/contact",
+    about: "/en/about",
+    // ... other paths
+  },
+};
+
+// Get correct paths based on language
+const currentLangPaths = paths[lang as keyof typeof paths] || paths.fi;
 ---
 
 <nav class="side-nav" id="navigation">
@@ -24,22 +39,26 @@ const contactPath = lang === "fi" || "/" ? "/fi/yhteydenotto" : "/en/contact";
       </a>
     </li>
     <li>
-      <a href="/palvelut" class={`nav-link ${currentPath === "/palvelut" ? "active" : ""}`}>
+      <a
+        href={currentLangPaths.services}
+        class={`nav-link ${currentPath === currentLangPaths.services ? "active" : ""}`}
+      >
         <TranslatedText client:load translationKey="nav.services" />
       </a>
     </li>
     <li>
-      <a href="/hinnasto" class="nav-link" target="_blank" rel="noopener noreferrer">
-        <TranslatedText client:load translationKey="nav.pricing" />
-      </a>
-    </li>
-    <li>
-      <a href="/tietoa" class="nav-link" target="_blank" rel="noopener noreferrer">
+      <a
+        href={currentLangPaths.about}
+        class={`nav-link ${currentPath === currentLangPaths.about ? "active" : ""}`}
+      >
         <TranslatedText client:load translationKey="nav.about" />
       </a>
     </li>
     <li>
-      <a href={contactPath} class={`nav-link ${currentPath === contactPath ? "active" : ""}`}>
+      <a
+        href={currentLangPaths.contact}
+        class={`nav-link ${currentPath === currentLangPaths.contact ? "active" : ""}`}
+      >
         <TranslatedText client:load translationKey="nav.contact" />
       </a>
     </li>

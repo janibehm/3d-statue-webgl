@@ -1,13 +1,13 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import Services from "../../../components/astro/Services.astro";
+import Services from "../../../components/astro/About.astro";
 
 const slugs = {
   en: {
-    services: "services",
+    about: "about",
   },
   fi: {
-    services: "palvelut",
+    about: "tietoa",
   },
 };
 
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.params;
 const currentPath = Astro.url.pathname;
-const correctSlug = slugs[lang as keyof typeof slugs].services;
+const correctSlug = slugs[lang as keyof typeof slugs].about;
 const correctPath = `/${lang}/${correctSlug}`;
 
 // Redirect if we're not on the correct path
