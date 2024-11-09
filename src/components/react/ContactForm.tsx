@@ -38,7 +38,7 @@ interface ContactFormProps {
   };
 }
 
-export default function ContactForm({ initialLang, translations }: ContactFormProps) {
+export default function ContactForm({ translations }: ContactFormProps) {
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(2, translations.validation.name.min)

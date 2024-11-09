@@ -25,9 +25,9 @@ if (currentPath !== correctPath) {
   return Astro.redirect(correctPath);
 }
 
-/* const translations = await import(`../../../i18n/${lang}.json`); */
+const translations = await import(`../../../i18n/services/${lang}.json`);
 ---
 
 <Layout title={lang}>
-  <Services initialLang={lang} />
+  <Services initialLang={lang} translations={translations.default} />
 </Layout>
