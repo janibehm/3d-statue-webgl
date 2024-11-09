@@ -10,16 +10,22 @@ interface TranslatedTextProps {
 }
 
 export function TranslatedText({ translationKey }: TranslatedTextProps) {
-  const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>("fi");
+  // Get saved language synchronously during initialization
+  const savedLang =
+    typeof window !== "undefined"
+      ? (localStorage.getItem("preferredLanguage") as keyof typeof LanguageText)
+      : "fi";
+
+  const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>(savedLang || "fi");
   const [key, setKey] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
+  // Start visible by default
+  const [isVisible, setIsVisible] = useState(true);
   const t = useTranslations(currentLang);
 
   useEffect(() => {
     const savedLang = localStorage.getItem("preferredLanguage") as keyof typeof LanguageText;
     if (savedLang) {
       setCurrentLang(savedLang);
-      setIsVisible(true);
     }
   }, []);
 
