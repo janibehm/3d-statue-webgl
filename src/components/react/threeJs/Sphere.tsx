@@ -1,88 +1,124 @@
-import { useRef, useEffect, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useRef, useEffect, useState, useMemo } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import { easeOutCubic } from "./hooks/easeOutCubix";
-import { useAnimationTime } from "./hooks/useAnimationTime";
-import { Mesh, Texture, CompressedTexture, TextureLoader, MeshLambertMaterial } from "three";
-import { useThree } from "@react-three/fiber";
+import * as THREE from "three";
+
+const ANIMATION = {
+  duration: 2,
+  fadeInDuration: 0.5,
+  delay: 100,
+  position: {
+    start: { y: -20, z: -30 },
+    end: { y: -3.8, z: 0 },
+  },
+};
 
 export function Sphere() {
   const { gl } = useThree();
-  const meshRef = useRef<Mesh>(null);
-  const timeRef = useAnimationTime();
-  const hasStartedAnimation = useRef(false);
+  const meshRef = useRef<THREE.Mesh>(null);
+  const animationRef = useRef({
+    startTime: 0,
+    isAnimating: true,
+    opacity: 0,
+  });
 
-  const [texture, setTexture] = useState<CompressedTexture | Texture | null>(null);
-  const [normalMapLoaded, setNormalMapLoaded] = useState(false);
-  const [albedoLoaded, setAlbedoLoaded] = useState(false);
+  const [texturesLoaded, setTexturesLoaded] = useState({
+    albedo: false,
+    normal: false,
+  });
   const [isVisible, setIsVisible] = useState(false);
-  const [isModelReady, setIsModelReady] = useState(false);
 
-  // Match Lucy's position constants
-  const startY = -20;
-  const endY = -3.8;
-  const startZ = -30;
-  const endZ = 0;
-
-  // Preload textures
-  useEffect(() => {
-    // Create loaders outside of load calls to reuse them
-    const textureLoader = new TextureLoader();
-
-    // Load regular PNG/JPEG instead of KTX2 for better initial performance
-    textureLoader.load("/textures/painted-worn-asphalt_albedo.jpg", (jpegTexture) => {
-      setTexture(jpegTexture);
-      setAlbedoLoaded(true);
+  // Create materials and textures once
+  const { material, textures } = useMemo(() => {
+    const textureLoader = new THREE.TextureLoader();
+    const material = new THREE.MeshLambertMaterial({
+      transparent: true,
+      opacity: 0,
     });
 
-    textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (jpegNormalTexture) => {
-      if (meshRef.current && meshRef.current.material instanceof MeshLambertMaterial) {
-        meshRef.current.material.normalMap = jpegNormalTexture;
-        meshRef.current.material.needsUpdate = true;
-        setNormalMapLoaded(true);
-      }
-    });
-  }, [gl]);
+    const textures = {
+      albedo: textureLoader.load("/textures/painted-worn-asphalt_albedo.jpg", (texture) => {
+        texture.encoding = THREE.sRGBEncoding;
+        setTexturesLoaded((prev) => ({ ...prev, albedo: true }));
+      }),
+      normal: textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (texture) => {
+        setTexturesLoaded((prev) => ({ ...prev, normal: true }));
+      }),
+    };
 
-  // Start animation only when everything is loaded
+    material.map = textures.albedo;
+    material.normalMap = textures.normal;
+
+    return { material, textures };
+  }, []);
+
+  // Start animation when textures are loaded
   useEffect(() => {
-    if (hasStartedAnimation.current) return;
-    if (!normalMapLoaded || !albedoLoaded) return;
+    if (!meshRef.current || !texturesLoaded.albedo || !texturesLoaded.normal) return;
 
-    if (meshRef.current) {
-      meshRef.current.position.set(0, startY, startZ);
-      hasStartedAnimation.current = true;
-      timeRef.current.startTime = performance.now();
-      setIsModelReady(true);
+    meshRef.current.position.set(0, ANIMATION.position.start.y, ANIMATION.position.start.z);
+
+    // Pre-compile materials
+    gl.compile(meshRef.current, new THREE.Scene());
+
+    setTimeout(() => {
       setIsVisible(true);
-    }
-  }, [normalMapLoaded, albedoLoaded]);
+      animationRef.current.startTime = performance.now();
+    }, ANIMATION.delay);
+
+    return () => {
+      material.dispose();
+      textures.albedo.dispose();
+      textures.normal.dispose();
+    };
+  }, [texturesLoaded, gl, material, textures]);
 
   useFrame(() => {
-    if (
-      !meshRef.current ||
-      !timeRef.current.isAnimating ||
-      !isModelReady ||
-      !hasStartedAnimation.current
-    )
-      return;
+    if (!meshRef.current || !isVisible || !animationRef.current.isAnimating) return;
 
-    const elapsed = (performance.now() - timeRef.current.startTime) / 1000;
-    const duration = 2;
-    const t = Math.min(elapsed / duration, 1);
-    const eased = easeOutCubic(t);
+    const elapsed = (performance.now() - animationRef.current.startTime) / 1000;
 
-    meshRef.current.position.y = startY + (endY - startY) * eased;
-    meshRef.current.position.z = startZ + (endZ - startZ) * eased;
+    // Position animation
+    const positionT = Math.min(elapsed / ANIMATION.duration, 1);
+    const eased = easeOutCubic(positionT);
 
-    if (t === 1) {
-      timeRef.current.isAnimating = false;
+    meshRef.current.position.y = THREE.MathUtils.lerp(
+      ANIMATION.position.start.y,
+      ANIMATION.position.end.y,
+      eased,
+    );
+    meshRef.current.position.z = THREE.MathUtils.lerp(
+      ANIMATION.position.start.z,
+      ANIMATION.position.end.z,
+      eased,
+    );
+
+    // Fade in animation
+    const fadeT = Math.min(elapsed / ANIMATION.fadeInDuration, 1);
+    material.opacity = fadeT;
+
+    if (positionT === 1) {
+      animationRef.current.isAnimating = false;
+      material.transparent = false;
     }
   });
 
+  // Geometry with optimized settings
+  const geometry = useMemo(() => {
+    const geo = new THREE.SphereGeometry(3, 20, 20);
+    geo.computeBoundingSphere();
+    geo.computeBoundingBox();
+    return geo;
+  }, []);
+
   return (
-    <mesh ref={meshRef} position={[0, startY, startZ]} visible={isVisible}>
-      <sphereGeometry args={[3, 20, 20]} />
-      <meshLambertMaterial map={texture} />
-    </mesh>
+    <mesh
+      ref={meshRef}
+      geometry={geometry}
+      material={material}
+      position={[0, ANIMATION.position.start.y, ANIMATION.position.start.z]}
+      visible={isVisible}
+      frustumCulled={true}
+    />
   );
 }
