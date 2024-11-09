@@ -51,18 +51,19 @@
         "images_and_media": {
           "title": "Images and Media",
           "description": "We optimize images and media elements to improve load speed."
-        },
-        "responsiveness": {
-          "title": "Responsiveness",
-          "description": "We ensure the site functions well and looks great on various devices."
-        },
-        "structure": {
-          "title": "Structure",
-          "description": "We create a clear site structure and logical URL paths."
-        },
-        "meta_data": {
-          "title": "Meta Data",
-          "description": "We add meta titles and descriptions to improve search engine visibility."
+        }
+      },
+      "responsiveness": {
+        "title": "Responsiveness",
+        "description": "We ensure the site functions well and looks great on various devices."
+      },
+      "structure": {
+        "title": "Structure",
+        "description": "We create a clear site structure and logical URL paths."
+      },
+      "meta_data": {
+        "title": "Meta Data",
+        "description": "We add meta titles and descriptions to improve search engine visibility."
       }
     },
     "accessibility": {
