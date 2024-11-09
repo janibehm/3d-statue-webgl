@@ -25,7 +25,7 @@ export function Stars() {
     starGroupRef.current = starGroup;
     scene.add(starGroup);
 
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 300; i++) {
       addStar(starGroup);
     }
 
