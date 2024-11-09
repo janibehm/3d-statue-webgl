@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "../../i18n/utils";
 import { LanguageText } from "../../i18n/translations";
+import { languageState } from "../../i18n/languageState";
 
-// Make sure the key exists in both language versions
+// This file is handeling client side translation.
 type TranslationKey = keyof (typeof LanguageText)["en"] & keyof (typeof LanguageText)["fi"];
 
 interface TranslatedTextProps {
@@ -10,32 +11,36 @@ interface TranslatedTextProps {
 }
 
 export function TranslatedText({ translationKey }: TranslatedTextProps) {
-  // Get saved language synchronously during initialization
-  const savedLang =
-    typeof window !== "undefined"
-      ? (localStorage.getItem("preferredLanguage") as keyof typeof LanguageText)
-      : "fi";
-
-  const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>(savedLang || "fi");
+  // Initialize with languageState but maintain local state for client-side updates
+  const [currentLang, setCurrentLang] = useState<keyof typeof LanguageText>(
+    languageState.currentLang,
+  );
   const [key, setKey] = useState(0);
-  // Start visible by default
-  const [isVisible, setIsVisible] = useState(true);
+  // Start invisible by default
+  const [isVisible, setIsVisible] = useState(false);
   const t = useTranslations(currentLang);
 
+  // Initial language check and fade in
   useEffect(() => {
     const savedLang = localStorage.getItem("preferredLanguage") as keyof typeof LanguageText;
-    if (savedLang) {
+    if (savedLang && savedLang !== currentLang) {
       setCurrentLang(savedLang);
+      languageState.currentLang = savedLang;
     }
+    // Short delay before showing content
+    setTimeout(() => setIsVisible(true), 50);
   }, []);
 
   useEffect(() => {
     const handleLanguageChange = (e: CustomEvent<{ lang: string }>) => {
       const { lang } = e.detail;
       if (lang in LanguageText) {
+        setIsVisible(false);
         setCurrentLang(lang as keyof typeof LanguageText);
+        languageState.currentLang = lang as keyof typeof LanguageText;
         setKey((prev) => prev + 1);
-        setIsVisible(true);
+        // Short delay before showing new content
+        setTimeout(() => setIsVisible(true), 50);
       }
     };
 
