@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.params;
 
-const translations = await import(`../../../i18n/${lang}.json`);
+/* const translations = await import(`../../../i18n/${lang}.json`); */
 ---
 
 <Layout title={lang}>
