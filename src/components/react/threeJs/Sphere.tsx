@@ -38,7 +38,7 @@ export function Sphere() {
 
     const textures = {
       albedo: textureLoader.load("/textures/painted-worn-asphalt_albedo.jpg", (texture) => {
-        texture.encoding = THREE.sRGBEncoding;
+        texture.colorSpace = THREE.SRGBColorSpace;
         setTexturesLoaded((prev) => ({ ...prev, albedo: true }));
       }),
       normal: textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (texture) => {
@@ -59,7 +59,8 @@ export function Sphere() {
     meshRef.current.position.set(0, ANIMATION.position.start.y, ANIMATION.position.start.z);
 
     // Pre-compile materials
-    gl.compile(meshRef.current, new THREE.Scene());
+    const dummyCamera = new THREE.PerspectiveCamera();
+    gl.compile(meshRef.current, dummyCamera);
 
     setTimeout(() => {
       setIsVisible(true);
