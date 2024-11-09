@@ -16,14 +16,6 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const currentPath = Astro.url.pathname;
-const correctSlug = slugs[lang as keyof typeof slugs].about;
-const correctPath = `/${lang}/${correctSlug}`;
-
-// Redirect if we're not on the correct path
-if (currentPath !== correctPath) {
-  return Astro.redirect(correctPath);
-}
 
 /* const translations = await import(`../../../i18n/${lang}.json`); */
 ---

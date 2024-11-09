@@ -2,29 +2,24 @@
 import Layout from "../../../layouts/Layout.astro";
 import ContactForm from "@/components/react/ContactForm";
 
-const slugs = {
-  en: {
-    contact: "contact",
-  },
-  fi: {
-    contact: "yhteydenotto",
-  },
-};
-
 export async function getStaticPaths() {
-  return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
+  return [
+    { params: { lang: "en", slug: "contact" } },
+    { params: { lang: "fi", slug: "yhteydenotto" } },
+  ];
 }
 
 const { lang } = Astro.params;
-const currentPath = Astro.url.pathname;
-const correctSlug = slugs[lang as keyof typeof slugs].contact;
-const correctPath = `/${lang}/${correctSlug}`;
 
-// Redirect if we're not on the correct path
-if (currentPath !== correctPath) {
-  return Astro.redirect(correctPath);
+// Instead of redirecting, handle 404 for unsupported languages
+if (!["en", "fi"].includes(lang)) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not found",
+  });
 }
 
+// Load translations
 const translations = await import(`../../../i18n/form/${lang}.json`);
 ---
 

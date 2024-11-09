@@ -3,12 +3,8 @@ import Layout from "../../../layouts/Layout.astro";
 import Services from "../../../components/astro/Services.astro";
 
 const slugs = {
-  en: {
-    services: "services",
-  },
-  fi: {
-    services: "palvelut",
-  },
+  en: { services: "services" },
+  fi: { services: "palvelut" },
 };
 
 export async function getStaticPaths() {
@@ -20,7 +16,8 @@ const currentPath = Astro.url.pathname;
 const correctSlug = slugs[lang as keyof typeof slugs].services;
 const correctPath = `/${lang}/${correctSlug}`;
 
-// Redirect if we're not on the correct path
+// Redirect if someone tries to access the wrong URL format
+// e.g., /en/palvelut -> /en/services
 if (currentPath !== correctPath) {
   return Astro.redirect(correctPath);
 }
