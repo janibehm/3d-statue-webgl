@@ -13,4 +13,7 @@ export default defineConfig({
     }),
     react(),
   ],
+  trailingSlash: "ignore",
+  site: "https://behmdigital.netlify.app",
+  base: "/",
 });
