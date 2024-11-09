@@ -12,19 +12,12 @@ interface Props {
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 const isHomePage = currentPath === "/";
-
-// Get language from URL or default to Finnish
 const urlLang = currentPath.split("/")[1];
 const validLangs = ["en", "fi"];
 const lang = validLangs.includes(urlLang) ? urlLang : "fi";
 
-// If on homepage and we have a saved language preference, redirect
-if (isHomePage) {
-  const savedLang = Astro.cookies.get("preferredLanguage")?.value;
-  if (savedLang && validLangs.includes(savedLang) && savedLang !== lang) {
-    return Astro.redirect(`/${savedLang}`);
-  }
-}
+// Only set background color if NOT homepage
+const bodyStyle = isHomePage ? {} : { backgroundColor: "hsl(0 0% 100%)" };
 ---
 
 <!doctype html>
@@ -35,22 +28,11 @@ if (isHomePage) {
     <meta name="description" content="Websivut yritykselle" />
     <title>{title}</title>
   </head>
-  <body>
+  <body style={bodyStyle}>
     <Header />
     <Navigation />
     <slot />
     <LangButton />
     {!isHomePage && <Footer />}
-    <script>
-      // Initialize language preference on page load
-      const savedLang = localStorage.getItem("preferredLanguage");
-      const currentPath = window.location.pathname;
-      const urlLang = currentPath.split("/")[1];
-
-      if (savedLang && savedLang !== urlLang && currentPath !== "/") {
-        const newPath = currentPath.replace(/^\/\w+/, `/${savedLang}`);
-        window.location.pathname = newPath;
-      }
-    </script>
   </body>
 </html>
