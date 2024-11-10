@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 
 export function CameraControl() {
   const { camera } = useThree();
@@ -39,8 +40,31 @@ export function CameraControl() {
 
     // Create a look-at point that's slightly above the center
     const lookAtY = 2; // Adjust this value to change the tilt angle (higher = more tilt up)
+
+    // Allow manual rotation to override the scroll-based position
+    // but keep updating the base position from scroll
+    const manualRotation = camera.position.clone();
+    const scrollBasedX = Math.sin(currentAngle.current) * radius;
+    const scrollBasedZ = Math.cos(currentAngle.current) * radius;
+
+    // Only update if the position significantly differs from the scroll-based position
+    if (Math.abs(manualRotation.x - scrollBasedX) < 0.1) {
+      camera.position.x = scrollBasedX;
+    }
+    if (Math.abs(manualRotation.z - scrollBasedZ) < 0.1) {
+      camera.position.z = scrollBasedZ;
+    }
+
     camera.lookAt(0, lookAtY, 0);
   });
 
-  return null;
+  return (
+    <OrbitControls
+      enableZoom={false}
+      enablePan={false}
+      enableRotate={true}
+      rotateSpeed={0.5}
+      makeDefault
+    />
+  );
 }
