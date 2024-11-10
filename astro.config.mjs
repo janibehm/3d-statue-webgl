@@ -15,12 +15,8 @@ export default defineConfig({
     }),
     react(),
   ],
-  trailingSlash: "ignore",
-  server: {
-    host: true,
-  },
-  output: "server",
+  output: "hybrid",
   adapter: vercel({
-    maxDuration: 60,
+    edgeMiddleware: true,
   }),
 });

@@ -2,15 +2,6 @@
 import Layout from "../../../layouts/Layout.astro";
 import ContactForm from "@/components/react/ContactForm";
 
-const slugs = {
-  en: {
-    contact: "contact",
-  },
-  fi: {
-    contact: "yhteydenotto",
-  },
-};
-
 export async function getStaticPaths() {
   return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
 }

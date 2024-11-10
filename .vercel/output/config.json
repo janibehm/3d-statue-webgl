@@ -14,42 +14,6 @@
 		{
 			"src": "^\\/_image$",
 			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/about\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/contact\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/en\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/palvelut\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/services\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/tietoa\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/yhteydenotto\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/([^/]+?)\\/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/$",
-			"dest": "_render"
 		}
 	]
 }
