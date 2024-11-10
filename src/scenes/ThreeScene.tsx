@@ -66,6 +66,7 @@ function ThreeScene() {
         zIndex: 1,
         touchAction: "none",
         userSelect: "none",
+        zoom: "none",
       }}
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded && isLucyReady} />

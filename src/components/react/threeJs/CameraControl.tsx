@@ -6,7 +6,9 @@ export function CameraControl() {
   const scrollY = useRef(0);
   const targetScrollY = useRef(0);
   const currentAngle = useRef(0);
-  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+
+  // Mobile
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -15,14 +17,14 @@ export function CameraControl() {
     };
 
     const handleTouchStart = (event: TouchEvent) => {
-      touchStartX.current = event.touches[0].clientX;
+      touchStartY.current = event.touches[0].clientY;
     };
 
     const handleTouchMove = (event: TouchEvent) => {
-      const deltaX = event.touches[0].clientX - touchStartX.current;
-      targetScrollY.current += -deltaX * 0.001; // Negative to match natural touch direction
+      const deltaY = event.touches[0].clientY - touchStartY.current;
+      targetScrollY.current += deltaY * 0.001;
       targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
-      touchStartX.current = event.touches[0].clientX;
+      touchStartY.current = event.touches[0].clientY;
     };
 
     window.addEventListener("wheel", handleWheel, { passive: true });
