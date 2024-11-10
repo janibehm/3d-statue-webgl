@@ -80,7 +80,7 @@ function ThreeScene() {
           {!isMobileDevice && <Sphere />}
           <LucyModel />
           <Stars />
-          <CameraControl />
+          <CameraControl isActive={isSceneLoaded && isLucyReady} />
         </Suspense>
       </Canvas>
     </div>
