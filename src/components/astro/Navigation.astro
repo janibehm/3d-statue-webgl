@@ -54,11 +54,12 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
         nav?.classList.add("mobile-view");
       } else {
         nav?.classList.remove("mobile-view");
+        // Remove open class when transitioning back to normal nav
+        nav?.classList.remove("open");
       }
     });
   }
 </script>
-
 <style>
   .side-nav {
     position: fixed;
@@ -161,7 +162,7 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
 
   .side-nav.mobile-view.open,
   .side-nav:not(.mobile-view).open {
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.9);
     border-radius: 5px;
     width: 200px;
     min-width: 200px;
