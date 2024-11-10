@@ -11,7 +11,15 @@ const ANIMATION = {
     start: { y: -10, z: 0 },
     end: { y: -3.8, z: 0 },
   },
-} as const;
+} satisfies {
+  duration: number;
+  fadeInDuration: number;
+  delay: number;
+  position: {
+    start: { y: number; z: number };
+    end: { y: number; z: number };
+  };
+};
 
 const TEXTURE_SETTINGS = {
   albedo: {
