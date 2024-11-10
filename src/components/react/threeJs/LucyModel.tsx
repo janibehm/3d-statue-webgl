@@ -22,7 +22,7 @@ export function LucyModel() {
 
   // Position and animation constants
   const POSITION = {
-    start: { y: 5, z: -30 },
+    start: { y: 5, z: 0 },
     end: { y: -0.5, z: 0 },
   };
   const ANIMATION = {
@@ -41,9 +41,8 @@ export function LucyModel() {
       const t = Math.min(elapsed / ANIMATION.duration, 1);
       const eased = easeOutCubic(t);
 
-      // Smooth position interpolation
+      // Only animate Y position
       modelRef.current.position.y = THREE.MathUtils.lerp(POSITION.start.y, POSITION.end.y, eased);
-      modelRef.current.position.z = THREE.MathUtils.lerp(POSITION.start.z, POSITION.end.z, eased);
 
       // Handle fade in
       const fadeT = Math.min(elapsed / ANIMATION.fadeInDuration, 1);

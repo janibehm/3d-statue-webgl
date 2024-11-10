@@ -13,10 +13,10 @@ if (preferredLang) {
 } else {
   // No cookie, check browser language
   // If browser language is not Finnish, go to English
-  if (!browserLang.toLowerCase().startsWith("fi")) {
-    redirectPath = "/en";
+  if (browserLang.toLowerCase().startsWith("fi")) {
+    redirectPath = "/fi";
     // Set initial cookie based on browser language
-    Astro.cookies.set("lang", "en", {
+    Astro.cookies.set("lang", "fi", {
       path: "/",
       maxAge: 60 * 60 * 24 * 365, // 1 year
     });

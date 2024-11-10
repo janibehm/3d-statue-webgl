@@ -5,13 +5,18 @@ import Scene3D from "../../scenes/ThreeScene";
 import ScrollContent from "@/components/astro/ScrollContent.astro";
 
 export async function getStaticPaths() {
-  return [{ params: { lang: "en", slug: "en" } }, { params: { lang: "fi", slug: "fi" } }];
+  return [
+    { params: { lang: "fi" } }, // Finnish at root
+    { params: { lang: "en" } }, // English at /en
+  ];
 }
+
+const { lang } = Astro.params;
 ---
 
 <Layout title="Behm Digital">
   <main>
     <Scene3D client:only="react" />
-    <ScrollContent />
+    <ScrollContent lang={lang} />
   </main>
 </Layout>
