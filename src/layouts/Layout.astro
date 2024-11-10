@@ -8,14 +8,19 @@ import { getLangFromUrl } from "../utils/language";
 
 const lang = getLangFromUrl(Astro.url.pathname);
 
-// Only set background color if NOT homepage
-const isHomePage = Astro.url.pathname === "/";
+// Add this to debug
+console.log("Current pathname:", Astro.url.pathname);
+
+// Modified homepage check to handle trailing slashes
+const isHomePage = ["", "/", "/en", "/en/", "/fi", "/fi/"].includes(Astro.url.pathname);
 const bodyStyle = isHomePage ? {} : { backgroundColor: "hsl(0 0% 100%)" };
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -27,6 +32,12 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body style={bodyStyle}>
+    <div
+      style="position: fixed; top: 0; right: 0; background: black; color: white; padding: 10px; z-index: 9999;"
+    >
+      Current path: {pathname}
+    </div>
+
     <Header />
     <Navigation lang={lang} />
     <slot />

@@ -1,0 +1,19 @@
+---
+import "@/styles/globals.css";
+import Layout from "../../layouts/Layout.astro";
+import Scene3D from "../../scenes/ThreeScene";
+import ScrollContent from "@/components/astro/ScrollContent.astro";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fi" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+---
+
+<Layout title="Behm Digital">
+  <main>
+    <Scene3D client:only="react" />
+    <ScrollContent lang={lang} />
+  </main>
+</Layout>

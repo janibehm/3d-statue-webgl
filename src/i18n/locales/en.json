@@ -1,0 +1,81 @@
+{
+  "header.slogan": "Web solutions that create a recognizable brand for your business.",
+  "nav.home": "Home",
+  "nav.services": "Services",
+  "nav.pricing": "Pricing",
+  "nav.about": "About",
+  "nav.contact": "Contact",
+  "scrollIndicator": "Scroll down",
+  "footer.rights": "All rights reserved",
+  "hero": "Let's build something magnificent!",
+  "whyUs": {
+    "title": "Why choose us for your website?",
+    "brand": {
+      "title": "Brand Uniqueness",
+      "description": "High-quality websites allow you to present your brand's unique look and message. We can customize the appearance and content of the site to reflect your company's values and goals."
+    }
+  },
+  "userExperience": {
+    "title": "User Experience",
+    "description": "Pages can be optimized to provide a user-friendly experience. This means intuitive navigation, fast load times, and responsive design that works well on all devices."
+  },
+  "scalability": {
+    "title": "Scalability",
+    "description": "Websites can be designed to grow with your business. You can add new features, pages, or integrations."
+  },
+  "competitiveAdvantage": {
+    "title": "Competitive Advantage",
+    "description": "Innovative design and unique content can attract customer interest and encourage them to choose your business."
+  },
+  "seo": {
+    "title": "Search Engine Optimization",
+    "description": "Well-structured layout and SEO optimization increase your chances of ranking in search results, which can lead to more traffic and a broader customer base."
+  },
+  "professionalism": {
+    "title": "Professionalism",
+    "description": "High-quality websites create a professional image for your business, building trust. Well-designed websites can make a difference in customer decision-making."
+  },
+  "contact": "Get in touch.",
+  "footer": {
+    "company": {
+      "title": "Company",
+      "aboutUs": "About Us",
+      "pricing": "Pricing",
+      "services": "Services"
+    },
+    "legal": {
+      "title": "Terms & Policies",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "agreementTerms": "Agreement Terms",
+      "cookies": "Cookies"
+    },
+    "locations": {
+      "title": "Service Areas",
+      "espoo": "Websites Espoo",
+      "helsinki": "Websites Helsinki",
+      "hameenlinna": "Websites Hämeenlinna",
+      "joensuu": "Websites Joensuu",
+      "jyvaskyla": "Websites Jyväskylä",
+      "kirkkonummi": "Websites Kirkkonummi",
+      "kuopio": "Websites Kuopio",
+      "lahti": "Websites Lahti",
+      "lappeenranta": "Websites Lappeenranta",
+      "mikkeli": "Websites Mikkeli",
+      "oulu": "Websites Oulu",
+      "rovaniemi": "Websites Rovaniemi",
+      "savonlinna": "Websites Savonlinna",
+      "seinajoki": "Websites Seinäjoki",
+      "tampere": "Websites Tampere",
+      "turku": "Websites Turku",
+      "vaasa": "Websites Vaasa",
+      "vantaa": "Websites Vantaa"
+    },
+    "bottomBar": {
+      "copyright": "© 2024 Behm Digital. All rights reserved.",
+      "privacyPolicy": "Privacy Policy",
+      "agreementTerms": "Agreement Terms",
+      "cookies": "Cookies"
+    }
+  }
+}
