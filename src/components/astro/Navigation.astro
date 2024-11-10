@@ -14,7 +14,8 @@ const navItems = [
   { key: "nav.contact", path: `/${lang}/contact` },
 ] as const;
 
-const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "/";
+const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === `/${lang}` || currentPath === "/";
 ---
 
 <nav class={`side-nav ${isHomePage ? "is-homepage" : ""}`} id="navigation">
@@ -27,7 +28,18 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
     {
       navItems.map((item) => (
         <li>
-          <a href={item.path} class="nav-link">
+          <a
+            href={item.path}
+            class:list={[
+              "nav-link",
+              {
+                active:
+                  currentPath === item.path ||
+                  (isHomePage && item.path === `/${lang}`) ||
+                  currentPath.startsWith(item.path + "/"),
+              },
+            ]}
+          >
             {t(item.key)}
           </a>
         </li>
@@ -42,6 +54,23 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
   const hamburger = nav?.querySelector(".hamburger");
   const isHomePage = nav?.classList.contains("is-homepage");
 
+  // Update active state on navigation
+  const updateActiveState = () => {
+    const currentPath = window.location.pathname;
+    const lang = currentPath.split("/")[1]; // Get current language
+    const links = nav?.querySelectorAll(".nav-link");
+
+    links?.forEach((link) => {
+      if (link instanceof HTMLAnchorElement) {
+        const isActive =
+          link.pathname === currentPath ||
+          (currentPath === `/${lang}` && link.pathname === `/${lang}`) ||
+          currentPath.startsWith(link.pathname + "/");
+        link.classList.toggle("active", isActive);
+      }
+    });
+  };
+
   // Toggle menu
   hamburger?.addEventListener("click", () => {
     nav?.classList.toggle("open");
@@ -54,12 +83,15 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
         nav?.classList.add("mobile-view");
       } else {
         nav?.classList.remove("mobile-view");
-        // Remove open class when transitioning back to normal nav
-        nav?.classList.remove("open");
       }
     });
   }
+
+  // Update active state on page load and navigation
+  updateActiveState();
+  window.addEventListener("popstate", updateActiveState);
 </script>
+
 <style>
   .side-nav {
     position: fixed;
@@ -122,13 +154,13 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
   }
 
   .nav-link.active {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.6) !important;
   }
 
   .nav-link.active::before {
-    background-color: #ffffff99;
-    width: 14px;
-    height: 14px;
+    background-color: #ffffff99 !important;
+    width: 14px !important;
+    height: 14px !important;
   }
 
   .hamburger {
@@ -162,7 +194,7 @@ const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "
 
   .side-nav.mobile-view.open,
   .side-nav:not(.mobile-view).open {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.85);
     border-radius: 5px;
     width: 200px;
     min-width: 200px;
