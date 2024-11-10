@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { globalAnimationState } from "./hooks/globalAnimationState";
 import { easeOutCubic } from "./hooks/easeOutCubix";
+import { useSpring } from "@react-spring/three";
 
 // Constants outside component to prevent recreation
 const POSITION = {
@@ -12,8 +13,8 @@ const POSITION = {
 } as const;
 
 const ANIMATION = {
-  duration: 2,
-  fadeInDuration: 0.5,
+  duration: 1.5,
+  fadeInDuration: 1.2,
   delay: 100,
 } as const;
 
@@ -30,73 +31,43 @@ export function LucyModel() {
   const { scene: model } = useGLTF("/models/Lucy-transformed.glb", true);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
-  const animationState = useRef({
-    startTime: 0,
-    isAnimating: true,
-    isReady: false,
-    hasStarted: false,
-  });
 
-  useFrame(() => {
-    const { current: model } = modelRef;
-    if (!model || !animationState.current.isReady || !animationState.current.hasStarted) return;
-
-    const elapsed = (performance.now() - animationState.current.startTime) / 1000;
-
-    if (animationState.current.isAnimating) {
-      const t = Math.min(elapsed / ANIMATION.duration, 1);
-      const eased = easeOutCubic(t);
-
-      // Update position
-      model.position.y = THREE.MathUtils.lerp(POSITION.start.y, POSITION.end.y, eased);
-
-      // Update opacity
-      const fadeT = Math.min(elapsed / ANIMATION.fadeInDuration, 1);
-
-      // Cache materials for better performance
-      if (!model.userData.materials) {
-        model.userData.materials = [];
-        model.traverse((child) => {
-          if (child instanceof THREE.Mesh && child.material) {
-            model.userData.materials.push(child.material);
-          }
-        });
-      }
-
-      // Update cached materials
-      model.userData.materials.forEach((material: THREE.Material) => {
-        material.opacity = fadeT;
-        material.transparent = fadeT < 1;
-      });
-
-      if (t === 1) {
-        animationState.current.isAnimating = false;
+  // Replace animation state with spring
+  const [springs] = useSpring(() => ({
+    from: {
+      position: [0, POSITION.start.y, POSITION.start.z],
+      opacity: 0,
+    },
+    to: {
+      position: [0, POSITION.end.y, POSITION.end.z],
+      opacity: 1,
+    },
+    config: { duration: ANIMATION.duration * 1000 },
+    delay: ANIMATION.delay,
+    onChange: () => {
+      if (springs.position.get()[1] === POSITION.end.y) {
         globalAnimationState.isLucyInPosition = true;
       }
-    }
-  });
+    },
+  }));
 
   useEffect(() => {
-    if (!model || animationState.current.hasStarted) return;
+    if (!model) return;
 
     const modelInstance = model.clone();
-    modelInstance.visible = false;
+    modelInstance.visible = true;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
-    modelInstance.position.set(0, POSITION.start.y, POSITION.start.z);
 
     // Optimize materials and geometry once
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
-        // Clone and optimize material
         child.material = child.material.clone();
         Object.assign(child.material, MATERIAL_SETTINGS, {
           transparent: true,
-          opacity: 0,
         });
         child.frustumCulled = true;
 
-        // Optimize geometry
         if (child.geometry && !child.geometry.boundingSphere) {
           child.geometry.computeBoundingSphere();
           child.geometry.computeBoundingBox();
@@ -104,23 +75,10 @@ export function LucyModel() {
       }
     });
 
-    // Pre-compile
     gl.compile(modelInstance, camera);
-
     modelRef.current = modelInstance;
     scene.add(modelInstance);
 
-    // Start animation
-    setTimeout(() => {
-      if (modelRef.current) {
-        modelRef.current.visible = true;
-        animationState.current.hasStarted = true;
-        animationState.current.startTime = performance.now();
-        animationState.current.isReady = true;
-      }
-    }, ANIMATION.delay);
-
-    // Cleanup
     return () => {
       scene.remove(modelInstance);
       modelInstance.traverse((child) => {
@@ -131,6 +89,21 @@ export function LucyModel() {
       });
     };
   }, [model, scene, gl, camera]);
+
+  // Update position and opacity using springs
+  useFrame(() => {
+    if (!modelRef.current) return;
+
+    const position = springs.position.get();
+    modelRef.current.position.set(position[0], position[1], position[2]);
+
+    modelRef.current.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.material.opacity = springs.opacity.get();
+        child.material.transparent = child.material.opacity < 1;
+      }
+    });
+  });
 
   return null;
 }
