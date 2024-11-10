@@ -1,29 +1,18 @@
 ---
-// Get current path
-const currentPath = Astro.url.pathname;
-/* const isHomePage = currentPath === "/"; */
-import { TranslatedText } from "../react/TranslatedText";
+import { useTranslations } from "../../i18n/utils";
+interface Props {
+  lang: "fi" | "en";
+}
 
-const { lang } = Astro.params;
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 
-// Define paths for each language
-const paths = {
-  fi: {
-    services: "/fi/palvelut",
-    contact: "/fi/yhteydenotto",
-    about: "/fi/tietoa",
-    // ... other paths
-  },
-  en: {
-    services: "/en/services",
-    contact: "/en/contact",
-    about: "/en/about",
-    // ... other paths
-  },
-};
-
-// Get correct paths based on language
-const currentLangPaths = paths[lang as keyof typeof paths] || paths.fi;
+const navItems = [
+  { key: "nav.home", path: `/${lang}` },
+  { key: "nav.services", path: `/${lang}/services` },
+  { key: "nav.about", path: `/${lang}/about` },
+  { key: "nav.contact", path: `/${lang}/contact` },
+] as const;
 ---
 
 <nav class="side-nav" id="navigation">
@@ -33,35 +22,15 @@ const currentLangPaths = paths[lang as keyof typeof paths] || paths.fi;
     <span></span>
   </div>
   <ul>
-    <li>
-      <a href="/" class={`nav-link ${currentPath === "/" ? "active" : ""}`}>
-        <TranslatedText client:load translationKey="nav.home" />
-      </a>
-    </li>
-    <li>
-      <a
-        href={currentLangPaths.services}
-        class={`nav-link ${currentPath === currentLangPaths.services ? "active" : ""}`}
-      >
-        <TranslatedText client:load translationKey="nav.services" />
-      </a>
-    </li>
-    <li>
-      <a
-        href={currentLangPaths.about}
-        class={`nav-link ${currentPath === currentLangPaths.about ? "active" : ""}`}
-      >
-        <TranslatedText client:load translationKey="nav.about" />
-      </a>
-    </li>
-    <li>
-      <a
-        href={currentLangPaths.contact}
-        class={`nav-link ${currentPath === currentLangPaths.contact ? "active" : ""}`}
-      >
-        <TranslatedText client:load translationKey="nav.contact" />
-      </a>
-    </li>
+    {
+      navItems.map((item) => (
+        <li>
+          <a href={item.path} class="nav-link">
+            {t(item.key)}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </nav>
 

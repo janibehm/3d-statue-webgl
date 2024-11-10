@@ -4,20 +4,18 @@ import Footer from "../components/astro/Footer.astro";
 import Navigation from "../components/astro/Navigation.astro";
 import Header from "../components/astro/Header.astro";
 import LangButton from "../components/astro/LangButton.astro";
+import { getLangFromUrl } from "../utils/language";
 
+const lang = getLangFromUrl(Astro.url.pathname);
+
+// Only set background color if NOT homepage
+const isHomePage = Astro.url.pathname === "/";
+const bodyStyle = isHomePage ? {} : { backgroundColor: "hsl(0 0% 100%)" };
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
-const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === "/";
-const urlLang = currentPath.split("/")[1];
-const validLangs = ["en", "fi"];
-const lang = validLangs.includes(urlLang) ? urlLang : "fi";
-
-// Only set background color if NOT homepage
-const bodyStyle = isHomePage ? {} : { backgroundColor: "hsl(0 0% 100%)" };
 ---
 
 <!doctype html>
@@ -30,7 +28,7 @@ const bodyStyle = isHomePage ? {} : { backgroundColor: "hsl(0 0% 100%)" };
   </head>
   <body style={bodyStyle}>
     <Header />
-    <Navigation />
+    <Navigation lang={lang} />
     <slot />
     <LangButton />
     {!isHomePage && <Footer />}
