@@ -120,7 +120,7 @@ export function Sphere() {
 
   // Geometry with optimized settings
   const geometry = useMemo(() => {
-    const geo = new THREE.SphereGeometry(3, 20, 20);
+    const geo = new THREE.SphereGeometry(3, 25, 25);
     geo.computeBoundingSphere();
     geo.computeBoundingBox();
     return geo;
