@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
 
 export function CameraControl() {
   const { camera } = useThree();
   const scrollY = useRef(0);
   const targetScrollY = useRef(0);
   const currentAngle = useRef(0);
+  const touchStartX = useRef(0);
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -14,9 +14,26 @@ export function CameraControl() {
       targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
     };
 
-    // Use { passive: false } to allow preventDefault()
+    const handleTouchStart = (event: TouchEvent) => {
+      touchStartX.current = event.touches[0].clientX;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const deltaX = event.touches[0].clientX - touchStartX.current;
+      targetScrollY.current += -deltaX * 0.001; // Negative to match natural touch direction
+      targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
+      touchStartX.current = event.touches[0].clientX;
+    };
+
     window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
   }, []);
 
   useFrame(() => {
@@ -40,31 +57,8 @@ export function CameraControl() {
 
     // Create a look-at point that's slightly above the center
     const lookAtY = 2; // Adjust this value to change the tilt angle (higher = more tilt up)
-
-    // Allow manual rotation to override the scroll-based position
-    // but keep updating the base position from scroll
-    const manualRotation = camera.position.clone();
-    const scrollBasedX = Math.sin(currentAngle.current) * radius;
-    const scrollBasedZ = Math.cos(currentAngle.current) * radius;
-
-    // Only update if the position significantly differs from the scroll-based position
-    if (Math.abs(manualRotation.x - scrollBasedX) < 0.1) {
-      camera.position.x = scrollBasedX;
-    }
-    if (Math.abs(manualRotation.z - scrollBasedZ) < 0.1) {
-      camera.position.z = scrollBasedZ;
-    }
-
     camera.lookAt(0, lookAtY, 0);
   });
 
-  return (
-    <OrbitControls
-      enableZoom={false}
-      enablePan={false}
-      enableRotate={true}
-      rotateSpeed={0.5}
-      makeDefault
-    />
-  );
+  return null;
 }
