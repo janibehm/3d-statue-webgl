@@ -1,0 +1,167 @@
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+
+interface ContactFormProps {
+  initialLang: string;
+  translations: {
+    contact: {
+      title: string;
+    };
+    form: {
+      name: string;
+      email: string;
+      phone: string;
+      message: string;
+      submit: string;
+      privacy: string;
+      privacyLink: string;
+    };
+    validation: {
+      name: {
+        min: string;
+        max: string;
+        required: string;
+      };
+      email: {
+        format: string;
+        required: string;
+      };
+      message: {
+        min: string;
+        max: string;
+        required: string;
+      };
+      privacy: {
+        required: string;
+      };
+    };
+  };
+}
+
+export default function ContactForm({ translations }: ContactFormProps) {
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(2, translations.validation.name.min)
+      .max(50, translations.validation.name.max)
+      .required(translations.validation.name.required),
+    email: Yup.string()
+      .email(translations.validation.email.format)
+      .required(translations.validation.email.required),
+    message: Yup.string()
+      .min(10, translations.validation.message.min)
+      .max(500, translations.validation.message.max)
+      .required(translations.validation.message.required),
+    phone: Yup.string(),
+    privacy: Yup.boolean().oneOf([true], translations.validation.privacy.required).required(),
+  });
+
+  return (
+    <div className="min-h-[calc(100vh-260px)] flex items-center justify-center bg-white">
+      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+        <h2 className="text-3xl font-bold mb-6 text-center">{translations.contact.title}</h2>
+
+        <Formik
+          initialValues={{
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+            privacy: false,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting }) => {
+            console.log(values);
+            setSubmitting(false);
+          }}
+        >
+          {({ errors, touched }) => (
+            <Form className="space-y-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-1">
+                  {translations.form.name}
+                </label>
+                <Field
+                  name="name"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder={translations.form.name}
+                />
+                {errors.name && touched.name && (
+                  <div className="text-red-500 text-sm mt-1">{errors.name}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-1">
+                  {translations.form.email} <span className="text-red-500">*</span>
+                </label>
+                <Field
+                  name="email"
+                  type="email"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder={translations.form.email}
+                />
+                {errors.email && touched.email && (
+                  <div className="text-red-500 text-sm mt-1">{errors.email}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium mb-1">
+                  {translations.form.phone}
+                </label>
+                <Field
+                  name="phone"
+                  type="tel"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder={translations.form.phone}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium mb-1">
+                  {translations.form.message}
+                </label>
+                <Field
+                  name="message"
+                  as="textarea"
+                  rows={5}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder={translations.form.message}
+                />
+                {errors.message && touched.message && (
+                  <div className="text-red-500 text-sm mt-1">{errors.message}</div>
+                )}
+              </div>
+
+              <div className="flex items-start space-x-2">
+                <Field type="checkbox" name="privacy" className="mt-1" />
+                <label htmlFor="privacy" className="text-sm">
+                  {translations.form.privacy}{" "}
+                  <a
+                    href="/privacy-policy"
+                    className="underline hover:text-gray-600"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {translations.form.privacyLink}
+                  </a>
+                  <span className="text-red-500">*</span>
+                </label>
+              </div>
+              {errors.privacy && touched.privacy && (
+                <div className="text-red-500 text-sm">{errors.privacy}</div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-800 transition-colors"
+              >
+                {translations.form.submit}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
+  );
+}

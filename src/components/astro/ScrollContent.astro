@@ -1,0 +1,285 @@
+---
+import { TranslatedText } from "../react/TranslatedText";
+---
+
+<div>
+  <main
+    class="absolute text-white z-[1] grid grid-cols-12 pointer-events-auto top-[70vh]
+          w-[100%]
+          md:w-[35%] md:top-[400px] md:left-[2%]"
+  >
+    <blockquote
+      class="col-span-12 mb-spacing
+            sm:col-span-10 sm:col-start-2
+            md:col-start-1"
+    >
+      <h1
+        class="text-white bg-transparent lg:text-3xl md:text-3xl pl-4 text-5xl relative w-full max-w-[800px]"
+      >
+        <span
+          id="animated-text"
+          class="block w-full leading-none tracking-[-0.1em] whitespace-nowrap text-sm sm:text-base md:text-lg"
+        >
+          <span class="letter">R</span>
+          <span class="letter">a</span>
+          <span class="letter">k</span>
+          <span class="letter">e</span>
+          <span class="letter">n</span>
+          <span class="letter">n</span>
+          <span class="letter">e</span>
+          <span class="letter">t</span>
+          <span class="letter">a</span>
+          <span class="letter">a</span>
+          <span class="letter">n</span>
+          <span class="letter">&nbsp;</span>
+          <span class="letter">s</span>
+          <span class="letter">i</span>
+          <span class="letter">n</span>
+          <span class="letter">u</span>
+          <span class="letter">l</span>
+          <span class="letter">l</span>
+          <span class="letter">e</span>
+          <span class="letter">&nbsp;</span>
+          <span class="letter">j</span>
+          <span class="letter">o</span>
+          <span class="letter">t</span>
+          <span class="letter">a</span>
+          <span class="letter">i</span>
+          <span class="letter">n</span>
+          <span class="letter">&nbsp;</span>
+          <span class="letter">u</span>
+          <span class="letter">p</span>
+          <span class="letter">e</span>
+          <span class="letter">a</span>
+          <span class="letter">a</span>
+          <span class="letter">!</span>
+        </span>
+        <span
+          id="translated-text"
+          class="animate-fade-in absolute top-0 left-0 block w-full tracking-widest whitespace-nowrap leading-none text-sm sm:text-base md:text-lg pl-4"
+        >
+          <TranslatedText client:load translationKey="hero" />
+        </span>
+      </h1>
+
+      <style>
+        .letter {
+          opacity: 0;
+          display: inline-block;
+          animation: appear 0.01s forwards;
+        }
+
+        /* Individual letter delays */
+        .letter:nth-child(1) {
+          animation-delay: 0.05s;
+        }
+        .letter:nth-child(2) {
+          animation-delay: 0.1s;
+        }
+        .letter:nth-child(3) {
+          animation-delay: 0.15s;
+        }
+        .letter:nth-child(4) {
+          animation-delay: 0.2s;
+        }
+        .letter:nth-child(5) {
+          animation-delay: 0.25s;
+        }
+        .letter:nth-child(6) {
+          animation-delay: 0.3s;
+        }
+        .letter:nth-child(7) {
+          animation-delay: 0.35s;
+        }
+        .letter:nth-child(8) {
+          animation-delay: 0.4s;
+        }
+        .letter:nth-child(9) {
+          animation-delay: 0.45s;
+        }
+        .letter:nth-child(10) {
+          animation-delay: 0.5s;
+        }
+        .letter:nth-child(11) {
+          animation-delay: 0.55s;
+        }
+        .letter:nth-child(12) {
+          animation-delay: 0.6s;
+        }
+        .letter:nth-child(13) {
+          animation-delay: 0.65s;
+        }
+        .letter:nth-child(14) {
+          animation-delay: 0.7s;
+        }
+        .letter:nth-child(15) {
+          animation-delay: 0.75s;
+        }
+        .letter:nth-child(16) {
+          animation-delay: 0.8s;
+        }
+        .letter:nth-child(17) {
+          animation-delay: 0.85s;
+        }
+        .letter:nth-child(18) {
+          animation-delay: 0.9s;
+        }
+        .letter:nth-child(19) {
+          animation-delay: 0.95s;
+        }
+        .letter:nth-child(20) {
+          animation-delay: 1s;
+        }
+        .letter:nth-child(21) {
+          animation-delay: 1.05s;
+        }
+        .letter:nth-child(22) {
+          animation-delay: 1.1s;
+        }
+        .letter:nth-child(23) {
+          animation-delay: 1.15s;
+        }
+        .letter:nth-child(24) {
+          animation-delay: 1.2s;
+        }
+        .letter:nth-child(25) {
+          animation-delay: 1.25s;
+        }
+        .letter:nth-child(26) {
+          animation-delay: 1.3s;
+        }
+        .letter:nth-child(27) {
+          animation-delay: 1.35s;
+        }
+        .letter:nth-child(28) {
+          animation-delay: 1.4s;
+        }
+        .letter:nth-child(29) {
+          animation-delay: 1.45s;
+        }
+        .letter:nth-child(30) {
+          animation-delay: 1.5s;
+        }
+        .letter:nth-child(31) {
+          animation-delay: 1.55s;
+        }
+        .letter:nth-child(32) {
+          animation-delay: 1.6s;
+        }
+        .letter:nth-child(33) {
+          animation-delay: 1.65s;
+        }
+
+        #animated-text {
+          animation: fadeOut 1s forwards;
+          animation-delay: 3s;
+          letter-spacing: -0.085em;
+        }
+
+        .animate-fade-in {
+          opacity: 0;
+          animation: fadeIn 1s forwards;
+          animation-delay: 3s;
+        }
+
+        @keyframes appear {
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes fadeOut {
+          to {
+            opacity: 0;
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      </style>
+
+      <div class="h-[100vh] lg md:h-[50vh] col-span-12"></div>
+      {/* spacer */}
+
+      <section
+        class="col-span-full w-screen bg-dark-bg text-base leading-relaxed mb-spacing
+              sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
+              md:text-xl pt-8 pb-8"
+      >
+        <h2 class="font-['exo'] font-bold py-4 lg:text-2xl md:text-2xl text-2xl px-4 sm:px-0">
+          <TranslatedText client:load translationKey="whyUs.title" />
+        </h2>
+        <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
+          <h3 class="font-['exo'] font-bold py-4 text-xl">
+            <TranslatedText client:load translationKey="whyUs.brand.title" />
+          </h3>
+          <p class="mb-6">
+            <TranslatedText client:load translationKey="whyUs.brand.description" />
+          </p>
+        </div>
+
+        <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
+          <h3 class="font-['exo'] font-bold py-4 text-xl">
+            <TranslatedText client:load translationKey="userExperience.title" />
+          </h3>
+          <p class="mb-6">
+            <TranslatedText client:load translationKey="userExperience.description" />
+          </p>
+        </div>
+
+        <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
+          <h3 class="font-['exo'] font-bold py-4 text-xl">
+            <TranslatedText client:load translationKey="scalability.title" />
+          </h3>
+          <p class="mb-6">
+            <TranslatedText client:load translationKey="scalability.description" />
+          </p>
+        </div>
+
+        <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
+          <h3 class="font-['exo'] font-bold py-4 text-xl">
+            <TranslatedText client:load translationKey="competitiveAdvantage.title" />
+          </h3>
+          <p class="mb-6">
+            <TranslatedText client:load translationKey="competitiveAdvantage.description" />
+          </p>
+        </div>
+
+        <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
+          <h3 class="font-['exo'] font-bold py-4 text-xl">
+            <TranslatedText client:load translationKey="seo.title" />
+          </h3>
+          <p class="mb-6">
+            <TranslatedText client:load translationKey="seo.description" />
+          </p>
+        </div>
+
+        <div class="feature w-full px-4 sm:px-0 sm:max-w-[95%] sm:mx-auto">
+          <h3 class="font-['exo'] font-bold py-4 text-xl">
+            <TranslatedText client:load translationKey="professionalism.title" />
+          </h3>
+          <p class="mb-6">
+            <TranslatedText client:load translationKey="professionalism.description" />
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="col-span-full w-screen text-base leading-relaxed mb-spacing
+              sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
+              md:text-xl"
+      >
+        <h2 class="font-['Exo'] font-bold py-4 text-1xl px-4 sm:px-0">
+          <TranslatedText client:load translationKey="contact" />
+        </h2>
+      </section>
+      <div class="h-[80vh] col-span-12"></div>
+    </blockquote>
+  </main>
+</div>

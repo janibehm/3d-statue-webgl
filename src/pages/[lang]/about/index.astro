@@ -1,0 +1,25 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Services from "../../../components/astro/About.astro";
+
+const slugs = {
+  en: {
+    about: "about",
+  },
+  fi: {
+    about: "tietoa",
+  },
+};
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
+}
+
+const { lang } = Astro.params;
+
+const translations = await import(`../../../i18n/${lang}.json`);
+---
+
+<Layout title={lang}>
+  <Services initialLang={lang} />
+</Layout>

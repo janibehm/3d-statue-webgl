@@ -1,0 +1,96 @@
+{
+  "sections": {
+    "hero": {
+      "title": "Verkkosivujen kehitysprosessi",
+      "subtitle": "Konseptista julkaisuun"
+    },
+    "planning": {
+      "title": "Suunnitteluvaihe",
+      "subtitle": "Vahvan projektin perusta"
+    },
+    "technical": {
+      "title": "Tekninen viimeistely",
+      "subtitle": "Timanttiseksi hionta"
+    },
+    "final": {
+      "title": "Julkaisu ja aktiivinen huolto",
+      "subtitle": "Pitkän aikavälin menestyksen varmistaminen"
+    }
+  },
+  "process": {
+    "initial_meeting": {
+      "title": "Alkupalaveri",
+      "description": "Alkupalaverissa keskustelemme, mitä ominaisuuksia tarvitset verkkosivustollesi.",
+      "content": [
+        "Tarvitsetko esimerkiksi käyttöliittymän, jonka kautta voit lisätä kuvia ja tekstiä?",
+        "Voimme lisätä työkaluja, kuten analytiikan tai tekoälypohjaisen asiakaspalvelijan, jos haluat.",
+        "Tässä vaiheessa arvioimme myös projektin kustannukset ja aikarajan."
+      ]
+    },
+    "customer_analysis": {
+      "description": "Kotisivua luodessa on tärkeää ymmärtää, mitä asiakas kokee oleelliseksi.",
+      "content": ["Esimerkiksi palveluiden ja tiedon esittäminen tietyssä järjestyksessä."]
+    },
+    "design": {
+      "description": "Jos sinulla ei ole vielä valmiiksi graafista tyyliä sivustolle, kehitämme sen tässä vaiheessa.",
+      "content": [
+        "Valitsemme projektin tarpeisiin parhaiten sopivat teknologiat.",
+        "Kommunikoimme kanssasi selkeästi graafisen tyylin osalta varmistaaksemme, että olet täysin tyytyväinen."
+      ]
+    },
+    "development_and_technologies": {
+      "description": "Rakennamme pääsääntöisesti sivuston Reactilla, Next.js:llä, Astro:lla ja Sanityllä.",
+      "content": [
+        "Lisäämme tarvittavat lisäosat, kuten kalenterivarausjärjestelmän, kartan upotuksen ja tekstin ja kuvien käyttöliittymän."
+      ]
+    },
+    "seo": {
+      "title": "Hakukoneoptimointi",
+      "description": "Teemme teknisen SEO-auditoinnin verkkosivustollesi.",
+      "areas": {
+        "images_and_media": {
+          "title": "Kuvat ja mediaelementit",
+          "description": "Optimoimme kuvat ja mediaelementit sivuston latausnopeuden parantamiseksi."
+        },
+        "responsiveness": {
+          "title": "Responsiivisuus",
+          "description": "Varmistamme, että sivusto toimii hyvin ja näyttää hyvältä eri laitteilla."
+        },
+        "structure": {
+          "title": "Rakenteen luominen",
+          "description": "Luomme selkeän sivustorakenteen ja loogiset URL-polut."
+        },
+        "meta_data": {
+          "title": "Meta-tiedot",
+          "description": "Lisäämme meta-otsikoita ja kuvauksia hakukonenäkyvyyden parantamiseksi."
+        }
+      }
+    },
+    "accessibility": {
+      "title": "Saavutettavuus",
+      "description": "Varmistamme verkkosivuston saavutettavuuden seuraavilla toimenpiteillä.",
+      "content": [
+        "Alt-tekstit kuville",
+        "Riittävä värikontrasti tekstin ja taustan välillä",
+        "Täydellinen näppäimistönavigointi",
+        "ARIA-tunnisteet käyttöliittymäelementtien selkeyttämiseksi",
+        "Looginen otsikkorakenne ja semanttiset HTML-tunnisteet"
+      ]
+    },
+    "testing": {
+      "description": "Varmistamme, että sivusto toimii hyvin eri laitteilla ja että kaikki integraatiot toimivat kuten pitää.",
+      "additional_info": ["Voimme myös tehdä pieniä säätöjä tarvittaessa ennen julkaisua."]
+    },
+    "launch": {
+      "description": "Julkaisemme verkkosivustosi, kun olet tyytyväinen.",
+      "additional_info": [
+        "Varmistamme, että kaikki on kunnossa ennen julkaisua.",
+        "Jatkossa voidaan tehdä muutoksia, jos tarpeen."
+      ]
+    },
+    "maintenance": {
+      "description": "Voit valita ylläpitosopimuksen julkaisun jälkeen.",
+      "content": ["Ylläpitoon sisältyy palvelimen hosting-kustannukset ja tietoturvapäivitykset."]
+    }
+  }
+}

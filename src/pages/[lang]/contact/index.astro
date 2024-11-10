@@ -1,0 +1,25 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ContactForm from "@/components/react/ContactForm";
+
+const slugs = {
+  en: {
+    contact: "contact",
+  },
+  fi: {
+    contact: "yhteydenotto",
+  },
+};
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
+}
+
+const { lang } = Astro.params;
+
+const translations = await import(`../../../i18n/form/${lang}.json`);
+---
+
+<Layout title={lang}>
+  <ContactForm client:load initialLang={lang} translations={translations.default} />
+</Layout>

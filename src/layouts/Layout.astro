@@ -1,0 +1,38 @@
+---
+import "@/styles/globals.css";
+import Footer from "../components/astro/Footer.astro";
+import Navigation from "../components/astro/Navigation.astro";
+import Header from "../components/astro/Header.astro";
+import LangButton from "../components/astro/LangButton.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === "/";
+const urlLang = currentPath.split("/")[1];
+const validLangs = ["en", "fi"];
+const lang = validLangs.includes(urlLang) ? urlLang : "fi";
+
+// Only set background color if NOT homepage
+const bodyStyle = isHomePage ? {} : { backgroundColor: "hsl(0 0% 100%)" };
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Websivut yritykselle" />
+    <title>{title}</title>
+  </head>
+  <body style={bodyStyle}>
+    <Header />
+    <Navigation />
+    <slot />
+    <LangButton />
+    {!isHomePage && <Footer />}
+  </body>
+</html>
