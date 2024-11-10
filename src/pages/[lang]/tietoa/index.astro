@@ -14,12 +14,8 @@ const slugs = {
 export async function getStaticPaths() {
   return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
 }
-
-const { lang } = Astro.params;
-
-/* const translations = await import(`../../../i18n/${lang}.json`); */
 ---
 
-<Layout title={lang}>
-  <Services initialLang={lang} />
+<Layout title="Tietoa">
+  <Services />
 </Layout>
