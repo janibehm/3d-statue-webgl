@@ -13,9 +13,11 @@ const navItems = [
   { key: "nav.about", path: `/${lang}/about` },
   { key: "nav.contact", path: `/${lang}/contact` },
 ] as const;
+
+const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "/";
 ---
 
-<nav class="side-nav" id="navigation">
+<nav class={`side-nav ${isHomePage ? "is-homepage" : ""}`} id="navigation">
   <div class="hamburger">
     <span></span>
     <span></span>
@@ -38,14 +40,15 @@ const navItems = [
   // Client-side interactivity
   const nav = document.getElementById("navigation");
   const hamburger = nav?.querySelector(".hamburger");
+  const isHomePage = nav?.classList.contains("is-homepage");
 
   // Toggle menu
   hamburger?.addEventListener("click", () => {
     nav?.classList.toggle("open");
   });
 
-  // Mobile view on scroll (only if not homepage)
-  if (window.location.pathname !== "/") {
+  // Only add scroll behavior if NOT homepage
+  if (!isHomePage) {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
         nav?.classList.add("mobile-view");
@@ -190,43 +193,17 @@ const navItems = [
   }
 
   @media (max-width: 1128px) {
-    .side-nav:not(.mobile-view) ul {
-      display: none;
+    .is-homepage.side-nav {
+      position: fixed;
+      right: 10%;
     }
 
-    .side-nav:not(.mobile-view) .hamburger {
-      display: block;
+    .is-homepage.side-nav ul {
+      display: block !important;
     }
 
-    .side-nav:not(.mobile-view).open {
-      background-color: rgba(0, 0, 0, 0.95);
-      border-radius: 5px;
-      width: 200px;
-    }
-
-    .side-nav:not(.mobile-view).open ul {
-      display: block;
-      margin-top: 10px;
-    }
-
-    .side-nav:not(.mobile-view).open .hamburger span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .side-nav:not(.mobile-view).open .hamburger span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .side-nav:not(.mobile-view).open .hamburger span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
-    }
-
-    .side-nav:not(.mobile-view) .nav-link::before {
-      display: none;
-    }
-
-    .side-nav:not(.mobile-view) .nav-link {
-      padding: 8px 0;
+    .is-homepage .hamburger {
+      display: none !important;
     }
   }
 </style>

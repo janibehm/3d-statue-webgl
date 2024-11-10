@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { TranslatedText } from "./TranslatedText";
+import { useTranslations } from "../../i18n/utils";
+import { DefaultLang } from "../../i18n/translations";
+
+function getLangFromPath(): "en" | "fi" {
+  const path = window.location.pathname;
+  const langMatch = path.match(/^\/(en|fi)/);
+  return (langMatch?.[1] as "en" | "fi") || DefaultLang;
+}
 
 interface ScrollIndicatorProps {
   isSceneLoaded: boolean;
@@ -7,6 +14,8 @@ interface ScrollIndicatorProps {
 
 export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const [lang] = useState(getLangFromPath());
+  const t = useTranslations(lang);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,7 +23,11 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
     };
 
     window.addEventListener("wheel", handleScroll, { once: true });
-    return () => window.removeEventListener("wheel", handleScroll);
+    window.addEventListener("touchstart", handleScroll, { once: true });
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("touchstart", handleScroll);
+    };
   }, []);
 
   if (!isSceneLoaded) return null;
@@ -33,9 +46,7 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
         pointerEvents: "none",
       }}
     >
-      <div style={{ fontSize: "14px", marginBottom: "8px" }}>
-        <TranslatedText translationKey="scrollIndicator" />
-      </div>
+      <div style={{ fontSize: "14px", marginBottom: "8px" }}>{t("scrollIndicator")}</div>
       <div
         style={{
           width: "20px",
@@ -62,10 +73,20 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
       </div>
       <style>
         {`
-          @keyframes scrollAnimation {
-            0% { transform: translate(-50%, 0); opacity: 1; }
-            75% { transform: translate(-50%, 8px); opacity: 0; }
-            100% { transform: translate(-50%, 0); opacity: 0; }
+          @media (hover: hover) {
+            @keyframes scrollAnimation {
+              0% { transform: translate(-50%, 0); opacity: 1; }
+              75% { transform: translate(-50%, 8px); opacity: 0; }
+              100% { transform: translate(-50%, 0); opacity: 0; }
+            }
+          }
+
+          @media (hover: none) and (pointer: coarse) {
+            @keyframes scrollAnimation {
+              0% { transform: translate(-50%, 8px); opacity: 1; }
+              75% { transform: translate(-50%, 0); opacity: 0; }
+              100% { transform: translate(-50%, 8px); opacity: 0; }
+            }
           }
         `}
       </style>

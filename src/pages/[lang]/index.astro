@@ -9,7 +9,6 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const translations = await import(`../../i18n/form/${lang}.json`);
 ---
 
 <Layout title={lang === "en" ? "Behm Digital" : "Behm Digital"}>

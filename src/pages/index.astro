@@ -1,11 +1,32 @@
 ---
-// Set default language
-const defaultLang = "fi";
-const browserLang = Astro.request.headers.get("accept-language")?.split(",")[0].split("-")[0];
-const supportedLanguages = ["en", "fi"];
+// Get language preference from cookies and browser
+const preferredLang = Astro.cookies.get("lang")?.value;
+const browserLang = Astro.request.headers.get("accept-language") || "";
 
-// Use browser language if supported, otherwise fallback to default
-const lang = browserLang && supportedLanguages.includes(browserLang) ? browserLang : defaultLang;
+// Default to Finnish
+let redirectPath = "/fi";
 
-return Astro.redirect(`/${lang}`);
+// Check cookie first, then browser language
+if (preferredLang) {
+  // If cookie exists, use it
+  redirectPath = preferredLang === "fi" ? "/fi" : "/en";
+} else {
+  // No cookie, check browser language
+  // If browser language is not Finnish, go to English
+  if (!browserLang.toLowerCase().startsWith("fi")) {
+    redirectPath = "/en";
+    // Set initial cookie based on browser language
+    Astro.cookies.set("lang", "en", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+    });
+  }
+}
+
+// Log for debugging
+console.log("Browser Language:", browserLang);
+console.log("Cookie Language:", preferredLang);
+console.log("Redirect Path:", redirectPath);
+
+return Astro.redirect(redirectPath);
 ---

@@ -1,6 +1,15 @@
 ---
 const LanguageOptions = ["fi", "en"];
 const { pathname } = Astro.url;
+const currentLang = pathname.split("/")[1] || "en";
+
+// Set cookie when rendering
+if (Astro.cookies.get("lang")?.value !== currentLang) {
+  Astro.cookies.set("lang", currentLang, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+  });
+}
 ---
 
 <div
@@ -11,7 +20,8 @@ const { pathname } = Astro.url;
     LanguageOptions.map((lang) => (
       <a
         href={`/${lang}${pathname.replace(/^\/(fi|en)/, "")}`}
-        class="p-2 text-white hover:underline"
+        class={`p-2 text-white hover:underline active:underline cursor-pointer
+          ${currentLang === lang ? "font-bold underline" : ""}`}
       >
         {lang.toUpperCase()}
       </a>
