@@ -7,11 +7,17 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
+const pathNames = {
+  services: { fi: "palvelut", en: "services" },
+  about: { fi: "tietoa", en: "about" },
+  contact: { fi: "yhteydenotto", en: "contact" },
+} as const;
+
 const navItems = [
   { key: "nav.home", path: `/${lang}` },
-  { key: "nav.services", path: `/${lang}/services` },
-  { key: "nav.about", path: `/${lang}/about` },
-  { key: "nav.contact", path: `/${lang}/contact` },
+  { key: "nav.services", path: `/${lang}/${pathNames.services[lang]}` },
+  { key: "nav.about", path: `/${lang}/${pathNames.about[lang]}` },
+  { key: "nav.contact", path: `/${lang}/${pathNames.contact[lang]}` },
 ] as const;
 
 const currentPath = Astro.url.pathname;
@@ -32,12 +38,7 @@ const isHomePage = currentPath === `/${lang}` || currentPath === "/";
             href={item.path}
             class:list={[
               "nav-link",
-              {
-                active:
-                  currentPath === item.path ||
-                  (isHomePage && item.path === `/${lang}`) ||
-                  currentPath.startsWith(item.path + "/"),
-              },
+              { active: currentPath === item.path || (isHomePage && item.path === `/${lang}`) },
             ]}
           >
             {t(item.key)}
@@ -57,16 +58,10 @@ const isHomePage = currentPath === `/${lang}` || currentPath === "/";
   // Update active state on navigation
   const updateActiveState = () => {
     const currentPath = window.location.pathname;
-    const lang = currentPath.split("/")[1]; // Get current language
     const links = nav?.querySelectorAll(".nav-link");
-
     links?.forEach((link) => {
       if (link instanceof HTMLAnchorElement) {
-        const isActive =
-          link.pathname === currentPath ||
-          (currentPath === `/${lang}` && link.pathname === `/${lang}`) ||
-          currentPath.startsWith(link.pathname + "/");
-        link.classList.toggle("active", isActive);
+        link.classList.toggle("active", link.pathname === currentPath);
       }
     });
   };
@@ -154,13 +149,13 @@ const isHomePage = currentPath === `/${lang}` || currentPath === "/";
   }
 
   .nav-link.active {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(255, 255, 255, 0.6);
   }
 
   .nav-link.active::before {
-    background-color: #ffffff99 !important;
-    width: 14px !important;
-    height: 14px !important;
+    background-color: #ffffff99;
+    width: 14px;
+    height: 14px;
   }
 
   .hamburger {
