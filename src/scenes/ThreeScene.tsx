@@ -64,6 +64,11 @@ function ThreeScene() {
         height: "100%",
         overflow: "hidden",
         zIndex: 1,
+        touchAction: "none",
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        WebkitTouchCallout: "none",
+        msUserSelect: "none",
       }}
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded && isLucyReady} />

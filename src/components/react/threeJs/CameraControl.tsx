@@ -1,22 +1,55 @@
 import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 
-export function CameraControl() {
+interface CameraControlProps {
+  isActive: boolean;
+}
+
+export function CameraControl({ isActive }: CameraControlProps) {
   const { camera } = useThree();
   const scrollY = useRef(0);
   const targetScrollY = useRef(0);
   const currentAngle = useRef(0);
+  const touchStartY = useRef(0);
 
   useEffect(() => {
+    if (!isActive) return;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
     const handleWheel = (event: WheelEvent) => {
-      targetScrollY.current += event.deltaY * 0.001;
+      event.preventDefault();
+      targetScrollY.current -= event.deltaY * 0.001;
       targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
     };
 
-    // Use { passive: false } to allow preventDefault()
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, []);
+    const handleTouchStart = (event: TouchEvent) => {
+      event.preventDefault();
+      touchStartY.current = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      event.preventDefault();
+      const deltaY = event.touches[0].clientY - touchStartY.current;
+      targetScrollY.current -= deltaY * 0.001;
+      targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
+      touchStartY.current = event.touches[0].clientY;
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [isActive]);
 
   useFrame(() => {
     // Smooth scroll interpolation
