@@ -1,130 +1,113 @@
-import { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { easeOutCubic } from "./hooks/easeOutCubix";
 import * as THREE from "three";
 
+// Move constants outside component
 const ANIMATION = {
-  duration: 2,
-  fadeInDuration: 0.5,
-  delay: 100,
+  duration: 3.5,
+  fadeInDuration: 2.5,
+  delay: 300,
   position: {
-    start: { y: -20, z: -30 },
+    start: { y: -10, z: 0 },
     end: { y: -3.8, z: 0 },
   },
-};
+} as const;
+
+// Pre-create TextureLoader
+const textureLoader = new THREE.TextureLoader();
 
 export function Sphere() {
   const { gl } = useThree();
   const meshRef = useRef<THREE.Mesh>(null);
-  const animationRef = useRef({
+  const animationState = useRef({
     startTime: 0,
     isAnimating: true,
-    opacity: 0,
+    isVisible: false,
+    texturesLoaded: 0,
   });
 
-  const [texturesLoaded, setTexturesLoaded] = useState({
-    albedo: false,
-    normal: false,
-  });
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Create material once
-  const material = useMemo(() => {
-    return new THREE.MeshLambertMaterial({
+  // Memoize material and geometry
+  const [material, geometry] = useMemo(() => {
+    const mat = new THREE.MeshLambertMaterial({
       transparent: true,
       opacity: 0,
     });
+
+    const geo = new THREE.SphereGeometry(3, 25, 25);
+    geo.computeBoundingSphere();
+    geo.computeBoundingBox();
+
+    return [mat, geo];
   }, []);
 
-  // Move texture loading to useEffect
+  // Combine texture loading into one effect
   useEffect(() => {
-    const textureLoader = new THREE.TextureLoader();
+    const loadTexture = (url: string, callback: (texture: THREE.Texture) => void) => {
+      textureLoader.load(url, (texture) => {
+        callback(texture);
+        animationState.current.texturesLoaded++;
 
-    // Load albedo texture
-    const albedoTexture = textureLoader.load(
-      "/textures/painted-worn-asphalt_albedo.jpg",
-      (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        setTexturesLoaded((prev) => ({ ...prev, albedo: true }));
-      },
-    );
+        // Start animation when both textures are loaded
+        if (animationState.current.texturesLoaded === 2 && meshRef.current) {
+          meshRef.current.position.set(0, ANIMATION.position.start.y, ANIMATION.position.start.z);
+          const dummyCamera = new THREE.PerspectiveCamera();
+          gl.compile(meshRef.current, dummyCamera);
 
-    // Load normal texture
-    const normalTexture = textureLoader.load(
-      "/textures/painted-worn-asphalt_normal-ogl.jpg",
-      (texture) => {
-        setTexturesLoaded((prev) => ({ ...prev, normal: true }));
-      },
-    );
-
-    // Apply textures to material
-    material.map = albedoTexture;
-    material.normalMap = normalTexture;
-
-    // Cleanup
-    return () => {
-      albedoTexture.dispose();
-      normalTexture.dispose();
+          setTimeout(() => {
+            animationState.current.isVisible = true;
+            animationState.current.startTime = performance.now();
+          }, ANIMATION.delay);
+        }
+      });
     };
-  }, [material]);
 
-  // Start animation when textures are loaded
-  useEffect(() => {
-    if (!meshRef.current || !texturesLoaded.albedo || !texturesLoaded.normal) return;
+    loadTexture("/textures/painted-worn-asphalt_albedo.jpg", (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      material.map = texture;
+    });
 
-    meshRef.current.position.set(0, ANIMATION.position.start.y, ANIMATION.position.start.z);
-
-    // Pre-compile materials
-    const dummyCamera = new THREE.PerspectiveCamera();
-    gl.compile(meshRef.current, dummyCamera);
-
-    setTimeout(() => {
-      setIsVisible(true);
-      animationRef.current.startTime = performance.now();
-    }, ANIMATION.delay);
+    loadTexture("/textures/painted-worn-asphalt_normal-ogl.jpg", (texture) => {
+      material.normalMap = texture;
+    });
 
     return () => {
+      material.map?.dispose();
+      material.normalMap?.dispose();
       material.dispose();
+      geometry.dispose();
     };
-  }, [texturesLoaded, gl, material]);
+  }, [material, geometry, gl]);
 
+  // Optimized animation frame
   useFrame(() => {
-    if (!meshRef.current || !isVisible || !animationRef.current.isAnimating) return;
+    if (
+      !meshRef.current ||
+      !animationState.current.isVisible ||
+      !animationState.current.isAnimating
+    )
+      return;
 
-    const elapsed = (performance.now() - animationRef.current.startTime) / 1000;
-
-    // Position animation
+    const elapsed = (performance.now() - animationState.current.startTime) / 1000;
     const positionT = Math.min(elapsed / ANIMATION.duration, 1);
     const eased = easeOutCubic(positionT);
 
+    // Update position (ascending from bottom)
     meshRef.current.position.y = THREE.MathUtils.lerp(
       ANIMATION.position.start.y,
       ANIMATION.position.end.y,
       eased,
     );
-    meshRef.current.position.z = THREE.MathUtils.lerp(
-      ANIMATION.position.start.z,
-      ANIMATION.position.end.z,
-      eased,
-    );
 
-    // Fade in animation
+    // Slower, smoother fade in
     const fadeT = Math.min(elapsed / ANIMATION.fadeInDuration, 1);
-    material.opacity = fadeT;
+    material.opacity = fadeT * fadeT * fadeT; // Cubic easing for even smoother fade
 
     if (positionT === 1) {
-      animationRef.current.isAnimating = false;
+      animationState.current.isAnimating = false;
       material.transparent = false;
     }
   });
-
-  // Geometry with optimized settings
-  const geometry = useMemo(() => {
-    const geo = new THREE.SphereGeometry(3, 25, 25);
-    geo.computeBoundingSphere();
-    geo.computeBoundingBox();
-    return geo;
-  }, []);
 
   return (
     <mesh
@@ -132,7 +115,7 @@ export function Sphere() {
       geometry={geometry}
       material={material}
       position={[0, ANIMATION.position.start.y, ANIMATION.position.start.z]}
-      visible={isVisible}
+      visible={animationState.current.isVisible}
       frustumCulled={true}
     />
   );
