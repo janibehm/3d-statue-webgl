@@ -28,29 +28,45 @@ export function Sphere() {
   });
   const [isVisible, setIsVisible] = useState(false);
 
-  // Create materials and textures once
-  const { material, textures } = useMemo(() => {
-    const textureLoader = new THREE.TextureLoader();
-    const material = new THREE.MeshLambertMaterial({
+  // Create material once
+  const material = useMemo(() => {
+    return new THREE.MeshLambertMaterial({
       transparent: true,
       opacity: 0,
     });
+  }, []);
 
-    const textures = {
-      albedo: textureLoader.load("/textures/painted-worn-asphalt_albedo.jpg", (texture) => {
+  // Move texture loading to useEffect
+  useEffect(() => {
+    const textureLoader = new THREE.TextureLoader();
+
+    // Load albedo texture
+    const albedoTexture = textureLoader.load(
+      "/textures/painted-worn-asphalt_albedo.jpg",
+      (texture) => {
         texture.colorSpace = THREE.SRGBColorSpace;
         setTexturesLoaded((prev) => ({ ...prev, albedo: true }));
-      }),
-      normal: textureLoader.load("/textures/painted-worn-asphalt_normal-ogl.jpg", (texture) => {
+      },
+    );
+
+    // Load normal texture
+    const normalTexture = textureLoader.load(
+      "/textures/painted-worn-asphalt_normal-ogl.jpg",
+      (texture) => {
         setTexturesLoaded((prev) => ({ ...prev, normal: true }));
-      }),
+      },
+    );
+
+    // Apply textures to material
+    material.map = albedoTexture;
+    material.normalMap = normalTexture;
+
+    // Cleanup
+    return () => {
+      albedoTexture.dispose();
+      normalTexture.dispose();
     };
-
-    material.map = textures.albedo;
-    material.normalMap = textures.normal;
-
-    return { material, textures };
-  }, []);
+  }, [material]);
 
   // Start animation when textures are loaded
   useEffect(() => {
@@ -69,10 +85,8 @@ export function Sphere() {
 
     return () => {
       material.dispose();
-      textures.albedo.dispose();
-      textures.normal.dispose();
     };
-  }, [texturesLoaded, gl, material, textures]);
+  }, [texturesLoaded, gl, material]);
 
   useFrame(() => {
     if (!meshRef.current || !isVisible || !animationRef.current.isAnimating) return;
