@@ -1,0 +1,16 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Services from "../../../components/astro/Services.astro";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
+}
+
+const { lang } = Astro.params;
+
+const translations = await import(`../../../i18n/services/${lang}.json`);
+---
+
+<Layout title={lang}>
+  <Services initialLang={lang} translations={translations.default} />
+</Layout>

@@ -1,0 +1,38 @@
+const contact = {
+	title: "Ota yhteyttä"
+};
+const form = {
+	name: "Nimi",
+	email: "Sähköposti",
+	phone: "Puhelinnumero",
+	message: "Viestisi meille",
+	submit: "Lähetä",
+	privacy: "Hyväksyn",
+	privacyLink: "tietosuojakäytännön"
+};
+const validation = {
+	name: {
+		min: "Nimen täytyy olla vähintään 2 merkkiä",
+		max: "Nimen täytyy olla enintään 50 merkkiä",
+		required: "Nimi on pakollinen"
+	},
+	email: {
+		format: "Virheellinen sähköpostiosoite",
+		required: "Sähköposti on pakollinen"
+	},
+	message: {
+		min: "Viestin täytyy olla vähintään 10 merkkiä",
+		max: "Viestin täytyy olla enintään 500 merkkiä",
+		required: "Viesti on pakollinen"
+	},
+	privacy: {
+		required: "Sinun täytyy hyväksyä tietosuojakäytäntö"
+	}
+};
+const fi = {
+	contact: contact,
+	form: form,
+	validation: validation
+};
+
+export { contact, fi as default, form, validation };
