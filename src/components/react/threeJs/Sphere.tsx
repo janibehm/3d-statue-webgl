@@ -3,7 +3,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { easeOutCubic } from "./hooks/easeOutCubix";
 import * as THREE from "three";
 
-// Move constants outside component
 const ANIMATION = {
   duration: 3.5,
   fadeInDuration: 2.5,
@@ -14,97 +13,112 @@ const ANIMATION = {
   },
 } as const;
 
-// Pre-create TextureLoader
+const TEXTURE_SETTINGS = {
+  albedo: {
+    path: "/textures/painted-worn-asphalt_albedo.jpg",
+    colorSpace: THREE.SRGBColorSpace,
+  },
+  normal: {
+    path: "/textures/painted-worn-asphalt_normal-ogl.jpg",
+  },
+} as const;
+
 const textureLoader = new THREE.TextureLoader();
+const dummyCamera = new THREE.PerspectiveCamera();
 
 export function Sphere() {
   const { gl } = useThree();
   const meshRef = useRef<THREE.Mesh>(null);
-  const animationState = useRef({
+  const frameState = useRef({
     startTime: 0,
     isAnimating: true,
     isVisible: false,
     texturesLoaded: 0,
+    currentY: ANIMATION.position.start.y,
+    currentOpacity: 0,
   });
 
-  // Memoize material and geometry
-  const [material, geometry] = useMemo(() => {
-    const mat = new THREE.MeshLambertMaterial({
-      transparent: true,
-      opacity: 0,
-    });
+  // Memoize material and geometry together
+  const [material, geometry] = useMemo(
+    () => [
+      new THREE.MeshLambertMaterial({
+        transparent: true,
+        opacity: 0,
+      }),
+      (() => {
+        const geo = new THREE.SphereGeometry(3, 25, 25);
+        geo.computeBoundingSphere();
+        geo.computeBoundingBox();
+        return geo;
+      })(),
+    ],
+    [],
+  );
 
-    const geo = new THREE.SphereGeometry(3, 25, 25);
-    geo.computeBoundingSphere();
-    geo.computeBoundingBox();
-
-    return [mat, geo];
-  }, []);
-
-  // Combine texture loading into one effect
+  // Optimized texture loading
   useEffect(() => {
-    const loadTexture = (url: string, callback: (texture: THREE.Texture) => void) => {
-      textureLoader.load(url, (texture) => {
-        callback(texture);
-        animationState.current.texturesLoaded++;
+    const textures: THREE.Texture[] = [];
 
-        // Start animation when both textures are loaded
-        if (animationState.current.texturesLoaded === 2 && meshRef.current) {
-          meshRef.current.position.set(0, ANIMATION.position.start.y, ANIMATION.position.start.z);
-          const dummyCamera = new THREE.PerspectiveCamera();
-          gl.compile(meshRef.current, dummyCamera);
+    const onTextureLoad = (texture: THREE.Texture) => {
+      textures.push(texture);
+      frameState.current.texturesLoaded++;
 
-          setTimeout(() => {
-            animationState.current.isVisible = true;
-            animationState.current.startTime = performance.now();
-          }, ANIMATION.delay);
-        }
-      });
+      if (frameState.current.texturesLoaded === 2 && meshRef.current) {
+        gl.compile(meshRef.current, dummyCamera);
+
+        setTimeout(() => {
+          frameState.current.isVisible = true;
+          frameState.current.startTime = performance.now();
+        }, ANIMATION.delay);
+      }
     };
 
-    loadTexture("/textures/painted-worn-asphalt_albedo.jpg", (texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace;
+    // Load albedo texture
+    textureLoader.load(TEXTURE_SETTINGS.albedo.path, (texture) => {
+      texture.colorSpace = TEXTURE_SETTINGS.albedo.colorSpace;
       material.map = texture;
+      onTextureLoad(texture);
     });
 
-    loadTexture("/textures/painted-worn-asphalt_normal-ogl.jpg", (texture) => {
+    // Load normal texture
+    textureLoader.load(TEXTURE_SETTINGS.normal.path, (texture) => {
       material.normalMap = texture;
+      onTextureLoad(texture);
     });
 
     return () => {
-      material.map?.dispose();
-      material.normalMap?.dispose();
+      textures.forEach((texture) => texture.dispose());
       material.dispose();
       geometry.dispose();
     };
   }, [material, geometry, gl]);
 
-  // Optimized animation frame
+  // Optimized animation frame with cached values
   useFrame(() => {
-    if (
-      !meshRef.current ||
-      !animationState.current.isVisible ||
-      !animationState.current.isAnimating
-    )
-      return;
+    const state = frameState.current;
+    const mesh = meshRef.current;
 
-    const elapsed = (performance.now() - animationState.current.startTime) / 1000;
+    if (!mesh || !state.isVisible || !state.isAnimating) return;
+
+    const elapsed = (performance.now() - state.startTime) / 1000;
     const positionT = Math.min(elapsed / ANIMATION.duration, 1);
     const eased = easeOutCubic(positionT);
 
-    // Update position (ascending from bottom)
-    meshRef.current.position.y = THREE.MathUtils.lerp(
+    // Cache calculations
+    state.currentY = THREE.MathUtils.lerp(
       ANIMATION.position.start.y,
       ANIMATION.position.end.y,
       eased,
     );
 
-    // Slower, smoother fade in
-    const fadeT = Math.min(elapsed / ANIMATION.fadeInDuration, 1);
-    material.opacity = fadeT * fadeT * fadeT; // Cubic easing for even smoother fade
+    state.currentOpacity = Math.min(Math.pow(elapsed / ANIMATION.fadeInDuration, 3), 1);
+
+    // Apply cached values
+    mesh.position.y = state.currentY;
+    material.opacity = state.currentOpacity;
 
     if (positionT === 1) {
-      animationState.current.isAnimating = false;
+      state.isAnimating = false;
       material.transparent = false;
     }
   });
@@ -114,8 +128,8 @@ export function Sphere() {
       ref={meshRef}
       geometry={geometry}
       material={material}
-      position={[0, ANIMATION.position.start.y, ANIMATION.position.start.z]}
-      visible={animationState.current.isVisible}
+      position={[0, frameState.current.currentY, ANIMATION.position.start.z]}
+      visible={frameState.current.isVisible}
       frustumCulled={true}
     />
   );
