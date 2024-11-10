@@ -1,57 +1,30 @@
 ---
-// In your layout or component
 const LanguageOptions = ["fi", "en"];
+const { pathname } = Astro.url;
+const currentLang = pathname.split("/")[1] || "en";
+
+// Set cookie when rendering
+if (Astro.cookies.get("lang")?.value !== currentLang) {
+  Astro.cookies.set("lang", currentLang, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+  });
+}
 ---
 
 <div
   id="langButtons"
-  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000] transition-transform duration-300"
+  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000]"
 >
   {
     LanguageOptions.map((lang) => (
-      <button
-        class="p-2 text-white hover:underline"
-        onclick={`
-          localStorage.setItem('preferredLanguage', '${lang}');
-          window.dispatchEvent(
-            new CustomEvent('languageChange', { 
-              detail: { lang: '${lang}' } 
-            })
-          );
-          const currentPath = window.location.pathname;
-          if (currentPath !== '/' && currentPath !== '') {
-            const newPath = currentPath.replace(/^\\/\\w+/, '/${lang}');
-            window.location.pathname = newPath;
-          }
-        `}
+      <a
+        href={`/${lang}${pathname.replace(/^\/(fi|en)/, "")}`}
+        class={`p-2 text-white hover:underline active:underline cursor-pointer
+          ${currentLang === lang ? "font-bold underline" : ""}`}
       >
         {lang.toUpperCase()}
-      </button>
+      </a>
     ))
   }
 </div>
-
-<script>
-  let lastScrollY = 0;
-  const langButtons = document.getElementById("langButtons");
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      const currentScrollY = window.scrollY;
-
-      if (langButtons) {
-        if (currentScrollY > lastScrollY) {
-          // Scrolling down
-          langButtons.style.transform = "translateY(100%)";
-        } else {
-          // Scrolling up
-          langButtons.style.transform = "translateY(0%)";
-        }
-      }
-
-      lastScrollY = currentScrollY;
-    },
-    { passive: true },
-  );
-</script>

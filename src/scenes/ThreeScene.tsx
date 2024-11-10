@@ -41,6 +41,7 @@ function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
   const [isLucyReady, setIsLucyReady] = useState(false);
+  const [isMobile] = useState(isMobileDevice);
 
   useEffect(() => {
     const checkLucyPosition = () => {
@@ -49,7 +50,6 @@ function ThreeScene() {
       }
     };
 
-    // Check every 100ms until Lucy is in position
     const interval = setInterval(checkLucyPosition, 100);
     return () => clearInterval(interval);
   }, []);
@@ -64,17 +64,24 @@ function ThreeScene() {
         height: "100%",
         overflow: "hidden",
         zIndex: 1,
-        touchAction: "none",
+        touchAction: isMobile ? "pan-y" : "none",
         userSelect: "none",
+        pointerEvents: isMobile ? "none" : "auto",
       }}
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded && isLucyReady} />
-      <Canvas key={key} camera={{ position: [0, 2, 5], fov: 75 }}>
+      <Canvas
+        key={key}
+        camera={{ position: [0, 2, 5], fov: 75 }}
+        style={{
+          pointerEvents: isMobile ? "none" : "auto",
+        }}
+      >
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
           <ambientLight intensity={0.1} />
           <SpotLightAnimation />
-          {!isMobileDevice && <Sphere />}
+          <Sphere />
           <LucyModel />
           <Stars />
           <CameraControl />

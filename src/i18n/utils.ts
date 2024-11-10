@@ -10,6 +10,6 @@ export function getLangFromUrl(url: URL) {
 
 export function useTranslations(lang: keyof typeof LanguageText) {
   return function t(key: TranslationKey): string {
-    return LanguageText[lang][key] || LanguageText[DefaultLang][key];
+    return LanguageText[lang]?.[key] || LanguageText[DefaultLang]?.[key] || key;
   };
 }

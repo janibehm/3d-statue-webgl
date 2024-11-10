@@ -1,67 +1,38 @@
 ---
-// Get current path
-const currentPath = Astro.url.pathname;
-/* const isHomePage = currentPath === "/"; */
-import { TranslatedText } from "../react/TranslatedText";
+import { useTranslations } from "../../i18n/utils";
+interface Props {
+  lang: "fi" | "en";
+}
 
-const { lang } = Astro.params;
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 
-// Define paths for each language
-const paths = {
-  fi: {
-    services: "/fi/palvelut",
-    contact: "/fi/yhteydenotto",
-    about: "/fi/tietoa",
-    // ... other paths
-  },
-  en: {
-    services: "/en/services",
-    contact: "/en/contact",
-    about: "/en/about",
-    // ... other paths
-  },
-};
+const navItems = [
+  { key: "nav.home", path: `/${lang}` },
+  { key: "nav.services", path: `/${lang}/services` },
+  { key: "nav.about", path: `/${lang}/about` },
+  { key: "nav.contact", path: `/${lang}/contact` },
+] as const;
 
-// Get correct paths based on language
-const currentLangPaths = paths[lang as keyof typeof paths] || paths.fi;
+const isHomePage = Astro.url.pathname === `/${lang}` || Astro.url.pathname === "/";
 ---
 
-<nav class="side-nav" id="navigation">
+<nav class={`side-nav ${isHomePage ? "is-homepage" : ""}`} id="navigation">
   <div class="hamburger">
     <span></span>
     <span></span>
     <span></span>
   </div>
   <ul>
-    <li>
-      <a href="/" class={`nav-link ${currentPath === "/" ? "active" : ""}`}>
-        <TranslatedText client:load translationKey="nav.home" />
-      </a>
-    </li>
-    <li>
-      <a
-        href={currentLangPaths.services}
-        class={`nav-link ${currentPath === currentLangPaths.services ? "active" : ""}`}
-      >
-        <TranslatedText client:load translationKey="nav.services" />
-      </a>
-    </li>
-    <li>
-      <a
-        href={currentLangPaths.about}
-        class={`nav-link ${currentPath === currentLangPaths.about ? "active" : ""}`}
-      >
-        <TranslatedText client:load translationKey="nav.about" />
-      </a>
-    </li>
-    <li>
-      <a
-        href={currentLangPaths.contact}
-        class={`nav-link ${currentPath === currentLangPaths.contact ? "active" : ""}`}
-      >
-        <TranslatedText client:load translationKey="nav.contact" />
-      </a>
-    </li>
+    {
+      navItems.map((item) => (
+        <li>
+          <a href={item.path} class="nav-link">
+            {t(item.key)}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </nav>
 
@@ -69,14 +40,15 @@ const currentLangPaths = paths[lang as keyof typeof paths] || paths.fi;
   // Client-side interactivity
   const nav = document.getElementById("navigation");
   const hamburger = nav?.querySelector(".hamburger");
+  const isHomePage = nav?.classList.contains("is-homepage");
 
   // Toggle menu
   hamburger?.addEventListener("click", () => {
     nav?.classList.toggle("open");
   });
 
-  // Mobile view on scroll (only if not homepage)
-  if (window.location.pathname !== "/") {
+  // Only add scroll behavior if NOT homepage
+  if (!isHomePage) {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
         nav?.classList.add("mobile-view");
@@ -221,43 +193,17 @@ const currentLangPaths = paths[lang as keyof typeof paths] || paths.fi;
   }
 
   @media (max-width: 1128px) {
-    .side-nav:not(.mobile-view) ul {
-      display: none;
+    .is-homepage.side-nav {
+      position: fixed;
+      right: 10%;
     }
 
-    .side-nav:not(.mobile-view) .hamburger {
-      display: block;
+    .is-homepage.side-nav ul {
+      display: block !important;
     }
 
-    .side-nav:not(.mobile-view).open {
-      background-color: rgba(0, 0, 0, 0.95);
-      border-radius: 5px;
-      width: 200px;
-    }
-
-    .side-nav:not(.mobile-view).open ul {
-      display: block;
-      margin-top: 10px;
-    }
-
-    .side-nav:not(.mobile-view).open .hamburger span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .side-nav:not(.mobile-view).open .hamburger span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .side-nav:not(.mobile-view).open .hamburger span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
-    }
-
-    .side-nav:not(.mobile-view) .nav-link::before {
-      display: none;
-    }
-
-    .side-nav:not(.mobile-view) .nav-link {
-      padding: 8px 0;
+    .is-homepage .hamburger {
+      display: none !important;
     }
   }
 </style>

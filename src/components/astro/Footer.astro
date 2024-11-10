@@ -1,5 +1,7 @@
 ---
-import { TranslatedText } from "../react/TranslatedText";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <footer class="w-full min-h-[260px] text-white bg-dark-bg">
@@ -8,20 +10,17 @@ import { TranslatedText } from "../react/TranslatedText";
       {/* Company Info */}
       <div>
         <h3 class="text-lg font-bold mb-4">
-          <TranslatedText client:load translationKey="footer.company.title" />
+          {t("footer.company.title")}
         </h3>
         <ul class="space-y-2">
           <li>
-            <a href="/about" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.company.aboutUs" /></a>
+            <a href="/about" class="hover:text-gray-300">{t("footer.company.aboutUs")}</a>
           </li>
           <li>
-            <a href="/pricing" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.company.pricing" /></a>
+            <a href="/pricing" class="hover:text-gray-300">{t("footer.company.pricing")}</a>
           </li>
           <li>
-            <a href="/services" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.company.services" /></a>
+            <a href="/services" class="hover:text-gray-300">{t("footer.company.services")}</a>
           </li>
         </ul>
       </div>
@@ -29,24 +28,23 @@ import { TranslatedText } from "../react/TranslatedText";
       {/* Legal */}
       <div>
         <h3 class="text-lg font-bold mb-4">
-          <TranslatedText client:load translationKey="footer.legal.title" />
+          {t("footer.legal.title")}
         </h3>
         <ul class="space-y-2">
           <li>
-            <a href="/kayttoehdot" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.legal.termsOfService" /></a>
+            <a href="/kayttoehdot" class="hover:text-gray-300">{t("footer.legal.termsOfService")}</a
+            >
           </li>
           <li>
-            <a href="/tietosuoja" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.legal.privacyPolicy" /></a>
+            <a href="/tietosuoja" class="hover:text-gray-300">{t("footer.legal.privacyPolicy")}</a>
           </li>
           <li>
             <a href="/sopimusehdot" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.legal.agreementTerms" /></a>
+              >{t("footer.legal.agreementTerms")}</a
+            >
           </li>
           <li>
-            <a href="/evasteet" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.legal.cookies" /></a>
+            <a href="/evasteet" class="hover:text-gray-300">{t("footer.legal.cookies")}</a>
           </li>
         </ul>
       </div>
@@ -54,44 +52,49 @@ import { TranslatedText } from "../react/TranslatedText";
       {/* Locations Part 1 */}
       <div>
         <h3 class="text-lg font-bold mb-4">
-          <TranslatedText client:load translationKey="footer.locations.title" />
+          {t("footer.locations.title")}
         </h3>
         <ul class="space-y-2">
           <li>
-            <a href="/kotisivut-espoo" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.espoo" /></a>
+            <a href="/kotisivut-espoo" class="hover:text-gray-300">{t("footer.locations.espoo")}</a>
           </li>
           <li>
             <a href="/kotisivut-helsinki" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.helsinki" /></a>
+              >{t("footer.locations.helsinki")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-hameenlinna" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.hameenlinna" /></a>
+              >{t("footer.locations.hameenlinna")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-joensuu" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.joensuu" /></a>
+              >{t("footer.locations.joensuu")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-jyvaskyla" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.jyvaskyla" /></a>
+              >{t("footer.locations.jyvaskyla")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-kirkkonummi" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.kirkkonummi" /></a>
+              >{t("footer.locations.kirkkonummi")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-kuopio" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.kuopio" /></a>
+              >{t("footer.locations.kuopio")}</a
+            >
           </li>
           <li>
-            <a href="/kotisivut-lahti" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.lahti" /></a>
+            <a href="/kotisivut-lahti" class="hover:text-gray-300">{t("footer.locations.lahti")}</a>
           </li>
           <li>
             <a href="/kotisivut-lappeenranta" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.lappeenranta" /></a>
+              >{t("footer.locations.lappeenranta")}</a
+            >
           </li>
         </ul>
       </div>
@@ -101,39 +104,42 @@ import { TranslatedText } from "../react/TranslatedText";
         <ul class="space-y-2">
           <li>
             <a href="/kotisivut-mikkeli" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.mikkeli" /></a>
+              >{t("footer.locations.mikkeli")}</a
+            >
           </li>
           <li>
-            <a href="/kotisivut-oulu" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.oulu" /></a>
+            <a href="/kotisivut-oulu" class="hover:text-gray-300">{t("footer.locations.oulu")}</a>
           </li>
           <li>
             <a href="/kotisivut-rovaniemi" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.rovaniemi" /></a>
+              >{t("footer.locations.rovaniemi")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-savonlinna" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.savonlinna" /></a>
+              >{t("footer.locations.savonlinna")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-seinajoki" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.seinajoki" /></a>
+              >{t("footer.locations.seinajoki")}</a
+            >
           </li>
           <li>
             <a href="/kotisivut-tampere" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.tampere" /></a>
+              >{t("footer.locations.tampere")}</a
+            >
           </li>
           <li>
-            <a href="/kotisivut-turku" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.turku" /></a>
+            <a href="/kotisivut-turku" class="hover:text-gray-300">{t("footer.locations.turku")}</a>
           </li>
           <li>
-            <a href="/kotisivut-vaasa" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.vaasa" /></a>
+            <a href="/kotisivut-vaasa" class="hover:text-gray-300">{t("footer.locations.vaasa")}</a>
           </li>
           <li>
             <a href="/kotisivut-vantaa" class="hover:text-gray-300"
-              ><TranslatedText client:load translationKey="footer.locations.vantaa" /></a>
+              >{t("footer.locations.vantaa")}</a
+            >
           </li>
         </ul>
       </div>
@@ -143,17 +149,17 @@ import { TranslatedText } from "../react/TranslatedText";
     <div class="border-t border-gray-700 mt-8 pt-8">
       <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
         <p class="text-sm text-gray-400">
-          <TranslatedText client:load translationKey="footer.bottomBar.copyright" />
+          {t("footer.bottomBar.copyright")}
         </p>
         <div class="flex space-x-6">
           <a href="/tietosuoja" class="text-sm text-gray-400 hover:text-white"
-            ><TranslatedText client:load translationKey="footer.bottomBar.privacyPolicy" /></a
+            >{t("footer.bottomBar.privacyPolicy")}</a
           >
           <a href="/sopimusehdot" class="text-sm text-gray-400 hover:text-white"
-            ><TranslatedText client:load translationKey="footer.bottomBar.agreementTerms" /></a
+            >{t("footer.bottomBar.agreementTerms")}</a
           >
           <a href="/evasteet" class="text-sm text-gray-400 hover:text-white"
-            ><TranslatedText client:load translationKey="footer.bottomBar.cookies" /></a
+            >{t("footer.bottomBar.cookies")}</a
           >
         </div>
       </div>
