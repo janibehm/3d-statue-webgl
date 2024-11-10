@@ -1,17 +1,11 @@
 ---
-import "@/styles/globals.css";
-import Layout from "../layouts/Layout.astro";
-import Scene3D from "../scenes/ThreeScene";
-import ScrollContent from "@/components/astro/ScrollContent.astro";
+// Set default language
+const defaultLang = "fi";
+const browserLang = Astro.request.headers.get("accept-language")?.split(",")[0].split("-")[0];
+const supportedLanguages = ["en", "fi"];
 
-/* export function getStaticPaths() {
-  return [{ params: { lang: "fi" } }, { params: { lang: "en" } }];
-} */
+// Use browser language if supported, otherwise fallback to default
+const lang = browserLang && supportedLanguages.includes(browserLang) ? browserLang : defaultLang;
+
+return Astro.redirect(`/${lang}`);
 ---
-
-<Layout title="Behm Digital">
-  <main>
-    <Scene3D client:only="react" />
-    <ScrollContent />
-  </main>
-</Layout>
