@@ -8,14 +8,14 @@ import { useSpring } from "@react-spring/three";
 
 // Constants outside component to prevent recreation
 const POSITION = {
-  start: { y: 5, z: 0 },
+  start: { y: 5, z: -5 },
   end: { y: -0.5, z: 0 },
 } as const;
 
 const ANIMATION = {
-  duration: 1.5,
-  fadeInDuration: 1.2,
-  delay: 100,
+  duration: 5,
+  fadeInDuration: 1.5,
+  delay: 500,
 } as const;
 
 const MODEL_SCALE = 0.0024;
@@ -42,7 +42,10 @@ export function LucyModel() {
       position: [0, POSITION.end.y, POSITION.end.z],
       opacity: 1,
     },
-    config: { duration: ANIMATION.duration * 1000 },
+    config: {
+      position: "soft",
+      opacity: { duration: ANIMATION.duration * 1000 },
+    },
     delay: ANIMATION.delay,
     onChange: () => {
       if (springs.position.get()[1] === POSITION.end.y) {

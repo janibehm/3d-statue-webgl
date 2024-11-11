@@ -4,7 +4,9 @@ import { useSpring, animated } from "@react-spring/three";
 import * as THREE from "three";
 
 const ANIMATION = {
-  duration: 1.5,
+  duration: 3,
+  fadeInDuration: 1.5,
+  delay: 1500,
   position: {
     start: { y: -5, z: 0 },
     end: { y: -3.8, z: 0 },
