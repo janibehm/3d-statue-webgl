@@ -1,7 +1,7 @@
 ---
 const LanguageOptions = ["fi", "en"];
 const { pathname } = Astro.url;
-const currentLang = pathname.split("/")[1] || "en";
+const currentLang = pathname.startsWith("/en") ? "en" : "fi";
 
 // URL mapping for localized routes
 const routeMapping = {

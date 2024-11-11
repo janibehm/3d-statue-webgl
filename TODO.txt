@@ -1,1 +1,4 @@
-Make about page.
+- Fix Vercel error and try rebuild and push.
+
+- Make about page.
+
