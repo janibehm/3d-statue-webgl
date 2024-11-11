@@ -1,0 +1,11 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Services from "../../../components/astro/Services.astro";
+
+const lang = "en"; // We explicitly set English
+const translations = await import(`../../../i18n/services/en.json`); // Explicitly import English translations
+---
+
+<Layout title="Services">
+  <Services initialLang={lang} translations={translations.default} />
+</Layout>

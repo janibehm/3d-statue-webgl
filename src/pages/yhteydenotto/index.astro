@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContactForm from "../../components/react/ContactForm.jsx";
+
+const lang = "fi"; // Default to Finnish
+const translations = await import(`../../i18n/form/${lang}.json`);
+---
+
+<Layout title={lang}>
+  <ContactForm initialLang={lang} translations={translations.default} />
+</Layout>

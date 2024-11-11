@@ -1,0 +1,13 @@
+<!-- ---
+import Layout from "../../../layouts/Layout.astro";
+import About from "../../../components/astro/About.astro";
+
+export const prerender = true;
+const lang = "en";
+const translations = await import(`../../..i18n/about/en.json`)
+---
+
+<Layout title="About">
+  <About initialLang={lang} translations={translations.default} />
+</Layout>
+ -->

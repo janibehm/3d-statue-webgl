@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Services from "../../components/astro/Services.astro";
+
+const lang = "fi"; // Default to Finnish
+const translations = await import(`../../i18n/services/${lang}.json`);
+---
+
+<Layout title={lang}>
+  <Services initialLang={lang} translations={translations.default} />
+</Layout>

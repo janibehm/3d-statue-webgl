@@ -14,14 +14,26 @@ const pathNames = {
 } as const;
 
 const navItems = [
-  { key: "nav.home", path: `/${lang}` },
-  { key: "nav.services", path: `/${lang}/${pathNames.services[lang]}` },
-  { key: "nav.about", path: `/${lang}/${pathNames.about[lang]}` },
-  { key: "nav.contact", path: `/${lang}/${pathNames.contact[lang]}` },
+  {
+    key: "nav.home",
+    path: lang === "fi" ? "/" : `/${lang}`,
+  },
+  {
+    key: "nav.services",
+    path: lang === "fi" ? "/palvelut" : `/${lang}/${pathNames.services[lang]}`,
+  },
+  {
+    key: "nav.about",
+    path: lang === "fi" ? "/tietoa" : `/${lang}/${pathNames.about[lang]}`,
+  },
+  {
+    key: "nav.contact",
+    path: lang === "fi" ? "/yhteydenotto" : `/${lang}/${pathNames.contact[lang]}`,
+  },
 ] as const;
 
 const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === `/${lang}` || currentPath === "/";
+const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 ---
 
 <nav class={`side-nav ${isHomePage ? "is-homepage" : ""}`} id="navigation">

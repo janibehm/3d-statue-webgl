@@ -1,4 +1,14 @@
 ---
-// The middleware will handle the redirect before reaching here
-return Astro.redirect("/fi"); // Fallback redirect
+import "@/styles/globals.css";
+import Layout from "../layouts/Layout.astro";
+import Scene3D from "../scenes/ThreeScene";
+import ScrollContent from "@/components/astro/ScrollContent.astro";
+---
+
+<Layout title="Behm Digital">
+  <main>
+    <Scene3D client:only="react" />
+    <ScrollContent lang="fi" />
+  </main>
+</Layout>
 ---
