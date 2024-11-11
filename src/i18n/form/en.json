@@ -1,6 +1,9 @@
 {
   "contact": {
-    "title": "Contact Us"
+    "title": "Contact Us",
+    "thankYou": "Thank you",
+    "successMessage": "Your message has been sent successfully",
+    "sendAnother": "Send another message"
   },
   "form": {
     "name": "Name",

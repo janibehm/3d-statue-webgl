@@ -7,5 +7,5 @@ const translations = await import(`../../i18n/services/${lang}.json`);
 ---
 
 <Layout title={lang}>
-  <Services initialLang={lang} translations={translations.default} />
+  <Services translations={translations.default} />
 </Layout>

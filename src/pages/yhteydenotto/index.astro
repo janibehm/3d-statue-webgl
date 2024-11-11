@@ -7,5 +7,5 @@ const translations = await import(`../../i18n/form/${lang}.json`);
 ---
 
 <Layout title={lang}>
-  <ContactForm initialLang={lang} translations={translations.default} />
+  <ContactForm client:load translations={translations.default} />
 </Layout>

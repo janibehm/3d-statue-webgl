@@ -1,11 +1,16 @@
+import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import clsx from "clsx";
+import ContactFormSuccess from "./ContactFormSuccess";
 
 interface ContactFormProps {
-  initialLang: string;
   translations: {
     contact: {
       title: string;
+      thankYou: string;
+      successMessage: string;
+      sendAnother: string;
     };
     form: {
       name: string;
@@ -39,6 +44,14 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ translations }: ContactFormProps) {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  console.log("Current isSubmitted state:", isSubmitted);
+
+  if (isSubmitted) {
+    return <ContactFormSuccess onReset={() => setIsSubmitted(false)} translations={translations} />;
+  }
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(2, translations.validation.name.min)
@@ -58,14 +71,6 @@ export default function ContactForm({ translations }: ContactFormProps) {
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
       {/* Background image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'url("/800px-Op_under_Fjeldet_toner_en_Lur.jpg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center 30%",
-        }}
-      />
 
       {/* Full overlay */}
       <div className="absolute inset-0 bg-black/95" />
@@ -86,12 +91,23 @@ export default function ContactForm({ translations }: ContactFormProps) {
               privacy: false,
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
-              setSubmitting(false);
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                console.log("Form submitted!");
+                console.log("Form values:", values);
+
+                // Add your actual form submission logic here
+                // await submitForm(values);
+
+                setIsSubmitted(true); // Direct state update
+              } catch (error) {
+                console.error("Submission error:", error);
+              } finally {
+                setSubmitting(false);
+              }
             }}
           >
-            {({ errors, touched }) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-1 text-white">
@@ -168,9 +184,15 @@ export default function ContactForm({ translations }: ContactFormProps) {
 
                 <button
                   type="submit"
-                  className="w-full py-2 px-4 bg-white text-black rounded hover:bg-gray-200 transition-colors"
+                  disabled={isSubmitting}
+                  className={clsx(
+                    "w-full py-2 px-4 rounded transition-colors",
+                    "bg-white text-black",
+                    "hover:bg-gray-200",
+                    "disabled:opacity-50 disabled:cursor-not-allowed",
+                  )}
                 >
-                  {translations.form.submit}
+                  {isSubmitting ? "Sending..." : translations.form.submit}
                 </button>
               </Form>
             )}

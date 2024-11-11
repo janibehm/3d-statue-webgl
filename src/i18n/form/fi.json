@@ -1,6 +1,9 @@
 {
   "contact": {
-    "title": "Ota yhteyttä"
+    "title": "Ota yhteyttä",
+    "thankYou": "Kiitos",
+    "successMessage": "Viesti lähetetty onnistuneesti!",
+    "sendAnother": "Lähetä uusi viesti"
   },
   "form": {
     "name": "Nimi",
