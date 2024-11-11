@@ -23,7 +23,7 @@ const t = useTranslations(lang);
       >
         <span
           id="animated-text"
-          class="block w-full leading-none whitespace-nowrap text-sm sm:text-base md:text-lg"
+          class="block w-full leading-none whitespace-nowrap text-sm sm:text-base md:text-lg animate-fade-in-up"
         >
           {t("hero")}
         </span>
@@ -105,7 +105,26 @@ const t = useTranslations(lang);
         </h2>
       </section>
       {/* spacer */}
-      <div class="h-[50vh] col-span-12"></div>
+      <div class="h-[40vh] col-span-12"></div>
     </blockquote>
   </main>
 </div>
+
+<style>
+  .animate-fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 0.5s; /* Delay to sync with other animations if needed */
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
