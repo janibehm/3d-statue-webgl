@@ -86,9 +86,11 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
   // Only add scroll behavior if NOT homepage
   if (!isHomePage) {
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 100) {
+      const isNavOpen = nav?.classList.contains("open");
+
+      if (window.scrollY > 100 && !isNavOpen) {
         nav?.classList.add("mobile-view");
-      } else {
+      } else if (window.scrollY <= 100 && !isNavOpen) {
         nav?.classList.remove("mobile-view");
       }
     });
