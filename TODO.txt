@@ -2,3 +2,5 @@
 
 - Make about page.
 
+CHANGES
+ScrollContent text -> About page

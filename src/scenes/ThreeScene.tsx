@@ -10,7 +10,7 @@ import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
 import { isMobileDevice } from "../utils/deviceDetection";
-
+import { Preload } from "@react-three/drei";
 // Loading canvas
 function Loader({ onLoad }: { onLoad: () => void }) {
   useEffect(() => {
@@ -85,6 +85,7 @@ function ThreeScene() {
           <LucyModel />
           <Stars />
           <CameraControl />
+          <Preload all />
         </Suspense>
       </Canvas>
     </div>
