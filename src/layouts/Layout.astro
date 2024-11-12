@@ -3,7 +3,6 @@ import "@/styles/globals.css";
 import Footer from "../components/astro/Footer.astro";
 import Navigation from "../components/astro/Navigation.astro";
 import Header from "../components/astro/Header.astro";
-import Hero from "../components/astro/Hero.astro";
 import LangButton from "../components/astro/LangButton.astro";
 import { getLangFromUrl } from "../utils/language";
 
@@ -30,7 +29,6 @@ const pathname = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Websivut yritykselle" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <title>{title}</title>
   </head>

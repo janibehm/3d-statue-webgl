@@ -215,18 +215,42 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     padding: 8px 0;
   }
 
-  @media (max-width: 1128px) {
-    .is-homepage.side-nav {
+  @media (max-width: 1280px) {
+    .side-nav {
       position: fixed;
-      right: 10%;
+      right: 5%;
     }
 
-    .is-homepage.side-nav ul {
-      display: block !important;
+    /* ALL pages get mobile view under 1280px */
+    .side-nav ul {
+      display: none;
     }
 
-    .is-homepage .hamburger {
-      display: none !important;
+    .side-nav .hamburger {
+      display: block;
+    }
+
+    /* When menu is open */
+    .side-nav.open {
+      background-color: rgba(0, 0, 0, 0.85);
+      border-radius: 5px;
+      width: 200px;
+      min-width: 200px;
+    }
+
+    .side-nav.open ul {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .side-nav ul {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
     }
   }
 </style>
