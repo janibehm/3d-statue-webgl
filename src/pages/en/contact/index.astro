@@ -1,10 +1,13 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import ContactForm from "../../../components/react/ContactForm";
-export const prerender = true;
+import Hero from "../../../components/astro/Hero.astro";
 const translations = await import(`../../../i18n/form/en.json`);
+const heroTranslations = await import(`../../../i18n/hero/en.json`);
+export const prerender = true;
 ---
 
 <Layout title="Contact">
+  <Hero heroTranslations={heroTranslations.default.hero} page="contact" />
   <ContactForm client:load translations={translations.default} />
 </Layout>

@@ -1,6 +1,5 @@
 {
   "contact": {
-    "title": "Contact Us",
     "thankYou": "Thank you",
     "successMessage": "Your message has been sent successfully",
     "sendAnother": "Send another message"
@@ -9,6 +8,7 @@
     "name": "Name",
     "email": "Email",
     "phone": "Phone Number",
+    "consultation": "I'm interested in a free consultation.",
     "message": "Your Message",
     "submit": "Send",
     "privacy": "I accept the",

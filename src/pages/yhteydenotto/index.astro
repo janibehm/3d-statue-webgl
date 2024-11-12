@@ -1,11 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ContactForm from "../../components/react/ContactForm.jsx";
-
+import Hero from "../../components/astro/Hero.astro";
 const lang = "fi"; // Default to Finnish
-const translations = await import(`../../i18n/form/${lang}.json`);
+const translations = await import(`../../i18n/form/fi.json`);
+const heroTranslations = await import(`../../i18n/hero/fi.json`);
 ---
 
 <Layout title={lang}>
+  <Hero heroTranslations={heroTranslations.default.hero} page="contact" />
   <ContactForm client:load translations={translations.default} />
 </Layout>

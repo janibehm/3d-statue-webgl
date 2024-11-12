@@ -1,0 +1,16 @@
+{
+  "hero": {
+    "services": {
+      "title": "Our Web Development Process",
+      "subtitle": "From Concept to Launch"
+    },
+    "about": {
+      "title": "About Us",
+      "subtitle": "Who We Are"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitle": "Let's talk! Free consultations for new clients."
+    }
+  }
+}

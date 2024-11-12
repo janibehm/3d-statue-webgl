@@ -1,6 +1,9 @@
 {
-  "contact": {
+  "hero": {
     "title": "Ota yhteyttä",
+    "subtitle": "Ilmainen konsultointi uusille asiakkaille."
+  },
+  "contact": {
     "thankYou": "Kiitos",
     "successMessage": "Viesti lähetetty onnistuneesti!",
     "sendAnother": "Lähetä uusi viesti"
@@ -9,7 +12,8 @@
     "name": "Nimi",
     "email": "Sähköposti",
     "phone": "Puhelinnumero",
-    "message": "Viestisi meille",
+    "consultation": "Olen kiinnostunut ilmaisesta konsultaatiosta.",
+    "message": "Viestisi",
     "submit": "Lähetä",
     "privacy": "Hyväksyn",
     "privacyLink": "tietosuojakäytännön"

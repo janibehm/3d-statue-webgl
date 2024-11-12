@@ -1,6 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Services from "../../components/astro/About.astro";
 
 export const prerender = true;
 export async function getStaticPaths() {
@@ -9,5 +8,6 @@ export async function getStaticPaths() {
 ---
 
 <Layout title="About">
-  <Services />
+  <!--   <Hero translations={translations} page="about" />
+  <Services translations={translations.default} /> -->
 </Layout>

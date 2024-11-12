@@ -7,7 +7,6 @@ import ContactFormSuccess from "./ContactFormSuccess";
 interface ContactFormProps {
   translations: {
     contact: {
-      title: string;
       thankYou: string;
       successMessage: string;
       sendAnother: string;
@@ -20,6 +19,7 @@ interface ContactFormProps {
       submit: string;
       privacy: string;
       privacyLink: string;
+      consultation: string;
     };
     validation: {
       name: {
@@ -78,10 +78,6 @@ export default function ContactForm({ translations }: ContactFormProps) {
       {/* Content container */}
       <div className="relative z-10 w-full h-full flex items-center justify-center pb-20 bg-dark-bg">
         <div className="w-full max-w-md p-8">
-          <h2 className="text-3xl font-bold mb-6 text-center text-white">
-            {translations.contact.title}
-          </h2>
-
           <Formik
             initialValues={{
               name: "",
@@ -148,6 +144,13 @@ export default function ContactForm({ translations }: ContactFormProps) {
                     className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
                     placeholder={translations.form.phone}
                   />
+                </div>
+
+                <div className="flex items-start space-x-2">
+                  <Field type="checkbox" name="consultation" className="mt-1" />
+                  <label htmlFor="consultation" className="text-sm text-white">
+                    {translations.form.consultation}
+                  </label>
                 </div>
 
                 <div>

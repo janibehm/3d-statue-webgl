@@ -2,10 +2,6 @@
 interface ServicesProps {
   translations?: {
     sections: {
-      hero: {
-        title: string;
-        subtitle: string;
-      };
       planning: {
         title: string;
         subtitle: string;
@@ -124,7 +120,6 @@ interface ServicesProps {
 const {
   translations = {
     sections: {
-      hero: { title: "", subtitle: "" },
       planning: { title: "", subtitle: "" },
       technical: { title: "", subtitle: "" },
       final: { title: "", subtitle: "" },
@@ -170,18 +165,6 @@ const { sections, process } = translations;
 ---
 
 <div class="relative">
-  <!-- Hero Section -->
-  <section class="bg-black text-white py-32">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <h1 class="fade-in text-4xl md:text-5xl font-bold mb-4">
-        {sections?.hero?.title}
-      </h1>
-      <p class="fade-in text-xl text-gray-300">
-        {sections?.hero?.subtitle}
-      </p>
-    </div>
-  </section>
-
   <!-- Planning Phase -->
   <section class="bg-black/95 text-white py-24">
     <div class="max-w-6xl mx-auto px-4">
@@ -409,17 +392,6 @@ const { sections, process } = translations;
 </script>
 
 <style>
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s ease-out;
-  }
-
-  .fade-in.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   .flip-card {
     perspective: 1000px;
     height: auto;
