@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+/* import { OrbitControls } from "@react-three/drei"; */
 
 export function CameraControl() {
   const { camera } = useThree();
@@ -10,7 +10,7 @@ export function CameraControl() {
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
-      targetScrollY.current += event.deltaY * 0.001;
+      targetScrollY.current += event.deltaY * 0.0007;
       targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
     };
 
@@ -28,7 +28,7 @@ export function CameraControl() {
     const targetAngle = -scrollY.current * Math.PI * 2; // Negative for opposite direction
 
     // Smooth camera rotation
-    const rotationEasing = 0.05; // Adjust this value to change rotation smoothness (0.01 to 0.1)
+    const rotationEasing = 0.1; // Adjust this value to change rotation smoothness (0.01 to 0.1)
     currentAngle.current += (targetAngle - currentAngle.current) * rotationEasing;
 
     // Calculate camera position
@@ -58,7 +58,7 @@ export function CameraControl() {
     camera.lookAt(0, lookAtY, 0);
   });
 
-  return (
+  /*   return (
     <OrbitControls
       enableZoom={false}
       enablePan={false}
@@ -66,5 +66,5 @@ export function CameraControl() {
       rotateSpeed={0.5}
       makeDefault
     />
-  );
+  ); */
 }
