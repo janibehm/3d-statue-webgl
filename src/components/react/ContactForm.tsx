@@ -76,7 +76,7 @@ export default function ContactForm({ translations }: ContactFormProps) {
       <div className="absolute inset-0 bg-black/95" />
 
       {/* Content container */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center">
+      <div className="relative z-10 w-full h-full flex items-center justify-center pb-20">
         <div className="w-full max-w-md p-8">
           <h2 className="text-3xl font-bold mb-6 text-center text-white">
             {translations.contact.title}
