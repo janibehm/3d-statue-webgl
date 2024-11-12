@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
-/* import { OrbitControls } from "@react-three/drei"; */
+import { OrbitControls } from "@react-three/drei";
 
 export function CameraControl() {
   const { camera } = useThree();
@@ -58,7 +58,7 @@ export function CameraControl() {
     camera.lookAt(0, lookAtY, 0);
   });
 
-  /*   return (
+  return (
     <OrbitControls
       enableZoom={false}
       enablePan={false}
@@ -66,5 +66,5 @@ export function CameraControl() {
       rotateSpeed={0.5}
       makeDefault
     />
-  ); */
+  );
 }
