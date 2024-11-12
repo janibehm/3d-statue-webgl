@@ -36,7 +36,7 @@ const currentPath = Astro.url.pathname;
 const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 ---
 
-<nav class={`side-nav ${isHomePage ? "is-homepage" : ""}`} id="navigation">
+<nav class={`side-nav ${isHomePage ? "is-homepage" : "mobile-view"}`} id="navigation">
   <div class="hamburger">
     <span></span>
     <span></span>
@@ -65,7 +65,6 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
   // Client-side interactivity
   const nav = document.getElementById("navigation");
   const hamburger = nav?.querySelector(".hamburger");
-  const isHomePage = nav?.classList.contains("is-homepage");
 
   // Update active state on navigation
   const updateActiveState = () => {
@@ -83,19 +82,6 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     nav?.classList.toggle("open");
   });
 
-  // Only add scroll behavior if NOT homepage
-  if (!isHomePage) {
-    window.addEventListener("scroll", () => {
-      const isNavOpen = nav?.classList.contains("open");
-
-      if (window.scrollY > 100 && !isNavOpen) {
-        nav?.classList.add("mobile-view");
-      } else if (window.scrollY <= 100 && !isNavOpen) {
-        nav?.classList.remove("mobile-view");
-      }
-    });
-  }
-
   // Update active state on page load and navigation
   updateActiveState();
   window.addEventListener("popstate", updateActiveState);
@@ -104,7 +90,7 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 <style>
   .side-nav {
     position: fixed;
-    right: 10%;
+    right: 5%;
     top: 10px;
     z-index: 9999;
     padding: 10px;
@@ -189,48 +175,43 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     transition: all 0.3s ease;
   }
 
-  .side-nav.mobile-view {
-    right: 20px;
-  }
-
-  .side-nav.mobile-view ul {
-    display: none;
-  }
-
-  .side-nav.mobile-view .hamburger {
+  .mobile-view .hamburger {
     display: block;
   }
 
-  .side-nav.mobile-view.open,
-  .side-nav:not(.mobile-view).open {
+  .mobile-view ul {
+    display: none;
+  }
+
+  .mobile-view.open {
     background-color: rgba(0, 0, 0, 0.85);
     border-radius: 5px;
     width: 200px;
     min-width: 200px;
   }
 
-  .side-nav.mobile-view.open ul {
+  .mobile-view.open ul {
     display: block;
     margin-top: 10px;
   }
 
-  .side-nav.mobile-view.open .hamburger span:nth-child(1) {
+  .mobile-view.open .hamburger span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
 
-  .side-nav.mobile-view.open .hamburger span:nth-child(2) {
+  .mobile-view.open .hamburger span:nth-child(2) {
     opacity: 0;
   }
 
-  .side-nav.mobile-view.open .hamburger span:nth-child(3) {
+  .mobile-view.open .hamburger span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
   }
 
-  .side-nav.mobile-view .nav-link::before {
+  .mobile-view .nav-link::before {
     display: none;
   }
 
-  .side-nav.mobile-view .nav-link {
+  .mobile-view .nav-link {
     padding: 8px 0;
   }
 

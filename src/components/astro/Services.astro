@@ -81,6 +81,42 @@ interface ServicesProps {
         description: string;
         content: string[];
       };
+      developmentPhases: {
+        title: string;
+        frontendDevelopment: {
+          title: string;
+          description: string;
+        };
+        contentManagement: {
+          title: string;
+          description: string;
+        };
+        hostingAndDeployment: {
+          title: string;
+          description: string;
+        };
+        databaseAndDataStorage: {
+          title: string;
+          description: string;
+        };
+        ["3dDevelopment"]: {
+          title: string;
+          description: string;
+        };
+        summary: string;
+      };
+      gdprCompliance: {
+        gdprComplianceTitle: string;
+        dataPrivacyDescription: string;
+        analyticsManagement: {
+          title: string;
+          description: string;
+        };
+        integrationAndPrivacyNotices: {
+          title: string;
+          description: string;
+        };
+      };
     };
   };
 }
@@ -112,6 +148,21 @@ const {
       testing: { title: "", description: "", additional_info: [] },
       launch: { title: "", description: "", additional_info: [] },
       maintenance: { title: "", description: "", content: [] },
+      developmentPhases: {
+        title: "",
+        frontendDevelopment: { title: "", description: "" },
+        contentManagement: { title: "", description: "" },
+        hostingAndDeployment: { title: "", description: "" },
+        databaseAndDataStorage: { title: "", description: "" },
+        ["3dDevelopment"]: { title: "", description: "" },
+        summary: "",
+      },
+      gdprCompliance: {
+        gdprComplianceTitle: "",
+        dataPrivacyDescription: "",
+        analyticsManagement: { title: "", description: "" },
+        integrationAndPrivacyNotices: { title: "", description: "" },
+      },
     },
   },
 }: ServicesProps = Astro.props;
@@ -163,6 +214,92 @@ const { sections, process } = translations;
               {process?.design?.content?.map((item: any) => <li>{item}</li>)}
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Development Phases -->
+  <section class="bg-black/95 text-white py-24">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4">{process?.developmentPhases?.title}</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Frontend & CMS -->
+        <div class="space-y-8">
+          {
+            ["frontendDevelopment", "contentManagement", "hostingAndDeployment"].map(
+              (phase, index) => {
+                const phaseData =
+                  process?.developmentPhases[phase as keyof typeof process.developmentPhases];
+                return (
+                  <div
+                    class="fade-sequence p-4 bg-gray-900 rounded-lg"
+                    style={`--delay: ${index * 200}ms`}
+                  >
+                    <h3 class="text-xl font-bold mb-4">
+                      {typeof phaseData === "object" && phaseData.title}
+                    </h3>
+                    <p class="text-lg">{typeof phaseData === "object" && phaseData.description}</p>
+                  </div>
+                );
+              },
+            )
+          }
+        </div>
+
+        <!-- Database & 3D -->
+        <div class="space-y-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">
+              {process?.developmentPhases?.databaseAndDataStorage?.title}
+            </h3>
+            <p class="text-lg mb-4">
+              {process?.developmentPhases?.databaseAndDataStorage?.description}
+            </p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">
+              {process?.developmentPhases?.["3dDevelopment"]?.title}
+            </h3>
+            <p class="text-lg mb-4">{process?.developmentPhases?.["3dDevelopment"]?.description}</p>
+          </div>
+          <p class="text-lg text-gray-300">
+            {process?.developmentPhases?.summary}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GDPR Compliance -->
+  <section class="bg-black/95 text-white py-24">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4">{process?.gdprCompliance?.gdprComplianceTitle}</h2>
+        <p class="text-xl text-gray-300">{process?.gdprCompliance?.dataPrivacyDescription}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Analytics Management -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">
+            {process?.gdprCompliance?.analyticsManagement?.title}
+          </h3>
+          <p class="text-lg mb-4">
+            {process?.gdprCompliance?.analyticsManagement?.description}
+          </p>
+        </div>
+
+        <!-- Integration -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">
+            {process?.gdprCompliance?.integrationAndPrivacyNotices?.title}
+          </h3>
+          <p class="text-lg mb-4">
+            {process?.gdprCompliance?.integrationAndPrivacyNotices?.description}
+          </p>
         </div>
       </div>
     </div>
