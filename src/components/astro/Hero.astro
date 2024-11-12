@@ -1,0 +1,77 @@
+---
+interface Props {
+  heroTranslations: {
+    services?: {
+      title: string;
+      subtitle: string;
+    };
+    about?: {
+      title: string;
+      subtitle: string;
+    };
+    contact?: {
+      title: string;
+      subtitle: string;
+    };
+  };
+  page: "services" | "about" | "contact";
+}
+
+const { heroTranslations, page } = Astro.props;
+let title, subtitle;
+
+// Select content based on page type
+switch (page) {
+  case "services":
+    title = heroTranslations.services?.title;
+    subtitle = heroTranslations.services?.subtitle;
+    break;
+  case "about":
+    title = heroTranslations.about?.title;
+    subtitle = heroTranslations.about?.subtitle;
+    break;
+  case "contact":
+    title = heroTranslations.contact?.title;
+    subtitle = heroTranslations.contact?.subtitle;
+    break;
+}
+---
+
+<header
+  class="z-50 w-full lg:min-h-[245px]
+  min-h-[240px] flex flex-col justify-center text-white z-[3] bg-black"
+>
+  <div class="max-w-6xl mx-auto px-4 text-center text-white fade-in">
+    <h1 class="fade-in text-4xl md:text-5xl font-bold mb-4">
+      {title}
+    </h1>
+    <p class="fade-in text-xl text-gray-300">
+      {subtitle}
+    </p>
+  </div>
+</header>
+
+<style>
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease-out;
+  }
+
+  .fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  });
+
+  document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+</script>

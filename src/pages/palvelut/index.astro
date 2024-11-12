@@ -1,11 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Services from "../../components/astro/Services.astro";
-
+import Hero from "../../components/astro/Hero.astro";
 const lang = "fi"; // Default to Finnish
-const translations = await import(`../../i18n/services/${lang}.json`);
+const translations = await import(`../../i18n/services/fi.json`);
+const heroTranslations = await import(`../../i18n/hero/fi.json`);
 ---
 
 <Layout title={lang}>
-  <Services initialLang={lang} translations={translations.default} />
+  <Hero heroTranslations={heroTranslations.default.hero} page="services" />
+  <Services translations={translations.default} />
 </Layout>

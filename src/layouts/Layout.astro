@@ -29,16 +29,11 @@ const pathname = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Websivut yritykselle" />
+
     <title>{title}</title>
   </head>
   <body style={bodyStyle}>
-    <div
-      style="position: fixed; top: 0; right: 0; background: black; color: white; padding: 10px; z-index: 9999;"
-    >
-      Current path: {pathname}
-    </div>
-
-    <Header />
+    {isHomePage && <Header />}
     <Navigation lang={lang} />
     <slot />
     <LangButton />

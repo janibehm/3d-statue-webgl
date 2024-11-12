@@ -1,0 +1,16 @@
+{
+  "hero": {
+    "services": {
+      "title": "Websivujen kehotys prosessi",
+      "subtitle": "Konseptista julkaisuun "
+    },
+    "about": {
+      "title": "Tarina",
+      "subtitle": "Keitä olemme?"
+    },
+    "contact": {
+      "title": "Ota Yhteyttä",
+      "subtitle": "Kysy ilmaista konsultaatiota niin kerrome miten voit kehittää yrityksesi verkkoratkaisuja."
+    }
+  }
+}

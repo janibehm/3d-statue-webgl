@@ -38,12 +38,44 @@
         "We’ll communicate clearly with you about the graphic style to ensure you’re fully satisfied."
       ]
     },
-    "development_and_technologies": {
-      "description": "We primarily build the site using React, Next.js, Astro, and Sanity.",
-      "content": [
-        "We add necessary plugins, such as a calendar booking system, map embedding, and interfaces for adding text and images."
-      ]
+
+    "developmentPhases": {
+      "title": "Development & Technologies",
+      "frontendDevelopment": {
+        "title": "Frontend Development",
+        "description": "The website interface is implemented using JavaScript and React, ensuring a flexible and dynamic user experience. If the website requires static optimization or server-side rendering, we use Next.js to improve speed and SEO. HTML and CSS provide a solid foundation and styling for the website, while Astro enables fast loading of lighter static pages."
+      },
+      "contentManagement": {
+        "title": "Content Management",
+        "description": "Sanity serves as a flexible CMS that allows you to manage content independently. Sanity integrates seamlessly with our development environment and React-based frontend code."
+      },
+      "hostingAndDeployment": {
+        "title": "Hosting and Deployment",
+        "description": "Vercel serves as the primary hosting platform, providing powerful tools for publishing and version control. It also allows us to test and implement new updates smoothly and quickly without downtime."
+      },
+      "databaseAndDataStorage": {
+        "title": "Database and Data Storage",
+        "description": "Depending on the project's requirements, we can use various database solutions, such as NoSQL and SQL databases, ensuring scalability and data security."
+      },
+      "3dDevelopment": {
+        "title": "3D Development",
+        "description": "We create 3D content using Houdini and Three.js, which enable visually impressive and interactive three-dimensional elements on your website. Houdini provides powerful tools for creating 3D models and animations, while Three.js allows seamless integration with the website, enhancing the user experience and adding visual depth."
+      },
+      "summary": "We combine these tools and technologies to ensure your website meets all the requirements of the modern web."
     },
+    "gdprCompliance": {
+      "gdprComplianceTitle": "GDPR Compliance",
+      "dataPrivacyDescription": "Matomo only collects the necessary data, allowing you to adjust data collection precisely and ensuring user privacy is respected. In addition, Matomo ensures that data stays within the EU, strengthening your site's GDPR compliance.",
+      "analyticsManagement": {
+        "title": "Analytics Management and Reporting",
+        "description": "Matomo offers comprehensive reporting tools, allowing you to monitor traffic and behavior closely for site improvements. All analytics are accessible on your own dashboard, where you control and retain collected data without third-party involvement."
+      },
+      "integrationAndPrivacyNotices": {
+        "title": "Integration and Privacy Notices",
+        "description": "Adding Matomo is straightforward, and we assist you in creating clear privacy notices and cookie settings for the website, allowing users to manage their data usage. This GDPR-compliant analytics solution ensures that you can responsibly leverage valuable data without concerns about breaching data protection regulations."
+      }
+    },
+
     "seo": {
       "title": "Search Engine Optimization",
       "description": "We conduct a technical SEO audit for your website.",

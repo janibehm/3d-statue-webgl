@@ -1,1 +1,80 @@
- 
+{
+  "header.slogan": "Verkkoratkaisuja jotka luovat tunnistettavan brändin liiketoiminnallesi.",
+  "nav.home": "Etusivu",
+  "nav.services": "Palvelut",
+  "nav.pricing": "Hinnasto",
+  "nav.about": "Tietoa",
+  "nav.contact": "Ota Yhteyttä",
+  "scrollIndicator": "Selaa alas",
+  "hero": "Rakennetaan sinulle jotain upeaa!",
+  "whyUs": {
+    "title": "Miksi hankkia kotisivut juuri meiltä?",
+    "brand": {
+      "title": "Brändin Yksilöllisyys",
+      "description": "Laadukkaat kotisivut mahdollistavat brändisi ainutlaatuisen ilmeen ja viestin esittämisen. Voimme räätälöidä sivuston ulkoasun ja sisällön vastaamaan yrityksesi arvoja ja tavoitteita."
+    }
+  },
+  "userExperience": {
+    "title": "Käyttäjäkokemus",
+    "description": "Sivut voidaan optimoida tarjoamaan käyttäjäystävällinen kokemus. Tämä tarkoittaa intuitiivista navigointia, nopeita latausaikoja ja responsiivista designia, joka toimii hyvin kaikilla laitteilla."
+  },
+  "scalability": {
+    "title": "Skaalautuvuus",
+    "description": "Kotisivut voidaan suunnitella siten, että ne kasvavat yrityksesi mukana. Voit lisätä uusia toimintoja, sivuja tai integraatioita ilman, että koko sivustoa tarvitsee rakentaa uusiksi."
+  },
+  "competitiveAdvantage": {
+    "title": "Kilpailuetu",
+    "description": "Innovatiivinen design ja ainutlaatuinen sisältö voivat herättää asiakkaan mielenkiinnon ja houkutella valitsemaan juuri sinun yrityksesi."
+  },
+  "seo": {
+    "title": "Hakusana optimointi",
+    "description": "Hyvin suunniteltu rakenne ja SEO optimointi nostavat mahdollisuuksia nousta hakutuloksissa, mikä voi johtaa lisääntyneeseen liikenteeseen ja asiakaskuntaan."
+  },
+  "professionalism": {
+    "title": "Ammattimaisuus",
+    "description": "Laadukkaat kotisivut antavat yrityksestäsi ammattimaisen kuvan, mikä lisää luottamusta. Hyvin suunnitellut websivut voivat tehdä eron asiakkaiden päätöksenteossa."
+  },
+  "contact": "Ota yhteyttä jo tänään.",
+  "footer": {
+    "company": {
+      "title": "Yritys",
+      "aboutUs": "Tietoa meistä",
+      "pricing": "Hinnasto",
+      "services": "Palvelut"
+    },
+    "legal": {
+      "title": "Ehdot & Käytänteet",
+      "termsOfService": "Käyttöehdot",
+      "privacyPolicy": "Tietosuojaseloste",
+      "agreementTerms": "Sopimusehdot",
+      "cookies": "Evästeet"
+    },
+    "locations": {
+      "title": "Palvelualueita",
+      "espoo": "Kotisivut Espoo",
+      "helsinki": "Kotisivut Helsinki",
+      "hameenlinna": "Kotisivut Hämeenlinna",
+      "joensuu": "Kotisivut Joensuu",
+      "jyvaskyla": "Kotisivut Jyväskylä",
+      "kirkkonummi": "Kotisivut Kirkkonummi",
+      "kuopio": "Kotisivut Kuopio",
+      "lahti": "Kotisivut Lahti",
+      "lappeenranta": "Kotisivut Lappeenranta",
+      "mikkeli": "Kotisivut Mikkeli",
+      "oulu": "Kotisivut Oulu",
+      "rovaniemi": "Kotisivut Rovaniemi",
+      "savonlinna": "Kotisivut Savonlinna",
+      "seinajoki": "Kotisivut Seinäjoki",
+      "tampere": "Kotisivut Tampere",
+      "turku": "Kotisivut Turku",
+      "vaasa": "Kotisivut Vaasa",
+      "vantaa": "Kotisivut Vantaa"
+    },
+    "bottomBar": {
+      "copyright": "© 2024 Behm Digital. Kaikki oikeudet pidätetään.",
+      "privacyPolicy": "Tietosuojaseloste",
+      "agreementTerms": "Sopimusehdot",
+      "cookies": "Evästeet"
+    }
+  }
+}
