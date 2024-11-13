@@ -63,46 +63,133 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 
 <script>
   // Client-side interactivity
-  const nav = document.getElementById("navigation");
-  const hamburger = nav?.querySelector(".hamburger");
-
-  // Update active state on navigation
-  const updateActiveState = () => {
-    const currentPath = window.location.pathname;
-    const links = nav?.querySelectorAll(".nav-link");
-    links?.forEach((link) => {
-      if (link instanceof HTMLAnchorElement) {
-        link.classList.toggle("active", link.pathname === currentPath);
-      }
+  const init = () => {
+    // Remove any existing 'open' navigation menus first
+    document.querySelectorAll(".side-nav.open").forEach((nav) => {
+      nav.classList.remove("open");
     });
+
+    const nav = document.getElementById("navigation");
+    const hamburger = nav?.querySelector(".hamburger");
+
+    // Update active state on navigation
+    const updateActiveState = () => {
+      const currentPath = window.location.pathname;
+      const links = nav?.querySelectorAll(".nav-link");
+      // Ensure menu is closed on navigation
+      nav?.classList.remove("open");
+
+      links?.forEach((link) => {
+        if (link instanceof HTMLAnchorElement) {
+          link.classList.toggle("active", link.pathname === currentPath);
+        }
+      });
+    };
+
+    // Toggle menu
+    hamburger?.addEventListener("click", () => {
+      nav?.classList.toggle("open");
+    });
+
+    // Update active state on page load and navigation
+    updateActiveState();
+    window.addEventListener("popstate", updateActiveState);
   };
 
-  // Toggle menu
-  hamburger?.addEventListener("click", () => {
-    nav?.classList.toggle("open");
-  });
+  // Run initialization
+  init();
 
-  // Update active state on page load and navigation
-  updateActiveState();
-  window.addEventListener("popstate", updateActiveState);
+  // Re-run initialization when Astro swaps pages
+  document.addEventListener("astro:page-load", init);
+
+  const cleanup = () => {
+    const nav = document.getElementById("navigation");
+    nav?.classList.remove("open");
+  };
+
+  document.addEventListener("astro:before-swap", cleanup);
 </script>
 
 <style>
+  /* Default styles for all pages */
   .side-nav {
     position: fixed;
     right: 5%;
-    top: 10px;
+    top: 5%;
     z-index: 9999;
     padding: 10px;
     pointer-events: auto;
   }
 
+  /* Default styles for lists */
   .side-nav ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0 15px;
     margin: 0;
     width: 100%;
-    padding: 0 15px;
+  }
+
+  /* Default hamburger styles */
+  .hamburger {
+    display: none;
+    cursor: pointer;
+    background-color: #00000080;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  /* Mobile view (default for all pages) */
+  @media (max-width: 1024px) {
+    .side-nav ul {
+      display: none;
+    }
+
+    .side-nav .hamburger {
+      display: block;
+    }
+
+    /* Homepage exception - still show hamburger on mobile */
+    .is-homepage ul {
+      display: none;
+    }
+
+    .is-homepage .hamburger {
+      display: block;
+    }
+  }
+
+  /* Desktop view (1024px and above) */
+  @media (min-width: 1024px) {
+    /* Homepage specific */
+    .is-homepage ul {
+      display: block;
+    }
+
+    .is-homepage .hamburger {
+      display: none;
+    }
+
+    /* Other pages - always show hamburger */
+    .mobile-view ul {
+      display: none;
+    }
+
+    .mobile-view .hamburger {
+      display: block;
+    }
+  }
+
+  /* Open menu styles */
+  .side-nav.open {
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 5px;
+    width: 200px;
+    min-width: 200px;
+  }
+
+  .side-nav.open ul {
+    display: block;
+    margin-top: 10px;
   }
 
   .side-nav li {
@@ -213,44 +300,5 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 
   .mobile-view .nav-link {
     padding: 8px 0;
-  }
-
-  @media (max-width: 1280px) {
-    .side-nav {
-      position: fixed;
-      right: 5%;
-    }
-
-    /* ALL pages get mobile view under 1280px */
-    .side-nav ul {
-      display: none;
-    }
-
-    .side-nav .hamburger {
-      display: block;
-    }
-
-    /* When menu is open */
-    .side-nav.open {
-      background-color: rgba(0, 0, 0, 0.85);
-      border-radius: 5px;
-      width: 200px;
-      min-width: 200px;
-    }
-
-    .side-nav.open ul {
-      display: block;
-      margin-top: 10px;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .side-nav ul {
-      display: block;
-    }
-
-    .hamburger {
-      display: none;
-    }
   }
 </style>

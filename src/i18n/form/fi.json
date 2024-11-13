@@ -1,8 +1,4 @@
 {
-  "hero": {
-    "title": "Ota yhteyttä",
-    "subtitle": "Ilmainen konsultointi uusille asiakkaille."
-  },
   "contact": {
     "thankYou": "Kiitos",
     "successMessage": "Viesti lähetetty onnistuneesti!",
@@ -12,7 +8,7 @@
     "name": "Nimi",
     "email": "Sähköposti",
     "phone": "Puhelinnumero",
-    "consultation": "Olen kiinnostunut ilmaisesta konsultaatiosta.",
+    "consultation": "Haluan varata ilmaisen videotapaamisen.",
     "message": "Viestisi",
     "submit": "Lähetä",
     "privacy": "Hyväksyn",

@@ -36,8 +36,8 @@ export function Stars() {
 
   useFrame(() => {
     if (starGroupRef.current) {
-      starGroupRef.current.rotation.x += 0.0005;
-      starGroupRef.current.rotation.y += 0.0005;
+      starGroupRef.current.rotation.x += 0.00015;
+      starGroupRef.current.rotation.y += 0.00015;
     }
   });
 

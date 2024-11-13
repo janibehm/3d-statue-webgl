@@ -16,25 +16,12 @@ export const LanguageText = {
     scrollIndicator: "Scroll down",
     "footer.rights": "All rights reserved",
     hero: "Let's build something magnificent!",
-    "whyUs.title": "Why choose us for your website?",
-    "whyUs.brand.title": "Brand Uniqueness",
-    "whyUs.brand.description":
-      "High-quality websites allow you to present your brand's unique look and message. We can customize the appearance and content of the site to reflect your company's values and goals.",
-    "userExperience.title": "User Experience",
-    "userExperience.description":
-      "Pages can be optimized to provide a user-friendly experience. This means intuitive navigation, fast load times, and responsive design that works well on all devices.",
-    "scalability.title": "Scalability",
-    "scalability.description":
-      "Websites can be designed to grow with your business. You can add new features, pages, or integrations.",
-    "competitiveAdvantage.title": "Competitive Advantage",
-    "competitiveAdvantage.description":
-      "Innovative design and unique content can attract customer interest and encourage them to choose your business.",
-    "seo.title": "Search Engine Optimization",
-    "seo.description":
-      "Well-structured layout and SEO optimization increase your chances of ranking in search results, which can lead to more traffic and a broader customer base.",
-    "professionalism.title": "Professionalism",
-    "professionalism.description":
-      "High-quality websites create a professional image for your business, building trust. Well-designed websites can make a difference in customer decision-making.",
+    //Introduction
+    "about.introduction.title": "Welcome to a creative agency",
+    "about.introduction.subtitle":
+      "In our projects, design meets modern technology to shape the future of online presence.",
+    "about.introduction.description":
+      "We specialize in creating unique brand identities and custom web solutions that resonate with your target audience. Harnessing Finnish innovation and advanced technology, we bring your vision to life with stylish solutions that set your brand apart.",
     contact: "Get in touch.",
     "footer.company.title": "Company",
     "footer.company.aboutUs": "About Us",
@@ -84,31 +71,12 @@ export const LanguageText = {
     scrollIndicator: "Selaa alas",
     //Hero
     hero: "Rakennetaan sinulle jotain upeaa!",
-    //Why Us
-    "whyUs.title": "Miksi hankkia kotisivut juuri meiltä?",
-    "whyUs.brand.title": "Brändin Yksilöllisyys",
-    "whyUs.brand.description":
-      "Laadukkaat kotisivut mahdollistavat brändisi ainutlaatuisen ilmeen ja viestin esittämisen. Voimme räätälöidä sivuston ulkoasun ja sisällön vastaamaan yrityksesi arvoja ja tavoitteita.",
-    //User Experience
-    "userExperience.title": "Käyttäjäkokemus",
-    "userExperience.description":
-      "Sivut voidaan optimoida tarjoamaan käyttäjäystävällinen kokemus. Tämä tarkoittaa intuitiivista navigointia, nopeita latausaikoja ja responsiivista designia, joka toimii hyvin kaikilla laitteilla.",
-    //Scalability
-    "scalability.title": "Skaalautuvuus",
-    "scalability.description":
-      "Kotisivut voidaan suunnitella siten, että ne kasvavat yrityksesi mukana. Voit lisätä uusia toimintoja, sivuja tai integraatioita ilman, että koko sivustoa tarvitsee rakentaa uusiksi.",
-    //Competitive Advantage
-    "competitiveAdvantage.title": "Kilpailuetu",
-    "competitiveAdvantage.description":
-      "Innovatiivinen design ja ainutlaatuinen sisältö voivat herättää asiakkaan mielenkiinnon ja houkutella valitsemaan juuri sinun yrityksesi.",
-    //SEO
-    "seo.title": "Hakusana optimointi",
-    "seo.description":
-      "Hyvin suunniteltu rakenne ja SEO optimointi nostavat mahdollisuuksia nousta hakutuloksissa, mikä voi johtaa lisääntyneeseen liikenteeseen ja asiakaskuntaan.",
-    //Professionalism
-    "professionalism.title": "Ammattimaisuus",
-    "professionalism.description":
-      "Laadukkaat kotisivut antavat yrityksestäsi ammattimaisen kuvan, mikä lisää luottamusta. Hyvin suunnitellut websivut voivat tehdä eron asiakkaiden päätöksenteossa.",
+    //Introduction
+    "about.introduction.title": "Visio",
+    "about.introduction.subtitle":
+      "Projekteissamme design kohtaa modernin teknologian muovaten verkkonäkyvyyden tulevaisuutta.",
+    "about.introduction.description":
+      "Olemme erikoistuneet luomaan ainutlaatuisia brändi-identiteettejä ja kustomoituja verkkoratkaisuja, jotka puhuttelevat kohdeyleisöäsi. Suomalaista innovaatiota, sekä huipputeknologiaa hyödyntäen tuomme visiosi eloon tyylikkäillä ratkaisuilla, jotka erottavat brändisi muista.",
     contact: "Ota yhteyttä jo tänään.",
     //Footer
     "footer.company.title": "Yritys",
