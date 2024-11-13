@@ -3,4 +3,10 @@
 - Make about page.
 
 CHANGES
-ScrollContent text -> About page
+ScrollContent text -> About page 
+
+
+Welcome to a creative agency where design meets modern technology to shape the future of online presence.
+We specialize in crafting unique brand identities that resonate with your audience. 
+Rooted in Finnish innovation and driven by cutting-edge 
+techniques, we bring your vision to life with sleek, forward-thinking solutions that set your brand apart.
