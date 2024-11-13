@@ -19,9 +19,9 @@ export const LanguageText = {
     //Introduction
     "about.introduction.title": "Welcome to a creative agency",
     "about.introduction.subtitle":
-      "Where design meets modern technology to shape the future of online presence.",
+      "In our projects, design meets modern technology to shape the future of online presence.",
     "about.introduction.description":
-      "We specialize in crafting unique brand identities that resonate with your audience. Rooted in Finnish innovation and driven by cutting-edge techniques, we bring your vision to life with sleek, forward-thinking solutions that set your brand apart.",
+      "We specialize in creating unique brand identities and custom web solutions that resonate with your target audience. Harnessing Finnish innovation and advanced technology, we bring your vision to life with stylish solutions that set your brand apart.",
     contact: "Get in touch.",
     "footer.company.title": "Company",
     "footer.company.aboutUs": "About Us",
@@ -72,11 +72,11 @@ export const LanguageText = {
     //Hero
     hero: "Rakennetaan sinulle jotain upeaa!",
     //Introduction
-    "about.introduction.title": "Tervetuloa luovaan toimistoon",
+    "about.introduction.title": "Visio",
     "about.introduction.subtitle":
-      "Jossa design kohtaa modernin teknologian muovatakseen verkkonäkyvyyden tulevaisuutta.",
+      "Projekteissamme design kohtaa modernin teknologian muovaten verkkonäkyvyyden tulevaisuutta.",
     "about.introduction.description":
-      "Olemme erikoistuneet luomaan ainutlaatuisia brändi-identiteettejä, jotka puhuttelevat kohdeyleisöäsi. Suomalaiseen innovaatioon pohjautuen ja huipputeknologiaa hyödyntäen tuomme visiosi eloon tyylikkäillä, tulevaisuuteen suuntautuvilla ratkaisuilla, jotka erottavat brändisi muista.",
+      "Olemme erikoistuneet luomaan ainutlaatuisia brändi-identiteettejä ja kustomoituja verkkoratkaisuja, jotka puhuttelevat kohdeyleisöäsi. Suomalaista innovaatiota, sekä huipputeknologiaa hyödyntäen tuomme visiosi eloon tyylikkäillä ratkaisuilla, jotka erottavat brändisi muista.",
     contact: "Ota yhteyttä jo tänään.",
     //Footer
     "footer.company.title": "Yritys",

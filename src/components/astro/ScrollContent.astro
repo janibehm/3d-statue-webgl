@@ -18,30 +18,27 @@ const t = useTranslations(lang);
             sm:col-span-10 sm:col-start-2
             md:col-start-1"
     >
-      <h1 class="text-white lg:text-3xl md:text-3xl pl-4 text-5xl relative w-full max-w-[800px]">
-        <span
-          id="animated-text"
-          class="block w-full leading-none whitespace-nowrap text-sm sm:text-base md:text-lg animate-fade-in-up"
-        >
-          {t("hero")}
-        </span>
-      </h1>
-
       <div class="h-[55vh] col-span-12"></div>
       {/* spacer */}
-
+      <h1 class="text-white lg:text-3xl md:text-3xl pl-4 text-1xl relative w-full max-w-[800px]">
+        <!--    <span
+          id="animated-text"
+          class="block w-full leading-none whitespace-nowrap text-sm sm:text-base md:text-lg "
+        > -->
+        {t("hero")}
+        <!--         </span> -->
+      </h1>
       <section
         class="col-span-full w-screentext-base leading-relaxed mb-spacing
               sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
-              md:text-xl pt-8 pb-8 bg-dark-bg/85"
+              md:text-xl pt-8 pb-8"
       >
         <div class="space-y-6">
-          <h2 class="leading-loose">{t("about.introduction.title")}</h2>
-          <div class="h-[10vh] col-span-12"></div>
+          <div class="h-[5vh] col-span-12"></div>
           {/* spacer */}
 
           <h3 class="leading-loose">{t("about.introduction.subtitle")}</h3>
-          <div class="h-[10vh] col-span-12"></div>
+          <div class="h-[2vh] col-span-12"></div>
           {/* spacer */}
           <p class="leading-loose">{t("about.introduction.description")}</p>
         </div>
@@ -57,12 +54,12 @@ const t = useTranslations(lang);
         </h2>
       </section>
       {/* spacer */}
-      <div class="h-[40vh] col-span-12"></div>
+      <div class="h-[30vh] col-span-12"></div>
     </blockquote>
   </main>
 </div>
 
-<style>
+<!-- <style>
   .animate-fade-in-up {
     opacity: 0;
     animation: fadeInUp 1s ease-out forwards;
@@ -79,4 +76,4 @@ const t = useTranslations(lang);
       transform: translateY(0);
     }
   }
-</style>
+</style> -->
