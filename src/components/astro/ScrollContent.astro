@@ -11,7 +11,7 @@ const t = useTranslations(lang);
   <main
     class="absolute text-white z-[1] grid grid-cols-12 pointer-events-auto top-[70vh]
           w-[100%]
-          md:w-[35%] md:top-[400px] md:left-[2%]"
+          xl:w-[35%] md:top-[400px] left-[2%] right-[2%]"
   >
     <blockquote
       class="col-span-12 mb-spacing
@@ -20,7 +20,7 @@ const t = useTranslations(lang);
     >
       <div class="h-[55vh] col-span-12"></div>
       {/* spacer */}
-      <h1 class="text-white lg:text-3xl md:text-3xl pl-4 text-1xl relative w-full max-w-[800px]">
+      <h1 class="text-white lg:text-3xl md:text-base pl-4 text-xs relative w-full max-w-[800px]">
         <!--    <span
           id="animated-text"
           class="block w-full leading-none whitespace-nowrap text-sm sm:text-base md:text-lg "
@@ -34,11 +34,11 @@ const t = useTranslations(lang);
               md:text-xl pt-8 pb-8"
       >
         <div class="space-y-6">
-          <div class="h-[5vh] col-span-12"></div>
+          <!--     <div class="h-[2vh] col-span-12"></div> -->
           {/* spacer */}
 
           <h3 class="leading-loose">{t("about.introduction.subtitle")}</h3>
-          <div class="h-[2vh] col-span-12"></div>
+          <!--        <div class="h-[2vh] col-span-12"></div> -->
           {/* spacer */}
           <p class="leading-loose">{t("about.introduction.description")}</p>
         </div>
@@ -54,7 +54,7 @@ const t = useTranslations(lang);
         </h2>
       </section>
       {/* spacer */}
-      <div class="h-[30vh] col-span-12"></div>
+      <div class="h-[35vh] col-span-12"></div>
     </blockquote>
   </main>
 </div>
