@@ -6,13 +6,13 @@ const t = useTranslations(lang);
 
 <footer class="w-full min-h-[260px] text-white bg-black/95">
   <div class="container mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 gap-8 text-center lg:text-left lg:grid-cols-4">
       {/* Company Info */}
-      <div>
-        <h3 class="text-lg font-bold mb-4">
+      <div class="flex flex-col items-center lg:items-start">
+        <h3 class="text-lg font-bold mb-4 text-center lg:text-left w-full">
           {t("footer.company.title")}
         </h3>
-        <ul class="space-y-2">
+        <ul class="space-y-2 text-center lg:text-left w-full">
           <li>
             <a href="/about" class="hover:text-gray-300">{t("footer.company.aboutUs")}</a>
           </li>
@@ -26,11 +26,11 @@ const t = useTranslations(lang);
       </div>
 
       {/* Legal */}
-      <div>
-        <h3 class="text-lg font-bold mb-4">
+      <div class="flex flex-col items-center lg:items-start">
+        <h3 class="text-lg font-bold mb-4 text-center lg:text-left w-full">
           {t("footer.legal.title")}
         </h3>
-        <ul class="space-y-2">
+        <ul class="space-y-2 text-center lg:text-left w-full">
           <li>
             <a href="/kayttoehdot" class="hover:text-gray-300">{t("footer.legal.termsOfService")}</a
             >
@@ -50,11 +50,11 @@ const t = useTranslations(lang);
       </div>
 
       {/* Locations Part 1 */}
-      <div>
-        <h3 class="text-lg font-bold mb-4">
+      <div class="flex flex-col items-center lg:items-start">
+        <h3 class="text-lg font-bold mb-4 text-center lg:text-left w-full">
           {t("footer.locations.title")}
         </h3>
-        <ul class="space-y-2">
+        <ul class="space-y-2 text-center lg:text-left w-full">
           <li>
             <a href="/kotisivut-espoo" class="hover:text-gray-300">{t("footer.locations.espoo")}</a>
           </li>
@@ -100,8 +100,8 @@ const t = useTranslations(lang);
       </div>
 
       {/* Locations Part 2 */}
-      <div class="mt-0 md:mt-[52px]">
-        <ul class="space-y-2">
+      <div class="mt-0 md:mt-[52px] flex flex-col items-center lg:items-start">
+        <ul class="space-y-2 text-center lg:text-left w-full">
           <li>
             <a href="/kotisivut-mikkeli" class="hover:text-gray-300"
               >{t("footer.locations.mikkeli")}</a
@@ -146,22 +146,13 @@ const t = useTranslations(lang);
     </div>
 
     {/* Bottom Bar */}
-    <div class="border-t border-gray-700 mt-8 pt-8 mr-10">
-      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <p class="text-sm text-gray-400">
+    <div class="border-t border-gray-700 mt-8 pt-8">
+      <div
+        class="flex flex-col items-center text-center lg:flex-row lg:justify-between lg:text-left"
+      >
+        <p class="text-sm text-gray-400 mb-4 lg:mb-0">
           {t("footer.bottomBar.copyright")}
         </p>
-        <div class="flex space-x-6">
-          <a href="/tietosuoja" class="text-sm text-gray-400 hover:text-white"
-            >{t("footer.bottomBar.privacyPolicy")}</a
-          >
-          <a href="/sopimusehdot" class="text-sm text-gray-400 hover:text-white"
-            >{t("footer.bottomBar.agreementTerms")}</a
-          >
-          <a href="/evasteet" class="text-sm text-gray-400 hover:text-white"
-            >{t("footer.bottomBar.cookies")}</a
-          >
-        </div>
       </div>
     </div>
   </div>
