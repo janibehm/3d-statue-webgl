@@ -111,6 +111,7 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 </script>
 
 <style>
+  /* Default styles for all pages */
   .side-nav {
     position: fixed;
     right: 5%;
@@ -120,12 +121,75 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     pointer-events: auto;
   }
 
+  /* Default styles for lists */
   .side-nav ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0 15px;
     margin: 0;
     width: 100%;
-    padding: 0 15px;
+  }
+
+  /* Default hamburger styles */
+  .hamburger {
+    display: none;
+    cursor: pointer;
+    background-color: #00000080;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  /* Mobile view (default for all pages) */
+  @media (max-width: 1024px) {
+    .side-nav ul {
+      display: none;
+    }
+
+    .side-nav .hamburger {
+      display: block;
+    }
+
+    /* Homepage exception - still show hamburger on mobile */
+    .is-homepage ul {
+      display: none;
+    }
+
+    .is-homepage .hamburger {
+      display: block;
+    }
+  }
+
+  /* Desktop view (1024px and above) */
+  @media (min-width: 1024px) {
+    /* Homepage specific */
+    .is-homepage ul {
+      display: block;
+    }
+
+    .is-homepage .hamburger {
+      display: none;
+    }
+
+    /* Other pages - always show hamburger */
+    .mobile-view ul {
+      display: none;
+    }
+
+    .mobile-view .hamburger {
+      display: block;
+    }
+  }
+
+  /* Open menu styles */
+  .side-nav.open {
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 5px;
+    width: 200px;
+    min-width: 200px;
+  }
+
+  .side-nav.open ul {
+    display: block;
+    margin-top: 10px;
   }
 
   .side-nav li {
