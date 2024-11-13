@@ -1,1 +1,0 @@
-const e=document.getElementById("navigation"),o=e?.querySelector(".hamburger"),n=()=>{const a=window.location.pathname;e?.querySelectorAll(".nav-link")?.forEach(t=>{t instanceof HTMLAnchorElement&&t.classList.toggle("active",t.pathname===a)})};o?.addEventListener("click",()=>{e?.classList.toggle("open")});n();window.addEventListener("popstate",n);
