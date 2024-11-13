@@ -55,7 +55,7 @@ export function CameraControl() {
       camera.position.z = scrollBasedZ;
     }
 
-    camera.lookAt(0, lookAtY, 0);
+    camera.lookAt(0.25, lookAtY, 0);
   });
 
   return (
