@@ -62,8 +62,8 @@ export function CameraControl() {
     <OrbitControls
       enableZoom={false}
       enablePan={false}
-      enableRotate={true}
-      rotateSpeed={0.5}
+      enableRotate={false}
+      enableDamping={false}
       makeDefault
     />
   );

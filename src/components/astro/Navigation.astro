@@ -138,6 +138,15 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     border-radius: 5px;
   }
 
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+  }
+
   /* Mobile view (default for all pages) */
   @media (max-width: 1024px) {
     .side-nav ul {
@@ -190,6 +199,14 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
   .side-nav.open ul {
     display: block;
     margin-top: 10px;
+  }
+
+  .side-nav.open .nav-link {
+    padding: 8px 0;
+  }
+
+  .side-nav.open .nav-link::before {
+    display: none;
   }
 
   .side-nav li {
@@ -245,23 +262,6 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     height: 14px;
   }
 
-  .hamburger {
-    display: none;
-    cursor: pointer;
-    background-color: #00000080;
-    padding: 10px;
-    border-radius: 5px;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: #ffffff;
-    margin: 5px 0;
-    transition: all 0.3s ease;
-  }
-
   .mobile-view .hamburger {
     display: block;
   }
@@ -270,27 +270,15 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
     display: none;
   }
 
-  .mobile-view.open {
-    background-color: rgba(0, 0, 0, 0.85);
-    border-radius: 5px;
-    width: 200px;
-    min-width: 200px;
-  }
-
-  .mobile-view.open ul {
-    display: block;
-    margin-top: 10px;
-  }
-
-  .mobile-view.open .hamburger span:nth-child(1) {
+  .side-nav.open .hamburger span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
 
-  .mobile-view.open .hamburger span:nth-child(2) {
+  .side-nav.open .hamburger span:nth-child(2) {
     opacity: 0;
   }
 
-  .mobile-view.open .hamburger span:nth-child(3) {
+  .side-nav.open .hamburger span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
   }
 
