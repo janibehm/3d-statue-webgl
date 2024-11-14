@@ -5,7 +5,7 @@ import Navigation from "../components/astro/Navigation.astro";
 import Header from "../components/astro/Header.astro";
 import LangButton from "../components/astro/LangButton.astro";
 import { getLangFromUrl } from "../utils/language";
-
+import SpeedInsights from "@vercel/speed-insights/astro";
 const lang = getLangFromUrl(Astro.url.pathname);
 
 // Add this to debug
@@ -36,5 +36,6 @@ const { title } = Astro.props;
     <slot />
     <LangButton />
     {!isHomePage && <Footer />}
+    <SpeedInsights />
   </body>
 </html>
