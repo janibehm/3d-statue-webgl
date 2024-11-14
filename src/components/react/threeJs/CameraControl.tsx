@@ -24,7 +24,7 @@ export function CameraControl() {
     const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const radius = 4; // Distance from center
+    const radius = 4.5; // Distance from center
     const targetAngle = -scrollY.current * Math.PI * 2; // Negative for opposite direction
 
     // Smooth camera rotation
@@ -55,15 +55,15 @@ export function CameraControl() {
       camera.position.z = scrollBasedZ;
     }
 
-    camera.lookAt(0, lookAtY, 0);
+    camera.lookAt(0.15, lookAtY, 0);
   });
 
   return (
     <OrbitControls
       enableZoom={false}
       enablePan={false}
-      enableRotate={true}
-      rotateSpeed={0.5}
+      enableRotate={false}
+      enableDamping={false}
       makeDefault
     />
   );
