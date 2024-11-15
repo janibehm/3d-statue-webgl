@@ -3,7 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { globalAnimationState } from "./hooks/globalAnimationState";
-import { easeOutCubic } from "./hooks/easeOutCubix";
+/* import { easeOutCubic } from "./hooks/easeOutCubix"; */
 import { useSpring } from "@react-spring/three";
 
 // Constants outside component to prevent recreation
@@ -25,10 +25,10 @@ const MATERIAL_SETTINGS = {
 } as const;
 
 // Preload model
-useGLTF.preload("/models/Lucy-transformed.glb");
+useGLTF.preload("/models/Lucy.glb");
 
 export function LucyModel() {
-  const { scene: model } = useGLTF("/models/Lucy-transformed.glb", true);
+  const { scene: model } = useGLTF("/models/Lucy.glb", true);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
 

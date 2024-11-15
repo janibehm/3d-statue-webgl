@@ -5,11 +5,14 @@ import { SpotLight as ThreeSpotLight, Object3D, Vector3 } from "three";
 import { useTexture } from "@react-three/drei";
 
 export function SpotLightAnimation() {
-  const texture = useTexture("/textures/painted-worn-asphalt_albedo.jpg");
+  const texture = useTexture("/textures/painted-worn-asphalt_albedo.jpg", (t) => {
+    t.flipY = false;
+    t.needsUpdate = true;
+  });
+
   const spotLightRef = useRef<ThreeSpotLight>(null);
   const targetRef = useRef<Object3D>(null);
 
-  // Combine all static values into a single memoized object
   const config = useMemo(
     () => ({
       light: {
@@ -18,17 +21,11 @@ export function SpotLightAnimation() {
         decay: 2,
         distance: 100,
         intensity: 100,
-        shadow: {
-          mapSize: [124, 124] as [number, number],
-          cameraNear: 5,
-          cameraFar: 100,
-          focus: 1,
-        },
       },
       animation: {
         radius: 3,
-        height: 10, // Moved from position.y in useFrame
-        speed: 1 / 3, // Incorporated the division by 3 from useFrame
+        height: 10,
+        speed: 1 / 3,
       },
       target: [0, -0.5, 0] as const,
     }),
@@ -36,8 +33,8 @@ export function SpotLightAnimation() {
   );
 
   const position = useMemo(
-    () => new Vector3(5, config.animation.height, 5),
-    [config.animation.height],
+    () => new Vector3(config.animation.radius, config.animation.height, 0),
+    [config.animation.radius, config.animation.height],
   );
 
   useEffect(() => {
@@ -55,6 +52,7 @@ export function SpotLightAnimation() {
       config.animation.height,
       Math.sin(time) * config.animation.radius,
     );
+
     spotLightRef.current.position.copy(position);
   });
 
@@ -67,13 +65,9 @@ export function SpotLightAnimation() {
         penumbra={config.light.penumbra}
         decay={config.light.decay}
         distance={config.light.distance}
-        castShadow
-        shadow-mapSize={config.light.shadow.mapSize}
-        shadow-camera-near={config.light.shadow.cameraNear}
-        shadow-camera-far={config.light.shadow.cameraFar}
-        shadow-focus={config.light.shadow.focus}
         intensity={config.light.intensity}
         map={texture}
+        target-position={config.target}
       />
       <object3D ref={targetRef} position={config.target} />
     </>
