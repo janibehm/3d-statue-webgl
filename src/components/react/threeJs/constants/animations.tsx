@@ -21,4 +21,17 @@ export function easeOutCubic(t: number): number {
 
 export const globalAnimationState = {
   isLucyInPosition: false,
+  isLucyReady: false,
+  isLucyMounted: false,
+  subscribers: new Set<Function>(),
+  setIsLucyInPosition: function (value: boolean) {
+    this.isLucyInPosition = value;
+    this.subscribers.forEach((callback) => callback());
+  },
+  subscribe: function (callback: Function) {
+    this.subscribers.add(callback);
+  },
+  unsubscribe: function (callback: Function) {
+    this.subscribers.delete(callback);
+  },
 };

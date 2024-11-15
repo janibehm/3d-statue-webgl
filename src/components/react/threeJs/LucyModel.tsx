@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useProgress } from "@react-three/drei";
 import { globalAnimationState, sharedAnimation } from "./constants/animations";
 import { useSpring } from "@react-spring/three";
 
@@ -17,6 +17,7 @@ export function LucyModel() {
   const { scene: model } = useGLTF("/models/Lucy.glb", true);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
+  const { progress } = useProgress();
 
   const [springs, api] = useSpring(() => ({
     position: [0, sharedAnimation.position.start.y + 3.8, sharedAnimation.position.start.z],
@@ -28,11 +29,19 @@ export function LucyModel() {
     },
     delay: sharedAnimation.delay,
     onChange: () => {
-      if (springs.position.get()[1] === sharedAnimation.position.end.y + 3.8) {
-        globalAnimationState.isLucyInPosition = true;
+      const currentY = springs.position.get()[1];
+      if (Math.abs(currentY - -0.5) < 0.01) {
+        console.log("Lucy reached final position");
+        globalAnimationState.setIsLucyInPosition(true);
       }
     },
   }));
+
+  useEffect(() => {
+    if (progress === 100 && model) {
+      globalAnimationState.isLucyReady = true;
+    }
+  }, [progress, model]);
 
   useEffect(() => {
     if (!model) return;
@@ -64,7 +73,10 @@ export function LucyModel() {
     modelRef.current = modelInstance;
     scene.add(modelInstance);
 
+    globalAnimationState.isLucyMounted = true;
+
     return () => {
+      globalAnimationState.isLucyMounted = false;
       scene.remove(modelInstance);
       modelInstance.traverse((child) => {
         if (child instanceof THREE.Mesh) {
@@ -83,7 +95,7 @@ export function LucyModel() {
 
   useEffect(() => {
     api.start({
-      position: [0, sharedAnimation.position.end.y + 3.3, sharedAnimation.position.end.z],
+      position: [0, -0.5, sharedAnimation.position.end.z],
       opacity: 1,
       config: {
         duration: sharedAnimation.duration * 1000,

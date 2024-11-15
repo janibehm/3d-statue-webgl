@@ -23,10 +23,11 @@ export const LanguageText = {
     "about.introduction.description":
       "We specialize in creating unique brand identities and custom web solutions that resonate with your target audience. Harnessing Finnish innovation and advanced technology, we bring your vision to life with stylish solutions that set your brand apart.",
     contact: "Get in touch.",
-    "footer.company.title": "Company",
-    "footer.company.aboutUs": "About Us",
-    "footer.company.pricing": "Pricing",
+    "footer.company.title": "Sites",
+    "footer.company.home": "Home",
     "footer.company.services": "Services",
+    "footer.company.aboutUs": "About Us",
+    "footer.company.contact": "Contact",
 
     "footer.legal.title": "Terms & Policies",
     "footer.legal.termsOfService": "Terms of Service",
@@ -64,7 +65,6 @@ export const LanguageText = {
     //Nav
     "nav.home": "Etusivu",
     "nav.services": "Palvelut",
-    "nav.pricing": "Hinnasto",
     "nav.about": "Tietoa",
     "nav.contact": "Ota Yhteyttä",
     //Scroll Indicator
@@ -79,10 +79,11 @@ export const LanguageText = {
       "Olemme erikoistuneet luomaan ainutlaatuisia brändi-identiteettejä ja kustomoituja verkkoratkaisuja, jotka puhuttelevat kohdeyleisöäsi. Suomalaista innovaatiota, sekä huipputeknologiaa hyödyntäen tuomme visiosi eloon tyylikkäillä ratkaisuilla, jotka erottavat brändisi muista.",
     contact: "Ota yhteyttä jo tänään.",
     //Footer
-    "footer.company.title": "Yritys",
-    "footer.company.aboutUs": "Tietoa meistä",
-    "footer.company.pricing": "Hinnasto",
+    "footer.company.title": "Sivut",
+    "footer.company.home": "Etusivu",
     "footer.company.services": "Palvelut",
+    "footer.company.aboutUs": "Tietoa meistä",
+    "footer.company.contact": "Ota yhteyttä",
 
     "footer.legal.title": "Ehdot & Käytänteet",
     "footer.legal.termsOfService": "Käyttöehdot",

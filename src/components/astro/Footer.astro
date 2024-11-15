@@ -2,6 +2,33 @@
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const pathNames = {
+  home: { fi: "/", en: "/en" },
+  services: { fi: "palvelut", en: "services" },
+  about: { fi: "tietoa", en: "about" },
+  contact: { fi: "yhteydenotto", en: "contact" },
+} as const;
+
+// Add the same navigation items structure
+const navItems = [
+  {
+    key: "footer.company.home",
+    path: lang === "fi" ? "/" : `/${lang}`,
+  },
+  {
+    key: "footer.company.services",
+    path: lang === "fi" ? "/palvelut" : `/${lang}/${pathNames.services[lang]}`,
+  },
+  {
+    key: "footer.company.aboutUs",
+    path: lang === "fi" ? "/tietoa" : `/${lang}/${pathNames.about[lang]}`,
+  },
+  {
+    key: "footer.company.contact",
+    path: lang === "fi" ? "/yhteydenotto" : `/${lang}/${pathNames.contact[lang]}`,
+  },
+] as const;
 ---
 
 <footer class="w-full min-h-[260px] text-white pt-10 bg-black/95">
@@ -13,19 +40,19 @@ const t = useTranslations(lang);
     >
       {/* Company Info */}
       <div class="flex flex-col items-center lg:items-start px-4">
-        <h3 class="text-lg font-bold mb-4 text-center lg:text-left w-full">
+        <h3 class="text-lg font-bold mb-4 text-center lg:text-left w-full px-2">
           {t("footer.company.title")}
         </h3>
         <ul class="space-y-2 text-center lg:text-left w-full">
-          <li class="px-2">
-            <a href="/about" class="hover:text-gray-300">{t("footer.company.aboutUs")}</a>
-          </li>
-          <li class="px-2">
-            <a href="/pricing" class="hover:text-gray-300">{t("footer.company.pricing")}</a>
-          </li>
-          <li class="px-2">
-            <a href="/services" class="hover:text-gray-300">{t("footer.company.services")}</a>
-          </li>
+          {
+            navItems.map((item) => (
+              <li class="px-2">
+                <a href={item.path} class="hover:text-gray-300">
+                  {t(item.key)}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
