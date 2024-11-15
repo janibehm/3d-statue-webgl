@@ -77,8 +77,8 @@ function ThreeScene() {
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded && isLucyReady} />
       <Canvas
-        key={key}
         camera={{ position: [0, 2, 5], fov: 75 }}
+        key={key}
         style={{
           pointerEvents: isMobile ? "none" : "auto",
           touchAction: "none",
