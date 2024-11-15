@@ -44,14 +44,20 @@ function ThreeScene() {
   const [isMobile] = useState(isMobileDevice);
 
   useEffect(() => {
-    const checkLucyPosition = () => {
+    const onLucyPositionChange = () => {
       if (globalAnimationState.isLucyInPosition) {
         setIsLucyReady(true);
       }
     };
 
-    const interval = setInterval(checkLucyPosition, 100);
-    return () => clearInterval(interval);
+    // Subscribe to position changes
+    globalAnimationState.subscribe(onLucyPositionChange);
+
+    // Check initial state
+    onLucyPositionChange();
+
+    // Cleanup subscription
+    return () => globalAnimationState.unsubscribe(onLucyPositionChange);
   }, []);
 
   return (
@@ -75,6 +81,7 @@ function ThreeScene() {
         camera={{ position: [0, 2, 5], fov: 75 }}
         style={{
           pointerEvents: isMobile ? "none" : "auto",
+          touchAction: "none",
         }}
       >
         <color attach="background" args={[0x000000]} />
