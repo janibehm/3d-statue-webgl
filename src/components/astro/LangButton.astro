@@ -39,7 +39,7 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
 
 <div
   id="langButtons"
-  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000]"
+  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000] transition-opacity duration-300"
 >
   {
     LanguageOptions.map((lang) => (
@@ -53,3 +53,32 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
     ))
   }
 </div>
+
+<script>
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const langButtons = document.getElementById("langButtons");
+
+  const updateButtonVisibility = () => {
+    if (!langButtons) return;
+
+    // Hide when scrolling down, show when scrolling up
+    if (window.scrollY > lastScrollY) {
+      langButtons.style.opacity = "0";
+      langButtons.style.pointerEvents = "none";
+    } else {
+      langButtons.style.opacity = "1";
+      langButtons.style.pointerEvents = "auto";
+    }
+
+    lastScrollY = window.scrollY;
+    ticking = false;
+  };
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateButtonVisibility);
+      ticking = true;
+    }
+  });
+</script>
