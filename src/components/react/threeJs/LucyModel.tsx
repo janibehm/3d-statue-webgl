@@ -2,21 +2,8 @@ import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import { globalAnimationState } from "./hooks/globalAnimationState";
-/* import { easeOutCubic } from "./hooks/easeOutCubix"; */
+import { globalAnimationState, sharedAnimation } from "./constants/animations";
 import { useSpring } from "@react-spring/three";
-
-// Constants outside component to prevent recreation
-const POSITION = {
-  start: { y: 5, z: -5 },
-  end: { y: -0.5, z: 0 },
-} as const;
-
-const ANIMATION = {
-  duration: 5,
-  fadeInDuration: 1.5,
-  delay: 500,
-} as const;
 
 const MODEL_SCALE = 0.0024;
 const MATERIAL_SETTINGS = {
@@ -24,7 +11,6 @@ const MATERIAL_SETTINGS = {
   roughness: 0.5,
 } as const;
 
-// Preload model
 useGLTF.preload("/models/Lucy.glb");
 
 export function LucyModel() {
@@ -32,23 +18,17 @@ export function LucyModel() {
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
 
-  // Replace animation state with spring
-  const [springs] = useSpring(() => ({
-    from: {
-      position: [0, POSITION.start.y, POSITION.start.z],
-      opacity: 0,
-    },
-    to: {
-      position: [0, POSITION.end.y, POSITION.end.z],
-      opacity: 1,
-    },
+  const [springs, api] = useSpring(() => ({
+    position: [0, sharedAnimation.position.start.y + 3.8, sharedAnimation.position.start.z],
+    opacity: 0,
     config: {
-      position: "soft",
-      opacity: { duration: ANIMATION.duration * 1000 },
+      mass: 1,
+      tension: 280,
+      friction: 120,
     },
-    delay: ANIMATION.delay,
+    delay: sharedAnimation.delay,
     onChange: () => {
-      if (springs.position.get()[1] === POSITION.end.y) {
+      if (springs.position.get()[1] === sharedAnimation.position.end.y + 3.8) {
         globalAnimationState.isLucyInPosition = true;
       }
     },
@@ -61,14 +41,16 @@ export function LucyModel() {
     modelInstance.visible = true;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
+    modelInstance.position.set(
+      0,
+      sharedAnimation.position.start.y,
+      sharedAnimation.position.start.z,
+    );
 
-    // Optimize materials and geometry once
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.material = child.material.clone();
-        Object.assign(child.material, MATERIAL_SETTINGS, {
-          transparent: true,
-        });
+        Object.assign(child.material, MATERIAL_SETTINGS);
         child.frustumCulled = true;
 
         if (child.geometry && !child.geometry.boundingSphere) {
@@ -93,20 +75,21 @@ export function LucyModel() {
     };
   }, [model, scene, gl, camera]);
 
-  // Update position and opacity using springs
   useFrame(() => {
     if (!modelRef.current) return;
-
     const position = springs.position.get();
     modelRef.current.position.set(position[0], position[1], position[2]);
-
-    modelRef.current.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.material.opacity = springs.opacity.get();
-        child.material.transparent = child.material.opacity < 1;
-      }
-    });
   });
+
+  useEffect(() => {
+    api.start({
+      position: [0, sharedAnimation.position.end.y + 3.3, sharedAnimation.position.end.z],
+      opacity: 1,
+      config: {
+        duration: sharedAnimation.duration * 1000,
+      },
+    });
+  }, [api]);
 
   return null;
 }

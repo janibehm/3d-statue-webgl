@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { Html } from "@react-three/drei";
 import { LucyModel } from "../components/react/threeJs/LucyModel";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
-import { globalAnimationState } from "../components/react/threeJs/hooks/globalAnimationState";
+import { globalAnimationState } from "../components/react/threeJs/constants/animations";
 import { Sphere } from "../components/react/threeJs/Sphere";
 import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
@@ -79,7 +79,9 @@ function ThreeScene() {
       >
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
-          <ambientLight intensity={0.1} />
+          <ambientLight intensity={0.08} />
+
+          <hemisphereLight intensity={0.2} groundColor="#080820" />
           <SpotLightAnimation />
           <Sphere />
           <LucyModel />

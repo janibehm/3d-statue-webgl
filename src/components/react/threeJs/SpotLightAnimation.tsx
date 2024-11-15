@@ -12,40 +12,57 @@ export function SpotLightAnimation() {
 
   const spotLightRef = useRef<ThreeSpotLight>(null);
   const targetRef = useRef<Object3D>(null);
+  const initialRender = useRef(true);
 
   const config = useMemo(
     () => ({
       light: {
-        angle: Math.PI / 6,
-        penumbra: 1,
-        decay: 2,
-        distance: 100,
-        intensity: 100,
+        angle: Math.PI / 30,
+        penumbra: 0.5,
+        decay: 1,
+        distance: 200,
+        intensity: 80,
       },
       animation: {
-        radius: 3,
-        height: 10,
+        radius: 8,
+        height: 20,
         speed: 1 / 3,
       },
-      target: [0, -0.5, 0] as const,
+      target: [0, 0, 0] as const,
     }),
     [],
   );
 
   const position = useMemo(
-    () => new Vector3(config.animation.radius, config.animation.height, 0),
+    () =>
+      new Vector3(
+        Math.cos(0) * config.animation.radius,
+        config.animation.height,
+        Math.sin(0) * config.animation.radius,
+      ),
     [config.animation.radius, config.animation.height],
   );
 
   useEffect(() => {
     if (spotLightRef.current && targetRef.current) {
       spotLightRef.current.target = targetRef.current;
+      spotLightRef.current.intensity = config.light.intensity;
+      spotLightRef.current.position.copy(position);
     }
-  }, []);
+  }, [position]);
 
   useFrame(({ clock }) => {
     if (!spotLightRef.current) return;
+
     const time = clock.getElapsedTime() * config.animation.speed;
+
+    if (initialRender.current && clock.getElapsedTime() < 1) {
+      const transitionAlpha = Math.min(clock.getElapsedTime(), 1);
+      spotLightRef.current.intensity = config.light.intensity * transitionAlpha;
+    } else {
+      initialRender.current = false;
+      spotLightRef.current.intensity = config.light.intensity;
+    }
 
     position.set(
       Math.cos(time) * config.animation.radius,
@@ -68,6 +85,9 @@ export function SpotLightAnimation() {
         intensity={config.light.intensity}
         map={texture}
         target-position={config.target}
+        power={20}
+        volumetric={true}
+        opacity={0}
       />
       <object3D ref={targetRef} position={config.target} />
     </>

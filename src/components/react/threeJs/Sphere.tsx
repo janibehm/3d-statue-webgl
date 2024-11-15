@@ -2,16 +2,7 @@ import { useRef, useEffect, useMemo } from "react";
 import { useTexture } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
 import * as THREE from "three";
-
-const ANIMATION = {
-  duration: 3,
-  fadeInDuration: 1.5,
-  delay: 1500,
-  position: {
-    start: { y: -5, z: 0 },
-    end: { y: -3.8, z: 0 },
-  },
-} as const;
+import { sharedAnimation } from "./constants/animations";
 
 export function Sphere() {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -41,23 +32,23 @@ export function Sphere() {
 
   // Use spring for smooth animations
   const [springs, api] = useSpring(() => ({
-    position: [0, ANIMATION.position.start.y, ANIMATION.position.start.z],
+    position: [0, sharedAnimation.position.start.y, sharedAnimation.position.start.z],
     opacity: 0,
     config: {
       mass: 1,
       tension: 280,
       friction: 120,
     },
-    delay: ANIMATION.delay,
+    delay: sharedAnimation.delay + 500,
   }));
 
   // Start animation after textures are loaded
   useEffect(() => {
     api.start({
-      position: [0, ANIMATION.position.end.y, ANIMATION.position.start.z],
+      position: [0, sharedAnimation.position.end.y, sharedAnimation.position.end.z],
       opacity: 1,
       config: {
-        duration: ANIMATION.duration * 1000,
+        duration: sharedAnimation.duration * 1000,
       },
     });
   }, [api]);
