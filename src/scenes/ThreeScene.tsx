@@ -79,7 +79,7 @@ function ThreeScene() {
       >
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
-          <ambientLight intensity={0.08} />
+          <ambientLight intensity={0.05} />
 
           <hemisphereLight intensity={0.2} groundColor="#080820" />
           <SpotLightAnimation />
