@@ -7,16 +7,38 @@ export function CameraControl() {
   const scrollY = useRef(0);
   const targetScrollY = useRef(0);
   const currentAngle = useRef(0);
+  const touchStart = useRef(0);
 
   useEffect(() => {
+    // Mouse wheel handler
     const handleWheel = (event: WheelEvent) => {
       targetScrollY.current += event.deltaY * 0.0007;
       targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
     };
 
-    // Use { passive: false } to allow preventDefault()
+    // Touch handlers
+    const handleTouchStart = (event: TouchEvent) => {
+      touchStart.current = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const deltaY = touchStart.current - event.touches[0].clientY;
+      targetScrollY.current += deltaY * 0.001; // Adjust sensitivity here
+      targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
+      touchStart.current = event.touches[0].clientY;
+    };
+
+    // Add event listeners
     window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
   }, []);
 
   useFrame(() => {
