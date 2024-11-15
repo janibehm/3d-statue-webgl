@@ -36,9 +36,9 @@ export function SpotLightAnimation() {
   const position = useMemo(
     () =>
       new Vector3(
-        Math.cos(0) * config.animation.radius,
+        Math.cos(-Math.PI / 2) * config.animation.radius,
         config.animation.height,
-        Math.sin(0) * config.animation.radius,
+        Math.sin(-Math.PI / 2) * config.animation.radius,
       ),
     [config.animation.radius, config.animation.height],
   );
@@ -54,7 +54,7 @@ export function SpotLightAnimation() {
   useFrame(({ clock }) => {
     if (!spotLightRef.current) return;
 
-    const time = clock.getElapsedTime() * config.animation.speed;
+    const time = clock.getElapsedTime() * config.animation.speed - Math.PI / 2;
 
     if (initialRender.current && clock.getElapsedTime() < 1) {
       const transitionAlpha = Math.min(clock.getElapsedTime(), 1);
