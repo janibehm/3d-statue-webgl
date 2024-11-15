@@ -86,8 +86,13 @@ function ThreeScene() {
       >
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
+          <OrbitControls
+            enableZoom={false}
+            // Optional: you might also want these constraints
+            minPolarAngle={Math.PI / 2}
+            maxPolarAngle={Math.PI / 2}
+          />
           <ambientLight intensity={0.05} />
-
           <hemisphereLight intensity={0.2} groundColor="#080820" />
           <SpotLightAnimation />
           <Sphere />
