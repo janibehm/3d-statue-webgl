@@ -61,28 +61,33 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
   const updateButtonVisibility = (e: TouchEvent | WheelEvent) => {
     if (!langButtons) return;
 
-    let currentY;
+    let scrollingDown: boolean;
 
     if (e instanceof WheelEvent) {
-      // For mouse wheel events
-      currentY = lastY + e.deltaY;
+      // For mouse wheel: hide when scrolling down (positive deltaY)
+      scrollingDown = e.deltaY > 0;
     } else if (e instanceof TouchEvent && e.touches[0]) {
-      // For touch events
-      currentY = e.touches[0].clientY;
+      // For touch: compare with last position (inverted logic)
+      const currentY = e.touches[0].clientY;
+      scrollingDown = currentY < lastY; // Inverted comparison
+      lastY = currentY;
     } else {
       return;
     }
 
-    const scrollingDown = currentY > lastY;
-
     // Update visibility based on scroll direction
     langButtons.style.opacity = scrollingDown ? "0" : "1";
     langButtons.style.pointerEvents = scrollingDown ? "none" : "auto";
-
-    lastY = currentY;
   };
 
   // Track wheel and touch events
   window.addEventListener("wheel", updateButtonVisibility, { passive: true });
   window.addEventListener("touchmove", updateButtonVisibility, { passive: true });
+  window.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches[0]) lastY = e.touches[0].clientY;
+    },
+    { passive: true },
+  );
 </script>
