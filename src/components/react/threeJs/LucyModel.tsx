@@ -9,15 +9,23 @@ const MODEL_SCALE = 0.0024;
 const MATERIAL_SETTINGS = {
   metalness: 0.2,
   roughness: 0.5,
+  flatShading: true,
+  dithering: false,
 } as const;
 
+// Simple preload
 useGLTF.preload("/models/Lucy.glb");
 
 export function LucyModel() {
-  const { scene: model } = useGLTF("/models/Lucy.glb", true);
+  const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
   const { progress } = useProgress();
+
+  useEffect(() => {
+    gl.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    gl.shadowMap.enabled = false;
+  }, [gl]);
 
   const [springs, api] = useSpring(() => ({
     position: [0, sharedAnimation.position.start.y + 3.8, sharedAnimation.position.start.z],
@@ -62,9 +70,15 @@ export function LucyModel() {
         Object.assign(child.material, MATERIAL_SETTINGS);
         child.frustumCulled = true;
 
-        if (child.geometry && !child.geometry.boundingSphere) {
-          child.geometry.computeBoundingSphere();
-          child.geometry.computeBoundingBox();
+        if (child.geometry) {
+          child.geometry = child.geometry.clone().toNonIndexed();
+          child.geometry.attributes.position.needsUpdate = false;
+          child.geometry.attributes.normal.needsUpdate = false;
+
+          if (!child.geometry.boundingSphere) {
+            child.geometry.computeBoundingSphere();
+            child.geometry.computeBoundingBox();
+          }
         }
       }
     });

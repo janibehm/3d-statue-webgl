@@ -2,7 +2,7 @@
 import { useRef } from "react";
 
 export const sharedAnimation = {
-  duration: 1,
+  duration: 0.7,
   fadeInDuration: 1.5,
   delay: 1500,
   position: {

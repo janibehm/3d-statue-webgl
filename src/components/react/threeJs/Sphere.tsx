@@ -1,36 +1,25 @@
-import { useRef, useEffect, useMemo } from "react";
-import { useTexture } from "@react-three/drei";
-import { useSpring, animated } from "@react-spring/three";
+import { useRef, useEffect } from "react";
+import { useThree, useFrame, Canvas } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import { useSpring } from "@react-spring/three";
 import * as THREE from "three";
 import { sharedAnimation } from "./constants/animations";
 
+const MODEL_PATH = "/models/earth.glb";
+const MODEL_SCALE = 4;
+const MATERIAL_SETTINGS = {
+  metalness: 0.2,
+  roughness: 0.5,
+} as const;
+
+// Preload the model
+useGLTF.preload(MODEL_PATH);
+
 export function Sphere() {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const { scene: model } = useGLTF(MODEL_PATH);
+  const { scene } = useThree();
+  const modelRef = useRef<THREE.Group>();
 
-  // Load textures using drei's useTexture hook
-  const [albedoMap, normalMap] = useTexture([
-    "/textures/painted-worn-asphalt_albedo.jpg",
-    "/textures/painted-worn-asphalt_normal-ogl.jpg",
-  ]);
-
-  // Configure textures
-  useEffect(() => {
-    albedoMap.colorSpace = THREE.SRGBColorSpace;
-    [albedoMap, normalMap].forEach((texture) => {
-      texture.minFilter = THREE.LinearFilter;
-      texture.generateMipmaps = false;
-    });
-  }, [albedoMap, normalMap]);
-
-  // Memoize geometry
-  const geometry = useMemo(() => {
-    const geo = new THREE.SphereGeometry(3, 25, 25);
-    geo.computeBoundingSphere();
-    geo.computeBoundingBox();
-    return geo;
-  }, []);
-
-  // Use spring for smooth animations
   const [springs, api] = useSpring(() => ({
     position: [0, sharedAnimation.position.start.y, sharedAnimation.position.start.z],
     opacity: 0,
@@ -39,33 +28,42 @@ export function Sphere() {
       tension: 280,
       friction: 120,
     },
-    delay: sharedAnimation.delay + 500,
+    delay: sharedAnimation.delay,
   }));
 
-  // Start animation after textures are loaded
   useEffect(() => {
+    if (!model) return;
+
+    const modelInstance = model.clone();
+    modelInstance.scale.setScalar(MODEL_SCALE);
+    modelInstance.position.set(
+      0,
+      sharedAnimation.position.start.y,
+      sharedAnimation.position.start.z,
+    );
+
+    modelRef.current = modelInstance;
+    scene.add(modelInstance);
+
+    // Match Lucy's animation pattern
     api.start({
-      position: [0, sharedAnimation.position.end.y, sharedAnimation.position.end.z],
+      position: [0, -4.8, sharedAnimation.position.end.z],
       opacity: 1,
       config: {
         duration: sharedAnimation.duration * 1000,
       },
     });
-  }, [api]);
 
-  return (
-    <animated.mesh
-      ref={meshRef}
-      geometry={geometry}
-      position={springs.position as unknown as [number, number, number]}
-      frustumCulled={true}
-    >
-      <animated.meshLambertMaterial
-        transparent
-        opacity={springs.opacity}
-        map={albedoMap}
-        normalMap={normalMap}
-      />
-    </animated.mesh>
-  );
+    return () => {
+      scene.remove(modelInstance);
+    };
+  }, [model, scene, api]);
+
+  useFrame(() => {
+    if (!modelRef.current) return;
+    const position = springs.position.get();
+    modelRef.current.position.set(position[0], position[1], position[2]);
+  });
+
+  return null;
 }
