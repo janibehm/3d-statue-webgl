@@ -1,13 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import About from "../../components/astro/About.astro";
+import Hero from "../../components/astro/Hero.astro";
+const heroTranslations = await import(`../../i18n/hero/fi.json`);
+const finnish = await import(`../../i18n/about/fi.json`);
 
 export const prerender = true;
-export async function getStaticPaths() {
-  return [{ params: { lang: "en" } }, { params: { lang: "fi" } }];
-}
 ---
 
 <Layout title="About">
-  <!--   <Hero translations={translations} page="about" />
-  <Services translations={translations.default} /> -->
+  <Hero heroTranslations={heroTranslations.default.hero} page="about" />
+  <About translations={finnish.default} />
 </Layout>

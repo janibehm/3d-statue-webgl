@@ -1,69 +1,79 @@
-import { useRef, useEffect } from "react";
-import { useThree, useFrame, Canvas } from "@react-three/fiber";
+import { useRef, useEffect, useMemo } from "react";
+import { useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
-import { useSpring } from "@react-spring/three";
-import * as THREE from "three";
+import { Group, Mesh, Material } from "three";
 import { sharedAnimation } from "./constants/animations";
 
 const MODEL_PATH = "/models/earth.glb";
 const MODEL_SCALE = 4;
-const MATERIAL_SETTINGS = {
-  metalness: 0.2,
-  roughness: 0.5,
-} as const;
+const SPAWN_POSITION = [0, -4.8, 0] as const;
+const FADE_DURATION = 2000;
 
-// Preload the model
-useGLTF.preload(MODEL_PATH);
+useGLTF.preload(MODEL_PATH, true);
 
 export function Sphere() {
-  const { scene: model } = useGLTF(MODEL_PATH);
-  const { scene } = useThree();
-  const modelRef = useRef<THREE.Group>();
+  const { scene: model } = useGLTF(MODEL_PATH, true);
+  const { scene, gl, camera } = useThree();
+  const modelRef = useRef<Group>(new Group());
 
-  const [springs, api] = useSpring(() => ({
-    position: [0, sharedAnimation.position.start.y, sharedAnimation.position.start.z],
-    opacity: 0,
-    config: {
-      mass: 1,
-      tension: 280,
-      friction: 120,
-    },
-    delay: sharedAnimation.delay,
-  }));
-
-  useEffect(() => {
-    if (!model) return;
+  const setupModel = useMemo(() => {
+    if (!model) return null;
 
     const modelInstance = model.clone();
     modelInstance.scale.setScalar(MODEL_SCALE);
-    modelInstance.position.set(
-      0,
-      sharedAnimation.position.start.y,
-      sharedAnimation.position.start.z,
-    );
+    modelInstance.position.set(...SPAWN_POSITION);
+    modelInstance.visible = false;
 
-    modelRef.current = modelInstance;
-    scene.add(modelInstance);
-
-    // Match Lucy's animation pattern
-    api.start({
-      position: [0, -4.8, sharedAnimation.position.end.z],
-      opacity: 1,
-      config: {
-        duration: sharedAnimation.duration * 1000,
-      },
+    modelInstance.traverse((child) => {
+      if (child instanceof Mesh && child.material) {
+        const material = child.material as Material;
+        material.transparent = true;
+        material.opacity = 0;
+      }
     });
 
-    return () => {
-      scene.remove(modelInstance);
-    };
-  }, [model, scene, api]);
+    gl.compile(modelInstance, camera);
 
-  useFrame(() => {
-    if (!modelRef.current) return;
-    const position = springs.position.get();
-    modelRef.current.position.set(position[0], position[1], position[2]);
-  });
+    return modelInstance;
+  }, [model, gl, camera]);
+
+  useEffect(() => {
+    if (!setupModel) return;
+
+    modelRef.current = setupModel;
+    scene.add(setupModel);
+
+    setTimeout(() => {
+      setupModel.visible = true;
+
+      const startTime = performance.now();
+
+      const fadeIn = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / FADE_DURATION, 1);
+
+        setupModel.traverse((child) => {
+          if (child instanceof Mesh && child.material) {
+            child.material.opacity = progress;
+          }
+        });
+
+        if (progress < 1) {
+          requestAnimationFrame(fadeIn);
+        }
+      };
+
+      requestAnimationFrame(fadeIn);
+    }, sharedAnimation.delay);
+
+    return () => {
+      scene.remove(setupModel);
+      setupModel.traverse((child: any) => {
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) child.material.dispose();
+      });
+    };
+  }, [setupModel, scene]);
 
   return null;
 }

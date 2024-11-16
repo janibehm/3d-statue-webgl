@@ -33,7 +33,7 @@ const navItems = [
 ] as const;
 
 const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
+const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath === "/fi";
 ---
 
 <nav class={`side-nav ${isHomePage ? "is-homepage" : "mobile-view"}`} id="navigation">
@@ -114,8 +114,8 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
   /* Default styles for all pages */
   .side-nav {
     position: fixed;
-    right: 5%;
-    top: 5%;
+    right: 1rem;
+    top: 1rem;
     z-index: 9999;
     padding: 10px;
     pointer-events: auto;
@@ -131,10 +131,13 @@ const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
 
   /* Default hamburger styles */
   .hamburger {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
     display: none;
     cursor: pointer;
     background-color: #00000080;
-    padding: 10px;
+    /* padding: 1rem; */
     border-radius: 5px;
   }
 

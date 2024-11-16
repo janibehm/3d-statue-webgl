@@ -55,30 +55,39 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
 </div>
 
 <script>
-  let lastScrollY = window.scrollY;
-  let ticking = false;
+  let lastY = 0;
   const langButtons = document.getElementById("langButtons");
 
-  const updateButtonVisibility = () => {
+  const updateButtonVisibility = (e: TouchEvent | WheelEvent) => {
     if (!langButtons) return;
 
-    // Hide when scrolling down, show when scrolling up
-    if (window.scrollY > lastScrollY) {
-      langButtons.style.opacity = "0";
-      langButtons.style.pointerEvents = "none";
+    let scrollingDown: boolean;
+
+    if (e instanceof WheelEvent) {
+      // For mouse wheel: hide when scrolling down (positive deltaY)
+      scrollingDown = e.deltaY > 0;
+    } else if (e instanceof TouchEvent && e.touches[0]) {
+      // For touch: compare with last position (inverted logic)
+      const currentY = e.touches[0].clientY;
+      scrollingDown = currentY < lastY; // Inverted comparison
+      lastY = currentY;
     } else {
-      langButtons.style.opacity = "1";
-      langButtons.style.pointerEvents = "auto";
+      return;
     }
 
-    lastScrollY = window.scrollY;
-    ticking = false;
+    // Update visibility based on scroll direction
+    langButtons.style.opacity = scrollingDown ? "0" : "1";
+    langButtons.style.pointerEvents = scrollingDown ? "none" : "auto";
   };
 
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      window.requestAnimationFrame(updateButtonVisibility);
-      ticking = true;
-    }
-  });
+  // Track wheel and touch events
+  window.addEventListener("wheel", updateButtonVisibility, { passive: true });
+  window.addEventListener("touchmove", updateButtonVisibility, { passive: true });
+  window.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches[0]) lastY = e.touches[0].clientY;
+    },
+    { passive: true },
+  );
 </script>
