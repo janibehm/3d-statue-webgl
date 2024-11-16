@@ -1,13 +1,14 @@
-<!-- ---
+---
 import Layout from "../../../layouts/Layout.astro";
 import About from "../../../components/astro/About.astro";
+import Hero from "../../../components/astro/Hero.astro";
+const heroTranslations = await import("../../../i18n/hero/en.json");
+const aboutTranslations = await import("../../../i18n/about/en.json");
 
 export const prerender = true;
-const lang = "en";
-const translations = await import(`../../..i18n/about/en.json`)
 ---
 
 <Layout title="About">
-  <About translations={translations.default} />
+  <Hero heroTranslations={heroTranslations.default.hero} page="about" />
+  <About translations={aboutTranslations.default} />
 </Layout>
- -->
