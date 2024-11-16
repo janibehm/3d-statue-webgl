@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Formik, Form, Field } from "formik";
+import type { FormikErrors, FormikTouched } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import ContactFormSuccess from "./ContactFormSuccess";
@@ -41,6 +42,15 @@ interface ContactFormProps {
       };
     };
   };
+}
+
+interface FormValues {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  privacy: boolean;
+  consultation?: boolean;
 }
 
 export default function ContactForm({ translations }: ContactFormProps) {
@@ -103,7 +113,15 @@ export default function ContactForm({ translations }: ContactFormProps) {
               }
             }}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {({
+              errors,
+              touched,
+              isSubmitting,
+            }: {
+              errors: FormikErrors<FormValues>;
+              touched: FormikTouched<FormValues>;
+              isSubmitting: boolean;
+            }) => (
               <Form className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-1 text-white">

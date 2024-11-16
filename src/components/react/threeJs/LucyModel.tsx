@@ -1,5 +1,5 @@
 import { useRef, useEffect, useMemo } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
 import { globalAnimationState, sharedAnimation } from "./constants/animations";
