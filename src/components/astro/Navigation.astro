@@ -33,10 +33,9 @@ const navItems = [
 ] as const;
 
 const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath === "/fi";
 ---
 
-<nav class={`side-nav ${isHomePage ? "is-homepage" : "mobile-view"}`} id="navigation">
+<nav class="side-nav" id="navigation">
   <div class="hamburger">
     <span></span>
     <span></span>
@@ -50,7 +49,7 @@ const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath =
             href={item.path}
             class:list={[
               "nav-link",
-              { active: currentPath === item.path || (isHomePage && item.path === `/${lang}`) },
+              { active: currentPath === item.path || (currentPath === "/" && item.path === `/${lang}`) },
             ]}
           >
             {t(item.key)}
@@ -111,34 +110,28 @@ const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath =
 </script>
 
 <style>
-  /* Default styles for all pages */
   .side-nav {
     position: fixed;
-    right: 1rem;
-    top: 1rem;
+    right: 5%;
+    top: 5%;
     z-index: 9999;
     padding: 10px;
-    pointer-events: auto;
   }
 
-  /* Default styles for lists */
   .side-nav ul {
+    display: none;
     list-style-type: none;
     padding: 0 15px;
     margin: 0;
     width: 100%;
   }
 
-  /* Default hamburger styles */
   .hamburger {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    display: none;
     cursor: pointer;
     background-color: #00000080;
-    /* padding: 1rem; */
+    padding: 10px;
     border-radius: 5px;
+    display: block;
   }
 
   .hamburger span {
@@ -150,74 +143,16 @@ const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath =
     transition: all 0.3s ease;
   }
 
-  /* Mobile view (default for all pages) */
-  @media (max-width: 1024px) {
-    .side-nav ul {
-      display: none;
-    }
-
-    .side-nav .hamburger {
-      display: block;
-    }
-
-    /* Homepage exception - still show hamburger on mobile */
-    .is-homepage ul {
-      display: none;
-    }
-
-    .is-homepage .hamburger {
-      display: block;
-    }
-  }
-
-  /* Desktop view (1024px and above) */
-  @media (min-width: 1024px) {
-    /* Homepage specific */
-    .is-homepage ul {
-      display: block;
-    }
-
-    .is-homepage .hamburger {
-      display: none;
-    }
-
-    /* Other pages - always show hamburger */
-    .mobile-view ul {
-      display: none;
-    }
-
-    .mobile-view .hamburger {
-      display: block;
-    }
-  }
-
   /* Open menu styles */
   .side-nav.open {
     background-color: rgba(0, 0, 0, 0.85);
     border-radius: 5px;
     width: 200px;
-    min-width: 200px;
   }
 
   .side-nav.open ul {
     display: block;
     margin-top: 10px;
-  }
-
-  .side-nav.open .nav-link {
-    padding: 8px 0;
-  }
-
-  .side-nav.open .nav-link::before {
-    display: none;
-  }
-
-  .side-nav li {
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
   }
 
   .nav-link {
@@ -226,29 +161,10 @@ const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath =
     text-decoration: none;
     color: #ffffff;
     font-family: "Exo", sans-serif;
-    font-style: normal;
     font-size: 16px;
     font-weight: 700;
     transition: all 0.3s ease;
-    min-width: 120px;
-  }
-
-  .nav-link::before {
-    content: "";
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    margin-right: 10px;
-    transition: all 0.3s ease;
-    position: absolute;
-    left: 0;
-  }
-
-  .nav-link:hover::before {
-    width: 14px;
-    height: 14px;
-    background-color: #00ff00;
+    padding: 8px 0;
   }
 
   .nav-link:hover {
@@ -257,20 +173,6 @@ const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath =
 
   .nav-link.active {
     color: rgba(255, 255, 255, 0.6);
-  }
-
-  .nav-link.active::before {
-    background-color: #ffffff99;
-    width: 14px;
-    height: 14px;
-  }
-
-  .mobile-view .hamburger {
-    display: block;
-  }
-
-  .mobile-view ul {
-    display: none;
   }
 
   .side-nav.open .hamburger span:nth-child(1) {
@@ -283,13 +185,5 @@ const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath =
 
   .side-nav.open .hamburger span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
-  }
-
-  .mobile-view .nav-link::before {
-    display: none;
-  }
-
-  .mobile-view .nav-link {
-    padding: 8px 0;
   }
 </style>
