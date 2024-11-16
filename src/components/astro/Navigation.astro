@@ -33,7 +33,7 @@ const navItems = [
 ] as const;
 
 const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === "/" || currentPath === `/${lang}`;
+const isHomePage = currentPath === "/" || currentPath === "/en" || currentPath === "/fi";
 ---
 
 <nav class={`side-nav ${isHomePage ? "is-homepage" : "mobile-view"}`} id="navigation">

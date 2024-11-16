@@ -3,7 +3,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
 import { globalAnimationState, sharedAnimation } from "./constants/animations";
-import { useSpring } from "@react-spring/three";
 
 const MODEL_SCALE = 0.0024;
 
@@ -16,35 +15,6 @@ export function LucyModel() {
   const modelRef = useRef<THREE.Group>();
   const { progress } = useProgress();
 
-  // Memoize initial spring position
-  const initialPosition = useMemo(
-    () => [0, sharedAnimation.position.start.y + 3.8, sharedAnimation.position.start.z],
-    [],
-  );
-
-  // Setup renderer once
-  useEffect(() => {
-    gl.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    gl.shadowMap.enabled = false;
-  }, [gl]);
-
-  const [springs, api] = useSpring(() => ({
-    position: initialPosition,
-    config: {
-      mass: 1,
-      tension: 280,
-      friction: 120,
-    },
-    delay: sharedAnimation.delay,
-    onChange: () => {
-      const currentY = springs.position.get()[1];
-      if (Math.abs(currentY - -0.5) < 0.01) {
-        globalAnimationState.setIsLucyInPosition(true);
-      }
-    },
-  }));
-
-  // Optimize model setup
   const setupModel = useMemo(() => {
     if (!model) return null;
 
@@ -52,16 +22,15 @@ export function LucyModel() {
     modelInstance.visible = true;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
-    modelInstance.position.set(
-      0,
-      sharedAnimation.position.start.y,
-      sharedAnimation.position.start.z,
-    );
+    modelInstance.position.set(0, -0.5, 0);
 
-    // Only essential traversal
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.frustumCulled = true;
+        if (child.material) {
+          child.material.transparent = true;
+          child.material.opacity = 0;
+        }
       }
     });
 
@@ -69,24 +38,44 @@ export function LucyModel() {
   }, [model]);
 
   useEffect(() => {
-    if (progress === 100 && model) {
-      globalAnimationState.isLucyReady = true;
+    if (setupModel) {
+      console.log("Lucy position:", setupModel.position);
+      console.log("Lucy visible:", setupModel.visible);
     }
-  }, [progress, model]);
+  }, [setupModel]);
 
   useEffect(() => {
-    if (!setupModel) return;
+    if (!setupModel || progress !== 100) return;
 
-    // Compile scene before adding
     gl.compile(setupModel, camera);
     modelRef.current = setupModel;
     scene.add(setupModel);
     globalAnimationState.isLucyMounted = true;
 
+    // Fade in animation
+    const duration = 2000; // 2 seconds
+    const startTime = performance.now();
+
+    const fadeIn = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      setupModel.traverse((child) => {
+        if (child instanceof THREE.Mesh && child.material) {
+          child.material.opacity = progress;
+        }
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(fadeIn);
+      }
+    };
+
+    requestAnimationFrame(fadeIn);
+
     return () => {
       globalAnimationState.isLucyMounted = false;
       scene.remove(setupModel);
-      // Clean up geometries and materials
       setupModel.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.geometry.dispose();
@@ -94,21 +83,7 @@ export function LucyModel() {
         }
       });
     };
-  }, [setupModel, scene, gl, camera]);
-
-  // Optimized animation frame
-  useFrame(() => {
-    if (!modelRef.current) return;
-    const [x, y, z] = springs.position.get();
-    modelRef.current.position.set(x, y, z);
-  });
-
-  useEffect(() => {
-    api.start({
-      position: [0, -0.5, sharedAnimation.position.end.z],
-      config: { duration: sharedAnimation.duration * 1000 },
-    });
-  }, [api]);
+  }, [setupModel, scene, gl, camera, progress]);
 
   return null;
 }
