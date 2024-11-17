@@ -91,6 +91,9 @@
     font-family: "Exo", sans-serif;
     height: 100%;
     background-color: black;
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
   }
 
   body {
@@ -103,15 +106,20 @@
     overflow: hidden;
     position: fixed;
     touch-action: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   .scrollable-content {
     width: 100%;
-    height: 100vh;
-    overflow-y: auto;
+    height: 100%;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     position: absolute;
     touch-action: pan-y;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 
