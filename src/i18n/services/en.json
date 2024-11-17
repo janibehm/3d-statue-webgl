@@ -43,7 +43,7 @@
       "title": "Development & Technologies",
       "frontendDevelopment": {
         "title": "Frontend Development",
-        "description": "The website interface is implemented using JavaScript and React, ensuring a flexible and dynamic user experience. If the website requires static optimization or server-side rendering, we use Next.js to improve speed and SEO. HTML and CSS provide a solid foundation and styling for the website, while Astro enables fast loading of lighter static pages."
+        "description": "The website's user interface is built with JavaScript and either React or Next.js, ensuring a flexible and dynamic user experience. In static sites we can use Astro."
       },
       "contentManagement": {
         "title": "Content Management",
@@ -55,7 +55,7 @@
       },
       "databaseAndDataStorage": {
         "title": "Database and Data Storage",
-        "description": "Depending on the project's requirements, we can use various database solutions, such as NoSQL and SQL databases, ensuring scalability and data security."
+        "description": "We use Firebase for data storage in projects where using a database is required."
       },
       "3dDevelopment": {
         "title": "3D Development",
@@ -122,7 +122,7 @@
     },
     "maintenance": {
       "description": "You can choose a maintenance plan after launch.",
-      "content": ["Maintenance includes server hosting costs and security updates."]
+      "content": ["Maintenance includes technical support and maintenance services, as well as security updates."]
     },
     "contactButton": "Get Started"
   }

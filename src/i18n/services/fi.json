@@ -43,7 +43,7 @@
       "title": "Kehitys & teknologiat",
       "frontendDevelopment": {
         "title": "Frontend-kehitys",
-        "description": "Sivuston käyttöliittymä toteutetaan JavaScriptillä ja Reactilla, mikä takaa joustavan ja dynaamisen käyttökokemuksen. Jos sivusto vaatii staattista optimointia tai server-side-renderöintiä, käytämme Next.js:ää nopeuden ja SEO parantamiseksi. HTML ja CSS takaavat sivuston vankan pohjan ja tyylikkyyden, kun taas Astro mahdollistaa kevyempien staattisten sivujen nopean latauksen."
+        "description": "Sivuston käyttöliittymä toteutetaan JavaScriptillä ja Reactilla tai Next.js:llä, mikä takaa joustavan ja dynaamisen käyttökokemuksen. Staattisilla sivuilla voimme käyttää Astroa."
       },
       "contentManagement": {
         "title": "Sisällönhallinta",
@@ -55,7 +55,7 @@
       },
       "databaseAndDataStorage": {
         "title": "Tietokanta ja tiedon tallennus",
-        "description": "Riippuen projektin tarpeista, voimme hyödyntää erilaisia tietokantaratkaisuja, kuten NoSQL- ja SQL-tietokantoja, jotka takaavat skaalautuvuuden ja tietoturvan."
+        "description": "Käytämme Firebasea tiedon tallennukseen projekteissa, joissa sen käyttö on tarpeen."
       },
       "3dDevelopment": {
         "title": "3D-kehitys",
@@ -121,7 +121,7 @@
     },
     "maintenance": {
       "description": "Voit valita ylläpitosopimuksen julkaisun jälkeen.",
-      "content": ["Ylläpitoon sisältyy palvelimen hosting-kustannukset ja tietoturvapäivitykset."]
+      "content": ["Ylläpitoon sisältyy tekninentuki ja ylläpitopalvelu, sekä tietoturvapäivitykset."]
     },
     "contactButton": "Ota Yhteyttä"
   }
