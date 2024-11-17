@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import type { FormikErrors, FormikTouched } from "formik";
 import * as Yup from "yup";
@@ -55,6 +55,12 @@ interface FormValues {
 
 export default function ContactForm({ translations }: ContactFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (isSubmitted) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isSubmitted]);
 
   console.log("Current isSubmitted state:", isSubmitted);
 
