@@ -5,14 +5,14 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<div class="scrollable-content">
+<div class="scrollable-content overflow-x-hidden">
   <main
     class="absolute text-white z-[1] grid grid-cols-12 pointer-events-auto top-[70vh]
           w-[100%]
           xl:w-[35%] md:top-[400px] xl:ml-5 md:ml-5 pl-5 pr-5"
   >
     <blockquote
-      class="col-span-12 mb-spacing
+      class="col-span-12 mb-spacing overflow-x-hidden
             sm:col-span-10 sm:col-start-2
             md:col-start-1"
     >
