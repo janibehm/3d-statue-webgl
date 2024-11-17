@@ -11,10 +11,10 @@ const positionClass = isHome ? "absolute top-0 left-0 right-0" : "relative top-0
 <header
   class:list={[
     positionClass,
-    "w-full lg:min-h-[245px] min-h-[240px] flex flex-col justify-center text-white bg-black/95 z-50 overscroll-none",
+    "w-full lg:min-h-[245px] min-h-[240px] flex flex-col justify-center text-white bg-black/95 z-50 overflow-x-hidden",
   ]}
 >
-  <div class="px-4 max-w-[90%] mx-auto sm:px-8 md:ml-[60px] md:max-w-none relative">
+  <div class="px-4 max-w-[90%] mx-auto sm:px-8 md:ml-[60px] md:max-w-none relative overflow-x-hidden">
     <h1 class="text-3xl sm:text-4xl font-display antialiased font-medium pointer-events-none">BEHM Digital</h1>
     <p class="text-lg leading-relaxed mt-4 sm:text-xl pointer-events-none">
       {t("header.slogan")}
