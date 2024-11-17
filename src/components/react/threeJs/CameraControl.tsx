@@ -23,7 +23,7 @@ export function CameraControl() {
 
     const handleTouchMove = (event: TouchEvent) => {
       const deltaY = touchStart.current - event.touches[0].clientY;
-      targetScrollY.current += deltaY * 0.003; // Adjust sensitivity here
+      targetScrollY.current += deltaY * 0.005; // Adjust sensitivity here
       targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
       touchStart.current = event.touches[0].clientY;
     };
