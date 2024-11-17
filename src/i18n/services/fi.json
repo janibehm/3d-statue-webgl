@@ -122,6 +122,7 @@
     "maintenance": {
       "description": "Voit valita ylläpitosopimuksen julkaisun jälkeen.",
       "content": ["Ylläpitoon sisältyy palvelimen hosting-kustannukset ja tietoturvapäivitykset."]
-    }
+    },
+    "contactButton": "Ota Yhteyttä"
   }
 }

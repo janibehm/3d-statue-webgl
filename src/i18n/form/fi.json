@@ -1,7 +1,7 @@
 {
   "contact": {
     "thankYou": "Kiitos",
-    "successMessage": "Viesti lähetetty onnistuneesti!",
+    "successMessage": "Viesti lähetetty onnistuneesti! Olemme sinuun yhteydessä mahdollisimman pian.",
     "sendAnother": "Lähetä uusi viesti"
   },
   "form": {

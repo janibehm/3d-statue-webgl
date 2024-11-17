@@ -113,8 +113,10 @@ interface ServicesProps {
           description: string;
         };
       };
+      contactButton: string;
     };
   };
+  lang?: string;
 }
 
 const {
@@ -158,8 +160,10 @@ const {
         analyticsManagement: { title: "", description: "" },
         integrationAndPrivacyNotices: { title: "", description: "" },
       },
+      contactButton: "",
     },
   },
+  lang = 'en'
 }: ServicesProps = Astro.props;
 const { sections, process } = translations;
 ---
@@ -169,7 +173,7 @@ const { sections, process } = translations;
   <section class="bg-black/95 text-white py-24">
     <div class="max-w-6xl mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold mb-4">{sections?.planning?.title}</h2>
+        <h2 class="text-3xl font-bold mb-4 text-green-400">{sections?.planning?.title}</h2>
         <p class="text-xl text-gray-300">{sections?.planning?.subtitle}</p>
       </div>
 
@@ -184,7 +188,7 @@ const { sections, process } = translations;
             </ul>
           </div>
           <div>
-            <h3 class="text-xl font-bold mb-4">{process?.customer_analysis?.title}</h3>
+            <h3 class="text-xl font-bold mb-4 text-green-400">{process?.customer_analysis?.title}</h3>
             <p class="text-lg">{process?.customer_analysis?.description}</p>
           </div>
         </div>
@@ -206,7 +210,7 @@ const { sections, process } = translations;
   <section class="bg-black/95 text-white py-24">
     <div class="max-w-6xl mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold mb-4">{process?.developmentPhases?.title}</h2>
+        <h2 class="text-3xl font-bold mb-4 text-green-400">{process?.developmentPhases?.title}</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <!-- Frontend & CMS -->
@@ -260,7 +264,7 @@ const { sections, process } = translations;
   <section class="bg-black/95 text-white py-24">
     <div class="max-w-6xl mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold mb-4">{process?.gdprCompliance?.gdprComplianceTitle}</h2>
+        <h2 class="text-3xl font-bold mb-4 text-green-400">{process?.gdprCompliance?.gdprComplianceTitle}</h2>
         <p class="text-xl text-gray-300">{process?.gdprCompliance?.dataPrivacyDescription}</p>
       </div>
 
@@ -292,7 +296,7 @@ const { sections, process } = translations;
   <section class="bg-black/95 text-white py-14">
     <div class="max-w-6xl mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold mb-4">{sections?.technical?.title}</h2>
+        <h2 class="text-3xl font-bold mb-4 text-green-400">{sections?.technical?.title}</h2>
         <p class="text-xl text-gray-300">{sections?.technical?.subtitle}</p>
       </div>
 
@@ -337,7 +341,7 @@ const { sections, process } = translations;
   <section class="bg-black/95 text-white py-14">
     <div class="max-w-6xl mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold mb-4">{sections?.final?.title}</h2>
+        <h2 class="text-3xl font-bold mb-4 text-green-400">{sections?.final?.title}</h2>
         <p class="text-xl text-gray-300">{sections?.final?.subtitle}</p>
       </div>
 
@@ -372,7 +376,17 @@ const { sections, process } = translations;
         </div>
       </div>
     </div>
+    <div class="text-center mt-12">
+      <a 
+        href={lang === "fi" ? "/yhteydenotto" : "/en/contact"}
+        class="inline-block bg-green-400 text-black px-8 py-3 rounded-full 
+               hover:bg-green-300 transition-colors duration-300"
+      >
+        {process.contactButton}
+      </a>
+    </div>
   </section>
+    
 </div>
 
 <script>

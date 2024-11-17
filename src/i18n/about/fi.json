@@ -1,6 +1,10 @@
 {
-  "description": "Olemme Helsingistä kotoisin oleva digitaalisten ratkaisujen asiantuntijaputiikki. Erikoisalaamme ovat visuaalisesti näyttävät ja huolella suunnitellut kotisivut, joissa yhdistyvät selkeä informaation esittäminen ja modernit teknologiset ratkaisut. Tarjoamme myös räätälöityjä toteutuksia, kuten 3D-teknologiaa hyödyntäviä projekteja. Katsomme aina projektikohtaisesti, minkälaista teknologiaa kannattaa käyttää. Esimerkiksi monisivuiset informaatiopainotteiset sivut optimoimme niin, että tekstin ja kuvien tuonti on helppoa asiakkaalle ja että sivut latautuvat nopeasti.",
+ "title":"Keitä olemme?",
+  "ourApproach":"Lähestymistapamme",
+  "description": "Olemme Helsingissä sijaitseva digitaalisten ratkaisujen toteuttaja. Erikoisalaamme ovat visuaalisesti näyttävät ja huolella suunnitellut kotisivut, joissa yhdistyvät selkeä informaation esittäminen ja modernit teknologiset ratkaisut. Tarjoamme myös räätälöityjä toteutuksia, kuten 3D-teknologiaa hyödyntäviä projekteja. Katsomme aina projektikohtaisesti, minkälaista teknologiaa kannattaa käyttää. Esimerkiksi monisivuiset informaatiopainotteiset sivut optimoimme niin, että tekstin ja kuvien tuonti on helppoa asiakkaalle ja että sivut latautuvat nopeasti.",
   "approach": "Voimme ohjelmoida sivuston alusta alkaen ilman valmiita alustoja, kuten WordPressiä. Tämä lähestymistapa antaa meille enemmän joustavuutta luovan suunnittelun ja teknisten yksityiskohtien suhteen. Näin voimme optimoida kotisivujen nopeutta, hakukonenäkyvyyttä (SEO) ja muita kriittisiä ominaisuuksia huomattavasti paremmin. Voimme tietyissä projekteissa käyttää myös Webflowta, jos katsomme, että se sopii tarpeisiisi paremmin.",
-  "maintenance": "Tarjoamme myös ylläpitopalvelua, jonka ansiosta sivusi pysyy turvallisena ja ylhäällä. Teemme aktiivisesti auditointeja ja takaamme pitkäaikaisen ylläpidon.",
-  "cta": "Ota yhteyttä ja kysy halutessasi ilmaista konsultaatiota, niin voimme keskustella huoletta siitä, miten voit kehittää yrityksesi tai organisaatiosi verkkoratkaisuja."
+  "maintenanceTitle": "Ylläpito",
+  "maintenance": "Tarjoamme myös ylläpitopalvelua, jonka ansiosta sivusi pysyy turvallisena ja ylhäällä. Teemme aktiivisesti auditointeja ja takaamme pitkäaikaisen asiakastuen.",
+  "cta": "Ota yhteyttä ja kysy halutessasi ilmaista konsultaatiota, niin voimme keskustella huoletta siitä, miten voit kehittää yrityksesi tai organisaatiosi verkkoratkaisuja.",
+  "contactButton": "Ota Yhteyttä"
 }

@@ -123,6 +123,7 @@
     "maintenance": {
       "description": "You can choose a maintenance plan after launch.",
       "content": ["Maintenance includes server hosting costs and security updates."]
-    }
+    },
+    "contactButton": "Get Started"
   }
 }

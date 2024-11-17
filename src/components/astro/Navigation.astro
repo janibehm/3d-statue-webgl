@@ -18,14 +18,15 @@ const navItems = [
     key: "nav.home",
     path: lang === "fi" ? "/" : `/${lang}`,
   },
+   {
+    key: "nav.about",
+    path: lang === "fi" ? "/tietoa" : `/${lang}/${pathNames.about[lang]}`,
+  },
   {
     key: "nav.services",
     path: lang === "fi" ? "/palvelut" : `/${lang}/${pathNames.services[lang]}`,
   },
-  {
-    key: "nav.about",
-    path: lang === "fi" ? "/tietoa" : `/${lang}/${pathNames.about[lang]}`,
-  },
+ 
   {
     key: "nav.contact",
     path: lang === "fi" ? "/yhteydenotto" : `/${lang}/${pathNames.contact[lang]}`,

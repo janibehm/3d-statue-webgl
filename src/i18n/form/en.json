@@ -1,7 +1,7 @@
 {
   "contact": {
     "thankYou": "Thank you",
-    "successMessage": "Your message has been sent successfully",
+    "successMessage": "Your message has been sent successfully! We will get back to you as soon as possible.",
     "sendAnother": "Send another message"
   },
   "form": {
