@@ -100,9 +100,17 @@
     background-color: black;
     width: 100%;
     height: 100%;
-    /* Allow vertical scrolling */
-    overflow: auto;
-    position: relative;
+    overflow: hidden;
+    position: fixed;
+    touch-action: none;
+  }
+
+  .scrollable-content {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
     touch-action: pan-y;
   }
 }
