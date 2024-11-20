@@ -80,13 +80,24 @@ export default function ContactForm({ translations }: ContactFormProps) {
 
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
-      {/* Background image */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url("/light_rays.jpeg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center 30%",
+        }}
+      />
 
-      {/* Full overlay */}
-      <div className="absolute inset-0 bg-black/95" />
+      {/* Overlay with gradient lighting effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/95 via-black/90 to-black/80" />
+      
+      {/* Corner light effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.1)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.1)_0%,_transparent_30%)]" />
 
       {/* Content container */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center pb-20 bg-dark-bg">
+      <div className="relative z-10 w-full h-full flex items-center justify-center pb-20">
         <div className="w-full max-w-md p-8">
           <Formik
             initialValues={{
