@@ -23,7 +23,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     if (!model) return null;
 
     const modelInstance = model.clone();
-    modelInstance.visible = true;
+    modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
     modelInstance.position.set(0, -0.5, 0);
@@ -59,13 +59,14 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     onLoad?.();
 
     // Fade in animation
-    const duration = 2000; // 2 seconds
+    const duration = 2000;
     const startTime = performance.now();
 
     const fadeIn = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
+      setupModel.visible = true;
       setupModel.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material) {
           child.material.opacity = progress;
