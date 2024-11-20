@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import type { FormikErrors, FormikTouched } from "formik";
 import * as Yup from "yup";
@@ -55,8 +55,22 @@ interface FormValues {
 
 export default function ContactForm({ translations }: ContactFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  console.log("Current isSubmitted state:", isSubmitted);
+  // Preload image
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/light_rays.jpeg";
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
+  if (!imageLoaded) {
+    return (
+      <div className="min-h-[calc(100vh-260px)] relative bg-black">
+        {/* Optional loading indicator */}
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return <ContactFormSuccess onReset={() => setIsSubmitted(false)} translations={translations} />;
@@ -80,7 +94,7 @@ export default function ContactForm({ translations }: ContactFormProps) {
 
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
-       <div
+      <div
         className="absolute inset-0"
         style={{
           backgroundImage: 'url("/light_rays.jpeg")',
