@@ -151,7 +151,7 @@ export default function ContactForm({ translations }: ContactFormProps) {
               <Form className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-1 text-white">
-                    {translations.form.name}
+                    {translations.form.name} <span className="text-red-400">*</span>
                   </label>
                   <Field
                     name="name"
@@ -199,7 +199,7 @@ export default function ContactForm({ translations }: ContactFormProps) {
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-1 text-white">
-                    {translations.form.message}
+                    {translations.form.message} <span className="text-red-400">*</span>
                   </label>
                   <Field
                     name="message"
