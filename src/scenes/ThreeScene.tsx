@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { Html, Preload } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import { LucyModel } from "../components/react/threeJs/LucyModel";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
 import { globalAnimationState } from "../components/react/threeJs/constants/animations";
@@ -42,6 +42,7 @@ function ThreeScene() {
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
   const [isLucyReady, setIsLucyReady] = useState(false);
   const [isMobile] = useState(isMobileDevice);
+  const [isBaseSceneLoaded, setIsBaseSceneLoaded] = useState(false);
 
   useEffect(() => {
     const onLucyPositionChange = () => {
@@ -85,16 +86,23 @@ function ThreeScene() {
         }}
       >
         <color attach="background" args={[0x000000]} />
+        <Stars />
+        <ambientLight intensity={0.05} />
+        <hemisphereLight intensity={0.2} groundColor="#080820" />
+        <CameraControl />
+        
+        {/* First stage - Lucy */}
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
-          <ambientLight intensity={0.05} />
-          <hemisphereLight intensity={0.2} groundColor="#080820" />
-          <SpotLightAnimation />
-          <Sphere />
-          <LucyModel />
-          <Stars />
-          <CameraControl />
-          <Preload all />
+          <LucyModel onLoad={() => setIsBaseSceneLoaded(true)} />
         </Suspense>
+
+        {/* Second stage - Sphere and Spotlight */}
+        {isBaseSceneLoaded && (
+          <Suspense fallback={null}>
+            <Sphere />
+            <SpotLightAnimation />
+          </Suspense>
+        )}
       </Canvas>
     </div>
   );
