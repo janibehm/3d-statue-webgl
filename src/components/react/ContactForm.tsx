@@ -101,13 +101,13 @@ export default function ContactForm({ translations }: ContactFormProps) {
       />
 
       {/* Overlay with gradient lighting effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black to-black/95" />
+      <div className="absolute inset-0 bg-black" />
       
       {/* Corner and middle light effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.03)_0%,_transparent_20%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.05)_0%,_transparent_20%)]" />
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.05)_0%,_transparent_20%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.05)_0%,_transparent_20%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.03)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.05)_0%,_transparent_30%)]" />
+       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.05)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.05)_0%,_transparent_30%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_center,_rgba(255,255,255,0.05)_0%,_transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,_rgba(255,255,255,0.05)_0%,_transparent_50%)]" />
 
