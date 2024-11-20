@@ -43,7 +43,7 @@
       "title": "Kehitys & teknologiat",
       "frontendDevelopment": {
         "title": "Frontend-kehitys",
-        "description": "Sivuston käyttöliittymä toteutetaan JavaScriptillä ja Reactilla tai Next.js:llä, mikä takaa joustavan ja dynaamisen käyttökokemuksen. Staattisilla sivuilla voimme käyttää Astroa."
+        "description": "Sivuston käyttöliittymä toteutetaan JavaScriptillä ja Reactilla tai Next.js:llä, mikä takaa joustavan ja dynaamisen käyttökokemuksen. 3D-sivuilla käytämme Three.js kirjastoa."
       },
       "contentManagement": {
         "title": "Sisällönhallinta",

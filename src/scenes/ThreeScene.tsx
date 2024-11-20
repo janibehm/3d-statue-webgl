@@ -94,12 +94,13 @@ function ThreeScene() {
         {/* First stage - Lucy */}
         <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
           <LucyModel onLoad={() => setIsBaseSceneLoaded(true)} />
+          <Sphere />
         </Suspense>
 
         {/* Second stage - Sphere and Spotlight */}
         {isBaseSceneLoaded && (
           <Suspense fallback={null}>
-            <Sphere />
+       
             <SpotLightAnimation />
           </Suspense>
         )}
