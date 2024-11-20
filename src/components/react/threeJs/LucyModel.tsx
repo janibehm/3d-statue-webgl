@@ -9,7 +9,11 @@ const MODEL_SCALE = 0.0024;
 // Preload with low priority and draco compression
 useGLTF.preload("/models/Lucy.glb", true);
 
-export function LucyModel() {
+interface LucyModelProps {
+  onLoad?: () => void;
+}
+
+export function LucyModel({ onLoad }: LucyModelProps) {
   const { scene: model } = useGLTF("/models/Lucy.glb", true);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
@@ -19,7 +23,7 @@ export function LucyModel() {
     if (!model) return null;
 
     const modelInstance = model.clone();
-    modelInstance.visible = true;
+    modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
     modelInstance.position.set(0, -0.5, 0);
@@ -51,6 +55,8 @@ export function LucyModel() {
     modelRef.current = setupModel;
     scene.add(setupModel);
     globalAnimationState.isLucyMounted = true;
+    
+    onLoad?.();
 
     // Fade in animation
     const duration = 2000;
@@ -60,6 +66,7 @@ export function LucyModel() {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
+      setupModel.visible = true;
       setupModel.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material) {
           child.material.opacity = progress;
@@ -87,7 +94,7 @@ export function LucyModel() {
         }
       });
     };
-  }, [setupModel, scene, gl, camera, progress]);
+  }, [setupModel, scene, gl, camera, progress, onLoad]);
 
   return null;
 }

@@ -43,7 +43,7 @@
       "title": "Development & Technologies",
       "frontendDevelopment": {
         "title": "Frontend Development",
-        "description": "The website's user interface is built with JavaScript and either React or Next.js, ensuring a flexible and dynamic user experience. In static sites we can use Astro."
+        "description": "The website's user interface is built with JavaScript and either React or Next.js, ensuring a flexible and dynamic user experience. On 3D-sites we use the Three.js library."
       },
       "contentManagement": {
         "title": "Content Management",
