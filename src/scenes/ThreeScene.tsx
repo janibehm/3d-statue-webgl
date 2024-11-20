@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import { Html } from "@react-three/drei";
 import { LucyModel } from "../components/react/threeJs/LucyModel";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
-import { globalAnimationState } from "../components/react/threeJs/constants/animations";
 import { Sphere } from "../components/react/threeJs/Sphere";
 import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
@@ -18,6 +17,8 @@ function Loader({ onLoad }: { onLoad: () => void }) {
       onLoad();
     };
   }, [onLoad]);
+
+  
 
   return (
     <Html center>
@@ -40,10 +41,10 @@ function Loader({ onLoad }: { onLoad: () => void }) {
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
-  const [isLucyReady, setIsLucyReady] = useState(false);
+/*   const [isLucyReady, setIsLucyReady] = useState(false); */
   const [isMobile] = useState(isMobileDevice);
   const [isBaseSceneLoaded, setIsBaseSceneLoaded] = useState(false);
-
+/* 
   useEffect(() => {
     const onLucyPositionChange = () => {
       if (globalAnimationState.isLucyInPosition) {
@@ -60,7 +61,7 @@ function ThreeScene() {
     // Cleanup subscription
     return () => globalAnimationState.unsubscribe(onLucyPositionChange);
   }, []);
-
+ */
   return (
     <div
       style={{
@@ -76,7 +77,7 @@ function ThreeScene() {
         pointerEvents: isMobile ? "none" : "auto",
       }}
     >
-      <ScrollIndicator isSceneLoaded={isSceneLoaded && isLucyReady} />
+      <ScrollIndicator isSceneLoaded={isSceneLoaded } />
       <Canvas
         camera={{ position: [0, 2, 5], fov: 75 }}
         key={key}

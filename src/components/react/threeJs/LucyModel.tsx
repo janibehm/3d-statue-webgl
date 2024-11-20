@@ -2,7 +2,6 @@ import { useRef, useEffect, useMemo } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
-import { globalAnimationState, sharedAnimation } from "./constants/animations";
 
 const MODEL_SCALE = 0.0024;
 
@@ -54,7 +53,6 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     gl.compile(setupModel, camera);
     modelRef.current = setupModel;
     scene.add(setupModel);
-    globalAnimationState.isLucyMounted = true;
     
     onLoad?.();
 
@@ -81,7 +79,6 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     requestAnimationFrame(fadeIn);
 
     return () => {
-      globalAnimationState.isLucyMounted = false;
       scene.remove(setupModel);
       setupModel.traverse((child) => {
         if (child instanceof THREE.Mesh) {
