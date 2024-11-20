@@ -17,12 +17,16 @@ export default function ContactFormSuccess({ onReset, translations }: ContactFor
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: 'url("/800px-Op_under_Fjeldet_toner_en_Lur.jpg")',
+          backgroundImage: 'url("/light_rays.jpeg")',
           backgroundSize: "cover",
           backgroundPosition: "center 30%",
         }}
       />
-      <div className="absolute inset-0 bg-black/95" />
+    * <div className="absolute inset-0 bg-black/55" /> 
+     
+      {/* Corner light effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.1)_0%,_transparent_20%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.1)_0%,_transparent_20%)]" />
 
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <div className={clsx("w-full max-w-md p-8", "text-center text-white", "animate-fade-in")}>
