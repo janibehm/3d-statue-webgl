@@ -53,7 +53,7 @@ export function LucyModel() {
     globalAnimationState.isLucyMounted = true;
 
     // Fade in animation
-    const duration = 2000; // 2 seconds
+    const duration = 2000;
     const startTime = performance.now();
 
     const fadeIn = (currentTime: number) => {
@@ -68,6 +68,9 @@ export function LucyModel() {
 
       if (progress < 1) {
         requestAnimationFrame(fadeIn);
+      } else {
+        // Signal that Lucy is ready after fade completes
+        globalAnimationState.setIsLucyInPosition(true);
       }
     };
 
@@ -75,6 +78,7 @@ export function LucyModel() {
 
     return () => {
       globalAnimationState.isLucyMounted = false;
+      globalAnimationState.setIsLucyInPosition(false);  // Reset on unmount
       scene.remove(setupModel);
       setupModel.traverse((child) => {
         if (child instanceof THREE.Mesh) {
