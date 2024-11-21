@@ -65,7 +65,7 @@ export const LanguageText = {
     //Nav
     "nav.home": "Etusivu",
     "nav.services": "Palvelut",
-    "nav.about": "Tietoa",
+    "nav.about": "Meistä",
     "nav.contact": "Ota Yhteyttä",
     //Scroll Indicator
     scrollIndicator: "Selaa alas",

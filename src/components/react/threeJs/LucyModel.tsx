@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
 import { useSpring } from "@react-spring/three";
 
-const MODEL_SCALE = 0.0028;
+const MODEL_SCALE = 0.0027;
 
 // Preload with low priority and draco compression
 useGLTF.preload("/models/Lucy.glb", true);
@@ -20,8 +20,8 @@ export function LucyModel({ onLoad }: LucyModelProps) {
   const { progress } = useProgress();
 
   const [springs] = useSpring(() => ({
-    from: { position: [0, 6, 0], opacity: 0 },
-    to: { position: [0, -0.6, 0], opacity: 1 },
+    from: { opacity: 0 },
+    to: { opacity: 1 },
     config: { duration: 1000 },
     delay: 500
   }));
@@ -33,6 +33,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
+    modelInstance.position.set(0, -0.1, 0);
 
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -52,19 +53,14 @@ export function LucyModel({ onLoad }: LucyModelProps) {
   const hoverAmplitude = 0.1;
   const timeRef = useRef(0);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!setupModel) return;
-    const position = springs.position.get();
     
     // Add hovering motion
     timeRef.current += hoverSpeed;
     const hoverOffset = Math.sin(timeRef.current) * hoverAmplitude;
     
-    setupModel.position.set(
-      position[0],
-      position[1] + hoverOffset,
-      position[2]
-    );
+    setupModel.position.y = -0.6 + hoverOffset;
     
     setupModel.traverse((child) => {
       if (child instanceof THREE.Mesh && child.material) {
