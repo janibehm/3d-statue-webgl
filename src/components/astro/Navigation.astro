@@ -9,7 +9,7 @@ const t = useTranslations(lang);
 
 const pathNames = {
   services: { fi: "palvelut", en: "services" },
-  about: { fi: "tietoa", en: "about" },
+  about: { fi: "meistä", en: "about" },
   contact: { fi: "yhteydenotto", en: "contact" },
 } as const;
 
@@ -18,15 +18,15 @@ const navItems = [
     key: "nav.home",
     path: lang === "fi" ? "/" : `/${lang}`,
   },
-   {
+  {
     key: "nav.about",
-    path: lang === "fi" ? "/tietoa" : `/${lang}/${pathNames.about[lang]}`,
+    path: lang === "fi" ? "/meistä" : `/${lang}/${pathNames.about[lang]}`,
   },
   {
     key: "nav.services",
     path: lang === "fi" ? "/palvelut" : `/${lang}/${pathNames.services[lang]}`,
   },
- 
+
   {
     key: "nav.contact",
     path: lang === "fi" ? "/yhteydenotto" : `/${lang}/${pathNames.contact[lang]}`,
@@ -50,7 +50,10 @@ const currentPath = Astro.url.pathname;
             href={item.path}
             class:list={[
               "nav-link",
-              { active: currentPath === item.path || (currentPath === "/" && item.path === `/${lang}`) },
+              {
+                active:
+                  currentPath === item.path || (currentPath === "/" && item.path === `/${lang}`),
+              },
             ]}
           >
             {t(item.key)}
