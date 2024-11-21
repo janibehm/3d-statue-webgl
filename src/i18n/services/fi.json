@@ -43,7 +43,7 @@
       "title": "Kehitys & teknologiat",
       "frontendDevelopment": {
         "title": "Frontend-kehitys",
-        "description": "Sivuston käyttöliittymä toteutetaan JavaScriptillä ja Reactilla tai Next.js:llä, mikä takaa joustavan ja dynaamisen käyttökokemuksen. 3D-sivuilla käytämme Houdinia ja Three.js kirjastoa."
+        "description": "Sivuston käyttöliittymä toteutetaan Reactilla tai Next.js:llä, mikä takaa joustavan ja dynaamisen käyttökokemuksen."
       },
       "contentManagement": {
         "title": "Sisällönhallinta",
@@ -59,7 +59,7 @@
       },
       "3dDevelopment": {
         "title": "3D-kehitys",
-        "description": "Näyttävät 3D laskeutumissivut luovat mieleenpainuvan brändikokemuksen ja auttaa erottumaan kilpailijoista. 3D-mallinnus mahdollistaa myös tuotteiden interaktiivisen tarkastelun, mikä lisää luottamusta tuotteen laatuun."
+        "description": "Näyttävät 3D laskeutumissivut luovat mieleenpainuvan brändikokemuksen ja auttaa erottumaan kilpailijoista. 3D-mallinnus mahdollistaa myös tuotteiden interaktiivisen tarkastelun, mikä lisää luottamusta tuotteen laatuun. 3D-sivut toteutamme pääasiassa Houdinilla ja Three.js kirjastolla."
       },
       "summary": "Näillä teknologioilla sivustosi vastaa kaikkiin nykyaikaisen verkon vaatimuksiin."
     },

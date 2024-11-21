@@ -43,7 +43,7 @@
       "title": "Development & Technologies",
       "frontendDevelopment": {
         "title": "Development",
-        "description": "The website's user interface is built with JavaScript and either React or Next.js, ensuring a flexible and dynamic user experience. On 3D-sites we use the Three.js library."
+        "description": "The website's user interface is built with React or Next.js, ensuring a flexible and dynamic user experience."
       },
       "contentManagement": {
         "title": "Content Management",
@@ -59,7 +59,7 @@
       },
       "3dDevelopment": {
         "title": "3D Development",
-        "description": "Eye-catching visuals create memorable brand experiences, helping products stand out in competitive markets. 3D product viewers allow users to inspect items interactively, fostering trust in the product's quality."
+        "description": "Eye-catching visuals create memorable brand experiences, helping products stand out in competitive markets. 3D product viewers allow users to inspect items interactively, fostering trust in the product's quality. On 3D-sites we use mainly Houdini and the Three.js library."
       },
       "summary": "We combine these tools and technologies to ensure your website meets all the requirements of the modern web."
     },
