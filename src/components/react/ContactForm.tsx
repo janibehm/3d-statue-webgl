@@ -4,8 +4,7 @@ import type { FormikErrors, FormikTouched } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import ContactFormSuccess from "./ContactFormSuccess";
-import light from "../../images/light.jpeg";
-import { Image } from "astro:assets";
+import lightRays from "../../images/light_rays.webp";
 
 interface ContactFormProps {
   translations: {
@@ -55,15 +54,16 @@ interface FormValues {
   consultation?: boolean;
 }
 
+// Add this CSS at the top of your file or in your global styles
+const styles = {
+  "@keyframes fadeIn": {
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  },
+};
+
 export default function ContactForm({ translations }: ContactFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  console.log("Current isSubmitted state:", isSubmitted);
-
-  if (isSubmitted) {
-    return <ContactFormSuccess onReset={() => setIsSubmitted(false)} translations={translations} />;
-  }
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -82,160 +82,159 @@ export default function ContactForm({ translations }: ContactFormProps) {
   });
 
   return (
-    <div className="min-h-[calc(100vh-260px)] relative">
-      <div
-        className="absolute inset-0"
+    <div className="min-h-[calc(100vh-260px)] relative bg-black">
+      <img
+        src={lightRays.src}
+        alt="light rays coming from the top"
+        width={1920}
+        height={1080}
+        loading="eager"
+        className="absolute inset-0 w-full h-full object-cover animate-[fadeIn_0.5s_ease-in]"
         style={{
-          backgroundImage: `url(${light.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center 30%",
+          objectPosition: "center 30%",
         }}
       />
-      {/* Overlay with gradient lighting effects */}
-      <div className="absolute inset-0 bg-black/95" />
-      {/* Corner and middle light effects */}
-      {/*       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_center,_rgba(0,0,0,0.5)_0%,_transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,_rgba(0,0,0,0.5)_0%,_transparent_50%)]" /> */}
+      <div className="absolute inset-0 bg-black/90" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,255,128,0.03)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,255,128,0.03)_0%,_transparent_30%)]" />
+      {isSubmitted ? (
+        <ContactFormSuccess onReset={() => setIsSubmitted(false)} translations={translations} />
+      ) : (
+        <div className="relative z-10 w-full h-full flex items-center justify-center pb-20">
+          <div className="w-full max-w-md p-8">
+            <Formik
+              initialValues={{
+                name: "",
+                email: "",
+                phone: "",
+                message: "",
+                privacy: false,
+              }}
+              validationSchema={validationSchema}
+              onSubmit={async (values, { setSubmitting }) => {
+                try {
+                  console.log("Form submitted!");
+                  console.log("Form values:", values);
 
-      {/* Content container */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center pb-20">
-        <div className="w-full max-w-md p-8">
-          <Formik
-            initialValues={{
-              name: "",
-              email: "",
-              phone: "",
-              message: "",
-              privacy: false,
-            }}
-            validationSchema={validationSchema}
-            onSubmit={async (values, { setSubmitting }) => {
-              try {
-                console.log("Form submitted!");
-                console.log("Form values:", values);
+                  // Add your actual form submission logic here
+                  // await submitForm(values);
 
-                // Add your actual form submission logic here
-                // await submitForm(values);
+                  setIsSubmitted(true); // Direct state update
+                } catch (error) {
+                  console.error("Submission error:", error);
+                } finally {
+                  setSubmitting(false);
+                }
+              }}
+            >
+              {({
+                errors,
+                touched,
+                isSubmitting,
+              }: {
+                errors: FormikErrors<FormValues>;
+                touched: FormikTouched<FormValues>;
+                isSubmitting: boolean;
+              }) => (
+                <Form className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-1 text-white">
+                      {translations.form.name} <span className="text-red-400">*</span>
+                    </label>
+                    <Field
+                      name="name"
+                      className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
+                      placeholder={translations.form.name}
+                    />
+                    {errors.name && touched.name && (
+                      <div className="text-red-400 text-sm mt-1">{errors.name}</div>
+                    )}
+                  </div>
 
-                setIsSubmitted(true); // Direct state update
-              } catch (error) {
-                console.error("Submission error:", error);
-              } finally {
-                setSubmitting(false);
-              }
-            }}
-          >
-            {({
-              errors,
-              touched,
-              isSubmitting,
-            }: {
-              errors: FormikErrors<FormValues>;
-              touched: FormikTouched<FormValues>;
-              isSubmitting: boolean;
-            }) => (
-              <Form className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-1 text-white">
-                    {translations.form.name} <span className="text-red-400">*</span>
-                  </label>
-                  <Field
-                    name="name"
-                    className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
-                    placeholder={translations.form.name}
-                  />
-                  {errors.name && touched.name && (
-                    <div className="text-red-400 text-sm mt-1">{errors.name}</div>
-                  )}
-                </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium mb-1 text-white">
+                      {translations.form.email} <span className="text-red-400">*</span>
+                    </label>
+                    <Field
+                      name="email"
+                      type="email"
+                      className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
+                      placeholder={translations.form.email}
+                    />
+                    {errors.email && touched.email && (
+                      <div className="text-red-400 text-sm mt-1">{errors.email}</div>
+                    )}
+                  </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-1 text-white">
-                    {translations.form.email} <span className="text-red-400">*</span>
-                  </label>
-                  <Field
-                    name="email"
-                    type="email"
-                    className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
-                    placeholder={translations.form.email}
-                  />
-                  {errors.email && touched.email && (
-                    <div className="text-red-400 text-sm mt-1">{errors.email}</div>
-                  )}
-                </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium mb-1 text-white">
+                      {translations.form.phone}
+                    </label>
+                    <Field
+                      name="phone"
+                      type="tel"
+                      className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
+                      placeholder={translations.form.phone}
+                    />
+                  </div>
 
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-1 text-white">
-                    {translations.form.phone}
-                  </label>
-                  <Field
-                    name="phone"
-                    type="tel"
-                    className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
-                    placeholder={translations.form.phone}
-                  />
-                </div>
+                  <div className="flex items-start space-x-2">
+                    <Field type="checkbox" name="consultation" className="mt-1" />
+                    <label htmlFor="consultation" className="text-sm text-white">
+                      {translations.form.consultation}
+                    </label>
+                  </div>
 
-                <div className="flex items-start space-x-2">
-                  <Field type="checkbox" name="consultation" className="mt-1" />
-                  <label htmlFor="consultation" className="text-sm text-white">
-                    {translations.form.consultation}
-                  </label>
-                </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium mb-1 text-white">
+                      {translations.form.message} <span className="text-red-400">*</span>
+                    </label>
+                    <Field
+                      name="message"
+                      as="textarea"
+                      rows={5}
+                      className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
+                      placeholder={translations.form.message}
+                    />
+                    {errors.message && touched.message && (
+                      <div className="text-red-400 text-sm mt-1">{errors.message}</div>
+                    )}
+                  </div>
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-1 text-white">
-                    {translations.form.message} <span className="text-red-400">*</span>
-                  </label>
-                  <Field
-                    name="message"
-                    as="textarea"
-                    rows={5}
-                    className="w-full p-2 border border-gray-600 rounded bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-white"
-                    placeholder={translations.form.message}
-                  />
-                  {errors.message && touched.message && (
-                    <div className="text-red-400 text-sm mt-1">{errors.message}</div>
-                  )}
-                </div>
+                  <div className="flex items-start space-x-2">
+                    <Field type="checkbox" name="privacy" className="mt-1" />
+                    <label htmlFor="privacy" className="text-sm text-white">
+                      {translations.form.privacy}{" "}
+                      <a
+                        href="/privacy-policy"
+                        className="underline hover:text-gray-300"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {translations.form.privacyLink}
+                      </a>
+                      <span className="text-red-400">*</span>
+                    </label>
+                  </div>
 
-                <div className="flex items-start space-x-2">
-                  <Field type="checkbox" name="privacy" className="mt-1" />
-                  <label htmlFor="privacy" className="text-sm text-white">
-                    {translations.form.privacy}{" "}
-                    <a
-                      href="/privacy-policy"
-                      className="underline hover:text-gray-300"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {translations.form.privacyLink}
-                    </a>
-                    <span className="text-red-400">*</span>
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={clsx(
-                    "w-full py-2 px-4 rounded transition-colors",
-                    "bg-white text-black",
-                    "hover:bg-gray-200",
-                    "disabled:opacity-50 disabled:cursor-not-allowed",
-                  )}
-                >
-                  {isSubmitting ? "Sending..." : translations.form.submit}
-                </button>
-              </Form>
-            )}
-          </Formik>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={clsx(
+                      "w-full py-2 px-4 rounded transition-colors",
+                      "bg-white text-black",
+                      "hover:bg-gray-200",
+                      "disabled:opacity-50 disabled:cursor-not-allowed",
+                    )}
+                  >
+                    {isSubmitting ? "Sending..." : translations.form.submit}
+                  </button>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
