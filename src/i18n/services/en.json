@@ -42,7 +42,7 @@
     "developmentPhases": {
       "title": "Development & Technologies",
       "frontendDevelopment": {
-        "title": "Frontend Development",
+        "title": "Development",
         "description": "The website's user interface is built with JavaScript and either React or Next.js, ensuring a flexible and dynamic user experience. On 3D-sites we use the Three.js library."
       },
       "contentManagement": {
@@ -59,7 +59,7 @@
       },
       "3dDevelopment": {
         "title": "3D Development",
-        "description": "We create 3D content using Houdini and Three.js, which enable visually impressive and interactive three-dimensional elements on your website. Houdini provides powerful tools for creating 3D models and animations, while Three.js allows seamless integration with the website, enhancing the user experience and adding visual depth."
+        "description": "Eye-catching visuals create memorable brand experiences, helping products stand out in competitive markets. 3D product viewers allow users to inspect items interactively, fostering trust in the product's quality."
       },
       "summary": "We combine these tools and technologies to ensure your website meets all the requirements of the modern web."
     },
@@ -122,7 +122,9 @@
     },
     "maintenance": {
       "description": "You can choose a maintenance plan after launch.",
-      "content": ["Maintenance includes technical support and maintenance services, as well as security updates."]
+      "content": [
+        "Maintenance includes technical support and maintenance services, as well as security updates."
+      ]
     },
     "contactButton": "Get Started"
   }
