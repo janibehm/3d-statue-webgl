@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { Html } from "@react-three/drei";
+import { Html, Preload, useGLTF } from "@react-three/drei";
 import { LucyModel } from "../components/react/threeJs/LucyModel";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
 import { Sphere } from "../components/react/threeJs/Sphere";
@@ -9,6 +9,10 @@ import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
 import { isMobileDevice } from "../utils/deviceDetection";
+
+// Preload all models at startup
+useGLTF.preload("/models/Lucy.glb");
+useGLTF.preload("/models/earth.glb");
 
 // Loading canvas
 function Loader({ onLoad }: { onLoad: () => void }) {
@@ -39,29 +43,9 @@ function Loader({ onLoad }: { onLoad: () => void }) {
 }
 
 function ThreeScene() {
-  const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
-/*   const [isLucyReady, setIsLucyReady] = useState(false); */
-  const [isMobile] = useState(isMobileDevice);
-  const [isBaseSceneLoaded, setIsBaseSceneLoaded] = useState(false);
-/* 
-  useEffect(() => {
-    const onLucyPositionChange = () => {
-      if (globalAnimationState.isLucyInPosition) {
-        setIsLucyReady(true);
-      }
-    };
+  const isMobile = isMobileDevice;
 
-    // Subscribe to position changes
-    globalAnimationState.subscribe(onLucyPositionChange);
-
-    // Check initial state
-    onLucyPositionChange();
-
-    // Cleanup subscription
-    return () => globalAnimationState.unsubscribe(onLucyPositionChange);
-  }, []);
- */
   return (
     <div
       style={{
@@ -77,34 +61,28 @@ function ThreeScene() {
         pointerEvents: isMobile ? "none" : "auto",
       }}
     >
-      <ScrollIndicator isSceneLoaded={isSceneLoaded } />
+      <ScrollIndicator isSceneLoaded={isSceneLoaded} />
       <Canvas
         camera={{ position: [0, 2, 5], fov: 75 }}
-        key={key}
         style={{
           pointerEvents: isMobile ? "none" : "auto",
           touchAction: "none",
         }}
       >
         <color attach="background" args={[0x000000]} />
-        <Stars />
-        <ambientLight intensity={0.05} />
-        <hemisphereLight intensity={0.2} groundColor="#080820" />
-        <CameraControl />
-        
-        {/* First stage - Lucy */}
-        <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
-          <LucyModel onLoad={() => setIsBaseSceneLoaded(true)} />
-          <Sphere />
-        </Suspense>
-
-        {/* Second stage - Sphere and Spotlight */}
-        {isBaseSceneLoaded && (
-          <Suspense fallback={null}>
        
-            <SpotLightAnimation />
-          </Suspense>
-        )}
+        
+        {/* Lucy and basic scene elements load first */}
+        <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
+          <Stars />
+          <ambientLight intensity={0.05} />
+          <hemisphereLight intensity={0.1} groundColor="#080820" />
+          <CameraControl />
+          <LucyModel />
+             {/*  <Sphere /> */}
+               <SpotLightAnimation />
+        </Suspense>
+<Preload all/>
       </Canvas>
     </div>
   );
