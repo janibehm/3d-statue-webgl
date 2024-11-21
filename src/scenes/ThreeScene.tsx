@@ -72,7 +72,7 @@ function ThreeScene() {
         <Suspense>
           <Stars />
           <ambientLight intensity={0.1} />
-          <hemisphereLight intensity={0.5} groundColor="#080820" />
+          <hemisphereLight intensity={0.3} groundColor="#080820" />
           <CameraControl />
           <LucyModel onLoad={() => setIsSceneLoaded(true)} />
           <Sphere />
