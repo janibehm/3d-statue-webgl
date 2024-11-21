@@ -110,7 +110,9 @@
     },
     "testing": {
       "description": "Varmistamme, että sivusto toimii hyvin eri laitteilla ja että kaikki integraatiot toimivat kuten pitää.",
-      "additional_info": ["Voimme myös tehdä pieniä säätöjä tarvittaessa ennen julkaisua."]
+      "additional_info": [
+        "Voimme myös tehdä pieniä säätöjä tarvittaessa vielä tässä vaiheessa projektia."
+      ]
     },
     "launch": {
       "description": "Julkaisemme verkkosivustosi, kun olet tyytyväinen.",
@@ -122,7 +124,7 @@
     "maintenance": {
       "description": "Voit valita ylläpitosopimuksen julkaisun jälkeen.",
       "content": [
-        "Ylläpitoon sisältyy tekninentuki ja ylläpitopalvelu, sekä tietoturvapäivitykset."
+        "Ylläpitoon sisältyy tekninentuki, sekä tietoturvapäivitykset. Tarjoamme myös tekstin ja kuvien pävityspalvelua. (Blogi tyylisellä sivustolla teksti ja kuva-artikkelien julkaisu onnistuu helposti Sanityn kautta, jonka käytön opastamme asiakkaalle.)"
       ]
     },
     "contactButton": "Ota Yhteyttä"

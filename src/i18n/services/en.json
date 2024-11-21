@@ -123,7 +123,7 @@
     "maintenance": {
       "description": "You can choose a maintenance plan after launch.",
       "content": [
-        "Maintenance includes technical support and maintenance services, as well as security updates."
+        "Maintenance includes technical support and security updates. We also offer a service for updating texts and images. (For blog-style websites, publishing text and image articles is simple through Sanity, and we provide training for its use to the client.)"
       ]
     },
     "contactButton": "Get Started"

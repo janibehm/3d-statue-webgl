@@ -55,6 +55,7 @@ interface FormValues {
 
 export default function ContactForm({ translations }: ContactFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   console.log("Current isSubmitted state:", isSubmitted);
 
@@ -78,8 +79,23 @@ export default function ContactForm({ translations }: ContactFormProps) {
     privacy: Yup.boolean().oneOf([true], translations.validation.privacy.required).required(),
   });
 
+  // Preload image
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/light_rays.jpeg";
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url("/light_rays.jpeg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center 30%",
+        }}
+      />
       {/* Overlay with gradient lighting effects */}
       <div className="absolute inset-0 bg-black/95" />
       {/* Corner and middle light effects */}

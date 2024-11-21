@@ -22,12 +22,12 @@ export default function ContactFormSuccess({ onReset, translations }: ContactFor
           backgroundPosition: "center 30%",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/85 to-black/60" />
-     
+      <div className="absolute inset-0 bg-black/95" />
+
       {/* Corner light effects */}
-<div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.02)_0%,_transparent_20%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.02)_0%,_transparent_20%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.03)_0%,_transparent_20%)]" />
- 
+
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <div className={clsx("w-full max-w-md p-8", "text-center text-white", "animate-fade-in")}>
           <h2 className="text-3xl font-bold mb-4">{translations.contact.thankYou}</h2>
