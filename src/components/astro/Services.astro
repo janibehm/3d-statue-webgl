@@ -1,5 +1,8 @@
 ---
 import { Image } from "astro:assets";
+import touchOfTechnology from "../../images/touch_of_technology.jpeg";
+import futuristicGlasses from "../../images/futuristic_glasses.jpeg";
+import developingComputer from "../../images/developing_computer.jpeg";
 
 interface ServicesProps {
   translations?: {
@@ -121,13 +124,6 @@ interface ServicesProps {
   lang?: string;
 }
 
-// Define imagePaths at the component level
-const imagePaths = [
-  "/images/touch_of_technology.jpeg",
-  "/images/futuristic_glasses.jpeg",
-  "/images/developing_computer.jpeg",
-];
-
 const {
   translations = {
     sections: {
@@ -177,9 +173,6 @@ const {
 const { sections, process } = translations;
 ---
 
-{/* Add preload links */}
-{imagePaths.map((path) => <link rel="preload" as="image" href={path} />)}
-
 <div class="relative">
   <!-- Planning Phase -->
   <section class="bg-black/95 text-white py-24">
@@ -189,16 +182,15 @@ const { sections, process } = translations;
         <p class="text-xl text-gray-300">{sections?.planning?.subtitle}</p>
       </div>
 
-      <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden image-container">
+      <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden">
         <Image
-          src={imagePaths[0]}
+          src={touchOfTechnology}
           alt="Touch of Technology"
           width={1200}
           height={800}
           format="webp"
           quality={80}
-          class="w-full h-full object-cover object-center image-fade"
-          loading="eager"
+          class="w-full h-full object-cover object-center"
         />
         <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
       </div>
@@ -240,11 +232,15 @@ const { sections, process } = translations;
       <div class="text-center mb-16">
         <h2 class="text-3xl font-bold mb-4 text-green-400">{process?.developmentPhases?.title}</h2>
       </div>
-      <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden image-container">
-        <img
-          data-src="/images/futuristic_glasses.jpeg"
-          alt="woman with futuristic glasses"
-          class="w-full h-full object-cover object-center image-fade"
+      <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden">
+        <Image
+          src={futuristicGlasses}
+          alt="Woman with futuristic glasses"
+          width={1200}
+          height={800}
+          format="webp"
+          quality={80}
+          class="w-full h-full object-cover object-center"
         />
         <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
       </div>
@@ -339,14 +335,14 @@ const { sections, process } = translations;
       </div>
 
       <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden">
-        <img
-          src="/images/developing_computer.jpeg"
+        <Image
+          src={developingComputer}
           alt="Developing on computer"
-          width="1920"
-          height="1080"
+          width={1200}
+          height={800}
+          format="webp"
+          quality={80}
           class="w-full h-full object-cover object-center"
-          loading="lazy"
-          decoding="async"
         />
         <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
       </div>
@@ -452,38 +448,6 @@ const { sections, process } = translations;
   document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
   document.querySelectorAll(".fade-sequence").forEach((el) => observer.observe(el));
   document.querySelectorAll(".card-fade").forEach((el) => observer.observe(el));
-
-  // For image loading
-  const imageObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const container = entry.target as HTMLElement;
-          const img = container.querySelector("img");
-
-          if (img && img.dataset.src) {
-            // Start loading the image
-            img.src = img.dataset.src;
-            img.removeAttribute("data-src");
-
-            // Add loaded class when image finishes loading
-            img.onload = () => {
-              img.classList.add("loaded");
-              imageObserver.unobserve(container);
-            };
-          }
-        }
-      });
-    },
-    {
-      rootMargin: "50px 0px",
-    },
-  );
-
-  // Observe the containers instead of images
-  document.querySelectorAll(".image-container").forEach((container) => {
-    imageObserver.observe(container);
-  });
 </script>
 
 <style>
@@ -532,53 +496,4 @@ const { sections, process } = translations;
     opacity: 1;
     transform: translateX(0);
   }
-
-  .image-container {
-    position: relative;
-    background: linear-gradient(110deg, #1a1a1a 8%, #222 18%, #1a1a1a 33%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s linear infinite;
-  }
-
-  .image-fade {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
-
-  .image-fade.loaded {
-    opacity: 1;
-  }
-
-  @keyframes shimmer {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
 </style>
-
-<script>
-  // Preload all images
-  const imagePaths = [
-    "/images/touch_of_technology.jpeg",
-    "/images/futuristic_glasses.jpeg",
-    "/images/developing_computer.jpeg",
-  ];
-
-  const preloadImages = () => {
-    imagePaths.forEach((path) => {
-      const img = new Image();
-      img.src = path;
-    });
-  };
-
-  // Run preload as soon as possible
-  window.addEventListener("load", preloadImages);
-</script>
-
-<!-- Add preload links in head -->
-<head>
-  {imagePaths.map((path) => <link rel="preload" as="image" href={path} />)}
-</head>

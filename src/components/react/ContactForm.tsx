@@ -4,6 +4,8 @@ import type { FormikErrors, FormikTouched } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import ContactFormSuccess from "./ContactFormSuccess";
+import light from "../../images/light.jpeg";
+import { Image } from "astro:assets";
 
 interface ContactFormProps {
   translations: {
@@ -79,19 +81,12 @@ export default function ContactForm({ translations }: ContactFormProps) {
     privacy: Yup.boolean().oneOf([true], translations.validation.privacy.required).required(),
   });
 
-  // Preload image
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/light_rays.jpeg";
-    img.onload = () => setImageLoaded(true);
-  }, []);
-
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: 'url("/light_rays.jpeg")',
+          backgroundImage: `url(${light.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center 30%",
         }}
