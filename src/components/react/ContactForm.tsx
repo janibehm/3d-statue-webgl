@@ -55,14 +55,6 @@ interface FormValues {
 
 export default function ContactForm({ translations }: ContactFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  // Preload image
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/light_rays.jpeg";
-    img.onload = () => setImageLoaded(true);
-  }, []);
 
   console.log("Current isSubmitted state:", isSubmitted);
 
@@ -88,28 +80,15 @@ export default function ContactForm({ translations }: ContactFormProps) {
 
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
-      <div
-        className={clsx(
-          "absolute inset-0 transition-opacity duration-300",
-          imageLoaded ? "opacity-100" : "opacity-0"
-        )}
-        style={{
-          backgroundImage: 'url("/light_rays.jpeg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center 30%",
-        }}
-      />
-
       {/* Overlay with gradient lighting effects */}
-      <div className="absolute inset-0 bg-black" />
-      
+      <div className="absolute inset-0 bg-black/90" />
       {/* Corner and middle light effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.03)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.05)_0%,_transparent_30%)]" />
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.05)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.05)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_center,_rgba(255,255,255,0.05)_0%,_transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,_rgba(255,255,255,0.05)_0%,_transparent_50%)]" />
+      {/*       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_center,_rgba(0,0,0,0.5)_0%,_transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,_rgba(0,0,0,0.5)_0%,_transparent_50%)]" /> */}
 
       {/* Content container */}
       <div className="relative z-10 w-full h-full flex items-center justify-center pb-20">
