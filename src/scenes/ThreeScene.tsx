@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { Html } from "@react-three/drei";
+import { Html, Preload } from "@react-three/drei";
 import { LucyModel } from "../components/react/threeJs/LucyModel";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
 import { Sphere } from "../components/react/threeJs/Sphere";
@@ -17,8 +17,6 @@ function Loader({ onLoad }: { onLoad: () => void }) {
       onLoad();
     };
   }, [onLoad]);
-
-  
 
   return (
     <Html center>
@@ -41,10 +39,10 @@ function Loader({ onLoad }: { onLoad: () => void }) {
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
-/*   const [isLucyReady, setIsLucyReady] = useState(false); */
+  /*   const [isLucyReady, setIsLucyReady] = useState(false); */
   const [isMobile] = useState(isMobileDevice);
   const [isBaseSceneLoaded, setIsBaseSceneLoaded] = useState(false);
-/* 
+  /* 
   useEffect(() => {
     const onLucyPositionChange = () => {
       if (globalAnimationState.isLucyInPosition) {
@@ -77,7 +75,7 @@ function ThreeScene() {
         pointerEvents: isMobile ? "none" : "auto",
       }}
     >
-      <ScrollIndicator isSceneLoaded={isSceneLoaded } />
+      <ScrollIndicator isSceneLoaded={isSceneLoaded} />
       <Canvas
         camera={{ position: [0, 2, 5], fov: 75 }}
         key={key}
@@ -87,24 +85,22 @@ function ThreeScene() {
         }}
       >
         <color attach="background" args={[0x000000]} />
-        <Stars />
-        <ambientLight intensity={0.05} />
-        <hemisphereLight intensity={0.2} groundColor="#080820" />
-        <CameraControl />
-        
+
         {/* First stage - Lucy */}
-        <Suspense fallback={<Loader onLoad={() => setIsSceneLoaded(true)} />}>
+        <Suspense>
+          <Stars />
+          <ambientLight intensity={0.05} />
+          <hemisphereLight intensity={0.2} groundColor="#080820" />
+          <CameraControl />
           <LucyModel onLoad={() => setIsBaseSceneLoaded(true)} />
           <Sphere />
+          <SpotLightAnimation />
+          <Preload all />
         </Suspense>
 
         {/* Second stage - Sphere and Spotlight */}
-        {isBaseSceneLoaded && (
-          <Suspense fallback={null}>
-       
-            <SpotLightAnimation />
-          </Suspense>
-        )}
+
+        <Suspense fallback={null}></Suspense>
       </Canvas>
     </div>
   );
