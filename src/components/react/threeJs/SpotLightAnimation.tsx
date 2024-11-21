@@ -10,7 +10,7 @@ export function SpotLightAnimation() {
   const initialRender = useRef(true);
   const positionVector = useRef(new Vector3());
 
-  const texture = useTexture("/textures/painted-worn-asphalt_albedo.jpg", (t) => {
+  const texture = useTexture("/textures/painted-worn-asphalt_albedo.webp", (t) => {
     t.flipY = false;
     t.needsUpdate = true;
   });
