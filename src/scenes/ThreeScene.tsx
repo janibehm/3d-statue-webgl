@@ -41,25 +41,7 @@ function ThreeScene() {
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
   /*   const [isLucyReady, setIsLucyReady] = useState(false); */
   const [isMobile] = useState(isMobileDevice);
-  const [isBaseSceneLoaded, setIsBaseSceneLoaded] = useState(false);
-  /* 
-  useEffect(() => {
-    const onLucyPositionChange = () => {
-      if (globalAnimationState.isLucyInPosition) {
-        setIsLucyReady(true);
-      }
-    };
 
-    // Subscribe to position changes
-    globalAnimationState.subscribe(onLucyPositionChange);
-
-    // Check initial state
-    onLucyPositionChange();
-
-    // Cleanup subscription
-    return () => globalAnimationState.unsubscribe(onLucyPositionChange);
-  }, []);
- */
   return (
     <div
       style={{
@@ -89,10 +71,10 @@ function ThreeScene() {
         {/* First stage - Lucy */}
         <Suspense>
           <Stars />
-          <ambientLight intensity={0.05} />
-          <hemisphereLight intensity={0.2} groundColor="#080820" />
+          <ambientLight intensity={0.1} />
+          <hemisphereLight intensity={0.5} groundColor="#080820" />
           <CameraControl />
-          <LucyModel onLoad={() => setIsBaseSceneLoaded(true)} />
+          <LucyModel onLoad={() => setIsSceneLoaded(true)} />
           <Sphere />
           <SpotLightAnimation />
           <Preload all />

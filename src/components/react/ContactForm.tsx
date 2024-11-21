@@ -81,7 +81,7 @@ export default function ContactForm({ translations }: ContactFormProps) {
   return (
     <div className="min-h-[calc(100vh-260px)] relative">
       {/* Overlay with gradient lighting effects */}
-      <div className="absolute inset-0 bg-black/90" />
+      <div className="absolute inset-0 bg-black/95" />
       {/* Corner and middle light effects */}
       {/*       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,0,0,0.5)_0%,_transparent_30%)]" />
