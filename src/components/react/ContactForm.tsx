@@ -82,7 +82,7 @@ export default function ContactForm({ translations }: ContactFormProps) {
   });
 
   return (
-    <div className="min-h-[calc(100vh-260px)] relative bg-black">
+    <div className="min-h-[calc(100vh-260px)] relative bg-black/95">
       <img
         src={lightRays.src}
         alt="light rays coming from the top"
@@ -94,9 +94,12 @@ export default function ContactForm({ translations }: ContactFormProps) {
           objectPosition: "center 30%",
         }}
       />
-      <div className="absolute inset-0 bg-black/90" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,255,128,0.03)_0%,_transparent_30%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,255,128,0.03)_0%,_transparent_30%)]" />
+      <div className="absolute inset-0 bg-black/85" />
+
+      {/* OR Electric Blue */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,191,255,0.03)_0%,_transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,191,255,0.03)_0%,_transparent_70%)]" />
+
       {isSubmitted ? (
         <ContactFormSuccess onReset={() => setIsSubmitted(false)} translations={translations} />
       ) : (
