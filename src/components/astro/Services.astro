@@ -118,8 +118,17 @@ interface ServicesProps {
           description: string;
         };
       };
-      contactButton: string;
     };
+    hosting_maintenance_packages: {
+      title: string;
+      description: string;
+      packages: {
+        name: string;
+        price_per_month: number;
+        features: string[];
+      }[];
+    };
+    contactButton: string;
   };
   lang?: string;
 }
@@ -165,12 +174,17 @@ const {
         analyticsManagement: { title: "", description: "" },
         integrationAndPrivacyNotices: { title: "", description: "" },
       },
-      contactButton: "",
     },
+    hosting_maintenance_packages: {
+      title: "",
+      description: "",
+      packages: [],
+    },
+    contactButton: "",
   },
   lang = "en",
 }: ServicesProps = Astro.props;
-const { sections, process } = translations;
+const { sections, process, hosting_maintenance_packages } = translations;
 ---
 
 <div class="relative">
@@ -350,7 +364,7 @@ const { sections, process } = translations;
           quality={80}
           class="w-full h-full object-cover object-center"
         />
-        <!-- <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div> -->
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -428,14 +442,62 @@ const { sections, process } = translations;
           </ul>
         </div>
       </div>
+    </div>
+  </section>
 
+  <!-- Add after your maintenance section -->
+  <section class="bg-black/95 text-white py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">{translations.hosting_maintenance_packages.title}</h2>
+        <p class="text-gray-300">{hosting_maintenance_packages.description}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {
+          translations.hosting_maintenance_packages.packages.map((pkg) => (
+            <div class="bg-gray-900 rounded-lg p-8 transition-transform hover:scale-[1.02]">
+              <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-green-400 mb-2">{pkg.name}</h3>
+                <p class="text-3xl font-bold">
+                  €{pkg.price_per_month}
+                  <span class="text-sm text-gray-400">/month</span>
+                </p>
+              </div>
+
+              <ul class="space-y-4">
+                {pkg.features.map((feature) => (
+                  <li class="flex items-start">
+                    <svg
+                      class="w-5 h-5 text-green-400 mt-1 mr-3 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span class="text-gray-300">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Contact Button -->
       <div class="text-center mt-12">
         <a
           href={lang === "fi" ? "/yhteydenotto" : "/en/contact"}
           class="inline-block bg-green-400 text-black px-8 py-3 rounded-full
                  hover:bg-green-300 transition-colors duration-300"
         >
-          {process.contactButton}
+          {translations.contactButton}
         </a>
       </div>
     </div>

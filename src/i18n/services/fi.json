@@ -124,9 +124,32 @@
     "maintenance": {
       "description": "Voit valita ylläpitosopimuksen julkaisun jälkeen.",
       "content": [
-        "Ylläpitoon sisältyy tekninentuki, sekä tietoturvapäivitykset. Tarjoamme myös tekstin ja kuvien pävityspalvelua. (Blogi tyylisellä sivustolla teksti ja kuva-artikkelien julkaisu onnistuu helposti Sanityn kautta, jonka käytön opastamme asiakkaalle.)"
+        "Tarjoamme myös lisäkehitys sekä tekstin ja kuvien pävityspalvelua. (Blogi tyylisellä sivustolla teksti ja kuva-artikkelien julkaisu onnistuu helposti Sanityn kautta, jonka käytön opastamme asiakkaalle.)"
       ]
-    },
-    "contactButton": "Ota Yhteyttä"
-  }
+    }
+  },
+  "hosting_maintenance_packages": {
+    "title": "Ylläpitopaketit",
+    "description": "Valitse joustavista hosting- ja ylläpitopaketeistamme, jotka on räätälöity tarpeidesi mukaan.",
+    "packages": [
+      {
+        "name": "Ylläpito",
+        "price_per_month": "120€ + alv",
+        "features": [
+          "Sisältää jopa 1 TB liikennettä kuukaudessa (lisäliikenne maksaa 0,15 €/GB)",
+          "Sivuston ylläpito ja tuki"
+        ]
+      },
+      {
+        "name": "Ylläpito+",
+        "price_per_month": "220€ + alv",
+        "features": [
+          "Sisältää jopa 1 TB liikennettä kuukaudessa (lisäliikenne maksaa 0,15 €/GB)",
+          "Sivuston ylläpito ja tuki",
+          "Sisältää 1 tunnin ominaisuuksien kehitystä tai sisällönmuokkaustyötä kuukaudessa"
+        ]
+      }
+    ]
+  },
+  "contactButton": "Ota Yhteyttä"
 }

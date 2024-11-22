@@ -123,9 +123,32 @@
     "maintenance": {
       "description": "You can choose a maintenance plan after launch.",
       "content": [
-        "Maintenance includes technical support and security updates. We also offer a service for updating texts and images. (For blog-style websites, publishing text and image articles is simple through Sanity, and we provide training for its use to the client.)"
+        "We also offer a feature development and content change service. (For blog-style websites, publishing text and image articles is simple through Sanity, and we provide training for its use to the client.)"
       ]
-    },
-    "contactButton": "Get Started"
-  }
+    }
+  },
+  "hosting_maintenance_packages": {
+    "title": "Maintenance Packages",
+    "description": "Choose from our flexible hosting and maintenance plans tailored to meet your needs.",
+    "packages": [
+      {
+        "name": "Maintenance",
+        "price_per_month": 150,
+        "features": [
+          "Covers up to 1 TB traffic per month (additional traffic costs €0.15 per GB)",
+          "Website maintenance and support"
+        ]
+      },
+      {
+        "name": "Maintenance+",
+        "price_per_month": 250,
+        "features": [
+          "Covers up to 1 TB traffic per month (additional traffic costs €0.15 per GB)",
+          "Website maintenance and support",
+          "Includes 1 hour of feature development or content change work per month"
+        ]
+      }
+    ]
+  },
+  "contactButton": "Get Started"
 }
