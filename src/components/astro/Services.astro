@@ -428,15 +428,16 @@ const { sections, process } = translations;
           </ul>
         </div>
       </div>
-    </div>
-    <div class="text-center mt-12">
-      <a
-        href={lang === "fi" ? "/yhteydenotto" : "/en/contact"}
-        class="inline-block bg-green-400 text-black px-8 py-3 rounded-full
-               hover:bg-green-300 transition-colors duration-300"
-      >
-        {process.contactButton}
-      </a>
+
+      <div class="text-center mt-12">
+        <a
+          href={lang === "fi" ? "/yhteydenotto" : "/en/contact"}
+          class="inline-block bg-green-400 text-black px-8 py-3 rounded-full
+                 hover:bg-green-300 transition-colors duration-300"
+        >
+          {process.contactButton}
+        </a>
+      </div>
     </div>
   </section>
 </div>
