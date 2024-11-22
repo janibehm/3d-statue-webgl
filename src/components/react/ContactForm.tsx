@@ -82,23 +82,44 @@ export default function ContactForm({ translations }: ContactFormProps) {
   });
 
   return (
-    <div className="min-h-[calc(100vh-260px)] relative bg-black/95">
+    <div
+      className={clsx(
+        "min-h-[calc(100vh-260px)] relative",
+        isSubmitted ? "bg-black/95" : "bg-black/75",
+      )}
+    >
       <img
         src={lightRays.src}
         alt="light rays coming from the top"
         width={1920}
         height={1080}
         loading="eager"
-        className="absolute inset-0 w-full h-full object-cover animate-[fadeIn_0.5s_ease-in]"
+        className={clsx(
+          "absolute inset-0 w-full h-full object-cover",
+          isSubmitted && "animate-[fadeIn_0.5s_ease-in] opacity-100",
+          !isSubmitted && "opacity-0",
+        )}
         style={{
           objectPosition: "center 30%",
         }}
       />
-      <div className="absolute inset-0 bg-black/85" />
+      <div className={clsx("absolute inset-0", isSubmitted ? "bg-black/85" : "bg-black/80")} />
 
       {/* OR Electric Blue */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(0,191,255,0.03)_0%,_transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,191,255,0.03)_0%,_transparent_70%)]" />
+      <div
+        className={clsx(
+          "absolute inset-0",
+          isSubmitted &&
+            "bg-[radial-gradient(circle_at_top_left,_rgba(0,191,255,0.03)_0%,_transparent_70%)]",
+        )}
+      />
+      <div
+        className={clsx(
+          "absolute inset-0",
+          isSubmitted &&
+            "bg-[radial-gradient(circle_at_top_right,_rgba(0,191,255,0.03)_0%,_transparent_70%)]",
+        )}
+      />
 
       {isSubmitted ? (
         <ContactFormSuccess onReset={() => setIsSubmitted(false)} translations={translations} />
