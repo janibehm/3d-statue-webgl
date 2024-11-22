@@ -7,7 +7,7 @@ const finnish = await import(`../../i18n/form/fi.json`);
 const heroTranslations = await import(`../../i18n/hero/fi.json`);
 ---
 
-<Layout title={lang}>
+<Layout title="Ota Yhteyttä - Behm Digital">
   <Hero heroTranslations={heroTranslations.default.hero} page="contact" />
   <ContactForm client:load translations={finnish.default} />
 </Layout>
