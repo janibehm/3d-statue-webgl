@@ -5,7 +5,7 @@ const t = useTranslations(lang);
 
 const pathNames = {
   home: { fi: "/", en: "/en" },
-  about: { fi: "meistä", en: "about" },
+  about: { fi: "meista", en: "about" },
   services: { fi: "palvelut", en: "services" },
   contact: { fi: "yhteydenotto", en: "contact" },
 } as const;
@@ -18,7 +18,7 @@ const navItems = [
   },
   {
     key: "footer.company.aboutUs",
-    path: lang === "fi" ? "/meistä" : `/${lang}/${pathNames.about[lang]}`,
+    path: lang === "fi" ? "/meista" : `/${lang}/${pathNames.about[lang]}`,
   },
   {
     key: "footer.company.services",
