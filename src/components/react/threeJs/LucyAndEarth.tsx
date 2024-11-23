@@ -3,7 +3,7 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
 
-const MODEL_SCALE = 2.1;
+const MODEL_SCALE = 2.05;
 
 // Preload with low priority and draco compression
 useGLTF.preload("/models/earth_angel.glb", true);
