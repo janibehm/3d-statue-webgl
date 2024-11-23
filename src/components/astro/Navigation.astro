@@ -37,10 +37,20 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav class="side-nav" id="navigation">
-  <div class="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
+  <div class="nav-header">
+    <div class="nav-lang" id="navLang">
+      <a
+        href={currentPath.startsWith("/en") ? currentPath.replace("/en", "") : `/en${currentPath}`}
+        class="nav-lang-link"
+      >
+        {currentPath.startsWith("/en") ? "FI" : "EN"}
+      </a>
+    </div>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
   <ul>
     {
@@ -111,15 +121,46 @@ const currentPath = Astro.url.pathname;
   };
 
   document.addEventListener("astro:before-swap", cleanup);
+
+  let lastY = 0;
+  const navLang = document.getElementById("navLang");
+
+  const updateButtonVisibility = (e: TouchEvent | WheelEvent) => {
+    if (!navLang) return;
+
+    let scrollingDown: boolean;
+
+    if (e instanceof WheelEvent) {
+      scrollingDown = e.deltaY > 0;
+    } else if (e instanceof TouchEvent && e.touches[0]) {
+      const currentY = e.touches[0].clientY;
+      scrollingDown = currentY < lastY;
+      lastY = currentY;
+    } else {
+      return;
+    }
+
+    navLang.style.opacity = scrollingDown ? "0" : "1";
+    navLang.style.pointerEvents = scrollingDown ? "none" : "auto";
+  };
+
+  window.addEventListener("wheel", updateButtonVisibility, { passive: true });
+  window.addEventListener("touchmove", updateButtonVisibility, { passive: true });
+  window.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches[0]) lastY = e.touches[0].clientY;
+    },
+    { passive: true },
+  );
 </script>
 
 <style>
   .side-nav {
     position: fixed;
     right: 5%;
-    top: 5%;
+    top: 15px;
     z-index: 9999;
-    padding: 10px;
   }
 
   .side-nav ul {
@@ -136,6 +177,8 @@ const currentPath = Astro.url.pathname;
     padding: 10px;
     border-radius: 5px;
     display: block;
+    width: fit-content;
+    margin-left: auto;
   }
 
   .hamburger span {
@@ -189,5 +232,33 @@ const currentPath = Astro.url.pathname;
 
   .side-nav.open .hamburger span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  .nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .nav-lang {
+    padding: 10px;
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-lang-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .nav-lang-link:hover {
+    color: #00ff00;
+  }
+
+  @media (min-width: 768px) {
+    .nav-lang {
+      display: none;
+    }
   }
 </style>

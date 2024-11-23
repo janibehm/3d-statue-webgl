@@ -39,7 +39,7 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
 
 <div
   id="langButtons"
-  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000] transition-opacity duration-300"
+  class="fixed bottom-4 right-4 hidden md:flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000] transition-opacity duration-300"
 >
   {
     LanguageOptions.map((lang) => (
