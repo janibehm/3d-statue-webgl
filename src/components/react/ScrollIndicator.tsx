@@ -20,7 +20,6 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
   useEffect(() => {
     const handleScroll = () => {
       setIsVisible(false);
-      console.log("scroll");
     };
 
     window.addEventListener("wheel", handleScroll, { once: true });

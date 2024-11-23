@@ -116,5 +116,21 @@ export function Sphere() {
     });
   }, [model]); */
 
+  useEffect(() => {
+    if (!model) return;
+
+    model.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        // Remove duplicate color attribute if it exists
+        if (child.geometry.attributes.color && child.geometry.attributes.color_1) {
+          console.log("Found duplicate color attributes, removing color_1");
+          delete child.geometry.attributes.color_1;
+        }
+
+        console.log("Geometry attributes:", child.geometry.attributes);
+      }
+    });
+  }, [model]);
+
   return null;
 }
