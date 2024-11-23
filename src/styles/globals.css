@@ -90,11 +90,11 @@
   html {
     font-family: "Exo", sans-serif;
     overflow: hidden;
-    height: 100%;
     background-color: black;
     position: fixed;
-    width: 100%;
     overflow: hidden;
+    height: auto;
+    width: auto;
   }
 
   body {
