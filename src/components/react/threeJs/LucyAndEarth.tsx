@@ -3,7 +3,7 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
 
-const MODEL_SCALE = 2;
+const MODEL_SCALE = 2.2;
 
 // Preload with low priority and draco compression
 useGLTF.preload("/models/earth_angel.glb", true);
@@ -24,7 +24,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     const modelInstance = model.clone();
     modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
-    modelInstance.position.set(1.5, 0, 0);
+    modelInstance.position.set(1.5, 0.5, 0);
     /*    modelInstance.rotation.x = Math.PI / 2; */
 
     console.log("Model scale:", modelInstance.scale);
@@ -62,7 +62,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     onLoad?.();
 
     // Fade in animation
-    const duration = 5000;
+    const duration = 2000;
     const startTime = performance.now();
 
     const fadeIn = (currentTime: number) => {
