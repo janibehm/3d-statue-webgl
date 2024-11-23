@@ -5,7 +5,7 @@ import { useGLTF, useProgress } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
-const MODEL_SCALE = 0.0024;
+const MODEL_SCALE = 0.0027;
 
 interface LucyModelProps {
   onLoad?: () => void;
@@ -21,7 +21,7 @@ gltfLoader.setDRACOLoader(dracoLoader);
 export function LucyModel({ onLoad }: LucyModelProps) {
   const [model, setModel] = useState<THREE.Group>();
   const { scene, gl, camera } = useThree();
-  const modelRef = useRef<THREE.Group>();
+  const modelRef = useRef<THREE.Group>(null);
   const { progress } = useProgress();
 
   useEffect(() => {
@@ -70,13 +70,12 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     if (!setupModel || progress !== 100) return;
 
     gl.compile(setupModel, camera);
-    modelRef.current = setupModel;
     scene.add(setupModel);
 
     onLoad?.();
 
     // Fade in animation
-    const duration = 2000;
+    const duration = 5000;
     const startTime = performance.now();
 
     const fadeIn = (currentTime: number) => {
@@ -108,7 +107,9 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     };
   }, [setupModel, scene, gl, camera, progress, onLoad]);
 
-  /*   useEffect(() => {
+  useEffect(() => {
+    if (!model) return;
+
     model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         // Remove duplicate color attribute if it exists
@@ -120,7 +121,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
         console.log("Geometry attributes:", child.geometry.attributes);
       }
     });
-  }, [model]); */
+  }, [model]);
 
   return null;
 }

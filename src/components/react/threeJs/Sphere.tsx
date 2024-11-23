@@ -7,7 +7,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { sharedAnimation } from "./constants/animations";
 
-const MODEL_PATH = "/models/earth.glb";
+const MODEL_PATH = "/models/earth_extra_comp.glb";
 const MODEL_SCALE = 4;
 const SPAWN_POSITION = [0, -4.8, 0] as const;
 const FADE_DURATION = 2000;
@@ -99,6 +99,22 @@ export function Sphere() {
       });
     };
   }, [setupModel, scene]);
+
+  useEffect(() => {
+    if (!model) return;
+
+    model.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        // Remove duplicate color attribute if it exists
+        if (child.geometry.attributes.color && child.geometry.attributes.color_1) {
+          console.log("Found duplicate color attributes, removing color_1");
+          delete child.geometry.attributes.color_1;
+        }
+
+        console.log("Geometry attributes:", child.geometry.attributes);
+      }
+    });
+  }, [model]);
 
   return null;
 }
