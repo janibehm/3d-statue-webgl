@@ -46,8 +46,10 @@ export function CameraControl() {
     const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const radius = 4.5; // Distance from center
-    const targetAngle = -scrollY.current * Math.PI * 2; // Negative for opposite direction
+    const radius = 3;
+    // Add initial rotation offset (40 degrees = ~0.698 radians)
+    const rotationOffset = 0.698; // or Math.PI / 4.5 for approximately 40 degrees
+    const targetAngle = -scrollY.current * Math.PI * 2 + rotationOffset;
 
     // Smooth camera rotation
     const rotationEasing = 0.1; // Adjust this value to change rotation smoothness (0.01 to 0.1)
@@ -77,7 +79,7 @@ export function CameraControl() {
       camera.position.z = scrollBasedZ;
     }
 
-    camera.lookAt(0.15, lookAtY, 0);
+    camera.lookAt(0.2, lookAtY, 0);
   });
 
   return (

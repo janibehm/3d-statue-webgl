@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Html, Preload } from "@react-three/drei";
-import { LucyModel } from "../components/react/threeJs/LucyModel";
+import { LucyAndEarth } from "../components/react/threeJs/LucyAndEarth";
 import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
-import { Sphere } from "../components/react/threeJs/Sphere";
+/* import { Sphere } from "../components/react/threeJs/Sphere"; */
 import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
@@ -74,8 +74,8 @@ function ThreeScene() {
           <ambientLight intensity={0.05} />
           <hemisphereLight intensity={0.2} groundColor="#080820" />
           <CameraControl />
-          <LucyModel onLoad={() => setIsSceneLoaded(true)} />
-          <Sphere />
+          <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
+          {/*   <Sphere /> */}
           <SpotLightAnimation />
           <Preload all />
         </Suspense>

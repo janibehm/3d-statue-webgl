@@ -3,17 +3,17 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
 
-const MODEL_SCALE = 0.0024;
+const MODEL_SCALE = 2;
 
 // Preload with low priority and draco compression
-useGLTF.preload("/models/Lucy.glb", true);
+useGLTF.preload("/models/lucy_and_earth.glb", true);
 
 interface LucyModelProps {
   onLoad?: () => void;
 }
 
-export function LucyModel({ onLoad }: LucyModelProps) {
-  const { scene: model } = useGLTF("/models/Lucy.glb", true);
+export function LucyAndEarth({ onLoad }: LucyModelProps) {
+  const { scene: model } = useGLTF("/models/lucy_and_earth.glb", true);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
   const { progress } = useProgress();
@@ -24,8 +24,11 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     const modelInstance = model.clone();
     modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
-    modelInstance.rotation.x = Math.PI / 2;
-    modelInstance.position.set(0, -0.5, 0);
+    modelInstance.position.set(1.5, 0, 0);
+    /*    modelInstance.rotation.x = Math.PI / 2; */
+
+    console.log("Model scale:", modelInstance.scale);
+    console.log("Model position:", modelInstance.position);
 
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -53,7 +56,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     gl.compile(setupModel, camera);
     modelRef.current = setupModel;
     scene.add(setupModel);
-    
+
     onLoad?.();
 
     // Fade in animation

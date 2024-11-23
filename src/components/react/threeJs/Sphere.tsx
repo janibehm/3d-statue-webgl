@@ -2,12 +2,12 @@ import { useRef, useEffect, useMemo } from "react";
 import { useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { Group, Mesh, Material } from "three";
-import { sharedAnimation } from "./constants/animations";
 
 const MODEL_PATH = "/models/earth.glb";
 const MODEL_SCALE = 4;
 const SPAWN_POSITION = [0, -4.8, 0] as const;
 const FADE_DURATION = 2000;
+const ANIMATION_DELAY = 1000;
 
 useGLTF.preload(MODEL_PATH, true);
 
@@ -64,7 +64,7 @@ export function Sphere() {
       };
 
       requestAnimationFrame(fadeIn);
-    }, sharedAnimation.delay);
+    }, ANIMATION_DELAY);
 
     return () => {
       scene.remove(setupModel);
