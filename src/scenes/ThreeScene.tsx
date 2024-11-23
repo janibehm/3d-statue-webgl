@@ -75,7 +75,6 @@ function ThreeScene() {
           <hemisphereLight intensity={0.3} color="#b380ff" groundColor="#080820" />
           <CameraControl />
           <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
-          {/*   <Sphere /> */}
           <SpotLightAnimation />
           <Preload all />
         </Suspense>
