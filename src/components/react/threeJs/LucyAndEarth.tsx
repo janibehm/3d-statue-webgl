@@ -6,14 +6,14 @@ import { useGLTF, useProgress } from "@react-three/drei";
 const MODEL_SCALE = 2;
 
 // Preload with low priority and draco compression
-useGLTF.preload("/models/lucy_and_earth.glb", true);
+useGLTF.preload("/models/earth_angel.glb", true);
 
 interface LucyModelProps {
   onLoad?: () => void;
 }
 
 export function LucyAndEarth({ onLoad }: LucyModelProps) {
-  const { scene: model } = useGLTF("/models/lucy_and_earth.glb", true);
+  const { scene: model } = useGLTF("/models/earth_angel.glb", true);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
   const { progress } = useProgress();
