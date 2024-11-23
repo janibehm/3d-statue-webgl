@@ -30,7 +30,27 @@ const { title } = Astro.props;
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <meta name="description" content="Websivut yritykselle" />
-    <link rel="preload" href="/static/exo2-regular.ttf" as="font" type="font/woff2" crossorigin />
+
+    <!-- Optimize font loading -->
+    <link
+      rel="preload"
+      href="/static/exo2-regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin="anonymous"
+    />
+
+    <!-- Add font-display swap in your CSS -->
+    <style>
+      @font-face {
+        font-family: "Exo 2";
+        src: url("/static/exo2-regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+
     <title>{title}</title>
   </head>
   <body style={bodyStyle}>
