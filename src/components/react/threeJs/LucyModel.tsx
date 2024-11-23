@@ -108,7 +108,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     };
   }, [setupModel, scene, gl, camera, progress, onLoad]);
 
-  /*   useEffect(() => {
+  /*  useEffect(() => {
     model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         // Remove duplicate color attribute if it exists
