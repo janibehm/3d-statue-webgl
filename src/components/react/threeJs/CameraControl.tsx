@@ -46,7 +46,7 @@ export function CameraControl() {
     const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const radius = 4;
+    const radius = 3.5;
     // Add initial rotation offset (40 degrees = ~0.698 radians)
     const targetAngle = -scrollY.current * Math.PI * 2;
 

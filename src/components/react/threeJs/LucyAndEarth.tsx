@@ -36,6 +36,8 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
         if (child.material) {
           child.material.transparent = true;
           child.material.opacity = 0;
+          child.material.depthWrite = true;
+          child.material.needsUpdate = true;
         }
       }
     });
@@ -60,7 +62,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     onLoad?.();
 
     // Fade in animation
-    const duration = 2000;
+    const duration = 5000;
     const startTime = performance.now();
 
     const fadeIn = (currentTime: number) => {
@@ -71,6 +73,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
       setupModel.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material) {
           child.material.opacity = progress;
+          child.material.needsUpdate = true;
         }
       });
 
