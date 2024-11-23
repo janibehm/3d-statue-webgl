@@ -1,22 +1,41 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
 const MODEL_SCALE = 0.0024;
-
-// Preload with low priority and draco compression
-useGLTF.preload("/models/Lucy.glb", true);
 
 interface LucyModelProps {
   onLoad?: () => void;
 }
 
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath("/draco/");
+dracoLoader.setDecoderConfig({ type: "js" });
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
+
 export function LucyModel({ onLoad }: LucyModelProps) {
-  const { scene: model } = useGLTF("/models/Lucy.glb", true);
+  const [model, setModel] = useState<THREE.Group>();
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
   const { progress } = useProgress();
+
+  useEffect(() => {
+    gltfLoader.load(
+      "/models/Lucy.glb",
+      (gltf) => {
+        setModel(gltf.scene);
+      },
+      undefined,
+      (error) => {
+        console.error("Error loading model:", error);
+      },
+    );
+  }, []);
 
   const setupModel = useMemo(() => {
     if (!model) return null;
@@ -53,7 +72,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     gl.compile(setupModel, camera);
     modelRef.current = setupModel;
     scene.add(setupModel);
-    
+
     onLoad?.();
 
     // Fade in animation
@@ -88,6 +107,20 @@ export function LucyModel({ onLoad }: LucyModelProps) {
       });
     };
   }, [setupModel, scene, gl, camera, progress, onLoad]);
+
+  /*   useEffect(() => {
+    model.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        // Remove duplicate color attribute if it exists
+        if (child.geometry.attributes.color && child.geometry.attributes.color_1) {
+          console.log("Found duplicate color attributes, removing color_1");
+          delete child.geometry.attributes.color_1;
+        }
+
+        console.log("Geometry attributes:", child.geometry.attributes);
+      }
+    });
+  }, [model]); */
 
   return null;
 }

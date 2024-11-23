@@ -1,7 +1,10 @@
-import { useRef, useEffect, useMemo } from "react";
+import * as THREE from "three";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { Group, Mesh, Material } from "three";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { sharedAnimation } from "./constants/animations";
 
 const MODEL_PATH = "/models/earth.glb";
@@ -9,12 +12,34 @@ const MODEL_SCALE = 4;
 const SPAWN_POSITION = [0, -4.8, 0] as const;
 const FADE_DURATION = 2000;
 
-useGLTF.preload(MODEL_PATH, true);
+// Configure Draco
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath("/draco/");
+
+// Configure GLTF to use Draco
+const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
+
+// Preload with the configured loader
+useGLTF.preload(MODEL_PATH);
 
 export function Sphere() {
-  const { scene: model } = useGLTF(MODEL_PATH, true);
+  const [model, setModel] = useState<THREE.Group>();
   const { scene, gl, camera } = useThree();
-  const modelRef = useRef<Group>(new Group());
+  const modelRef = useRef<THREE.Group>();
+
+  useEffect(() => {
+    gltfLoader.load(
+      MODEL_PATH,
+      (gltf) => {
+        setModel(gltf.scene);
+      },
+      undefined,
+      (error) => {
+        console.error("Error loading model:", error);
+      },
+    );
+  }, []);
 
   const setupModel = useMemo(() => {
     if (!model) return null;
