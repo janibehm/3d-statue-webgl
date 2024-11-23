@@ -92,21 +92,38 @@
     overflow: hidden;
     background-color: black;
     position: fixed;
-    overflow: hidden;
-    height: auto;
-    width: auto;
+    height: 100%;
+    width: 100%;
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgb(13, 13, 13);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgb(26, 26, 26);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgb(13, 13, 13);
+    }
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: "Exo", sans-serif;
     overscroll-behavior: none;
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
     position: fixed;
     background-color: black;
     width: 100%;
     height: 100%;
-    /* Prevent horizontal scrolling */
+
+    /* Prevent bounce effect on mobile */
     touch-action: pan-y;
   }
 }
