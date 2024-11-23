@@ -34,13 +34,34 @@ const navItems = [
 ] as const;
 
 const currentPath = Astro.url.pathname;
+
+const routeMapping = {
+  services: "palvelut",
+  about: "meista",
+  contact: "yhteydenotto",
+};
+
+function getLocalizedPath(path: string, targetLang: string) {
+  const segments = path.split("/").filter(Boolean);
+  const route = segments[0];
+
+  if (targetLang === "fi") {
+    const currentRoute = segments.length > 1 ? segments[1] : "";
+    return currentRoute in routeMapping
+      ? `/${routeMapping[currentRoute as keyof typeof routeMapping]}`
+      : "/";
+  } else {
+    const englishRoute = Object.entries(routeMapping).find(([_, fi]) => fi === route)?.[0];
+    return englishRoute ? `/${targetLang}/${englishRoute}` : `/${targetLang}`;
+  }
+}
 ---
 
 <nav class="side-nav" id="navigation">
   <div class="nav-header">
     <div class="nav-lang" id="navLang">
       <a
-        href={currentPath.startsWith("/en") ? currentPath.replace("/en", "") : `/en${currentPath}`}
+        href={getLocalizedPath(currentPath, currentPath.startsWith("/en") ? "fi" : "en")}
         class="nav-lang-link"
       >
         {currentPath.startsWith("/en") ? "FI" : "EN"}
