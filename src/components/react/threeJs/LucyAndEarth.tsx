@@ -24,7 +24,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     const modelInstance = model.clone();
     modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
-    modelInstance.position.set(1.5, 0.5, 0);
+    modelInstance.position.set(1.5, 1, 0);
     /*    modelInstance.rotation.x = Math.PI / 2; */
 
     console.log("Model scale:", modelInstance.scale);

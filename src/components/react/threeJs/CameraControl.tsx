@@ -62,7 +62,7 @@ export function CameraControl() {
     camera.position.y += (targetY - camera.position.y) * 0.05; */
 
     // Create a look-at point that's slightly above the center
-    const lookAtY = 2.5; // Adjust this value to change the tilt angle (higher = more tilt up)
+    const lookAtY = 3; // Adjust this value to change the tilt angle (higher = more tilt up)
 
     // Allow manual rotation to override the scroll-based position
     // but keep updating the base position from scroll
