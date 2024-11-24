@@ -104,6 +104,7 @@ function ThreeScene() {
           style={{
             pointerEvents: isMobile ? "none" : "auto",
             touchAction: "none",
+            WebkitOverflowScrolling: "touch",
           }}
         >
           <Suspense fallback={<Loader onLoad={() => {}} />}>
