@@ -57,7 +57,7 @@ function ThreeScene() {
       // Fade out curtain instead of sliding it
       gsap.to("#scene-curtain", {
         opacity: 0,
-        duration: 1.2,
+        duration: 2.2,
         ease: "power2.inOut",
         onComplete: () => {
           document.getElementById("scene-curtain")?.remove();
