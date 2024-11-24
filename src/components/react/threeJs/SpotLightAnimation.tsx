@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useFrame } from "@react-three/fiber";
 import { SpotLight } from "@react-three/drei";
 import { SpotLight as ThreeSpotLight, Object3D, Vector3 } from "three";
@@ -15,21 +15,35 @@ export function SpotLightAnimation() {
     t.needsUpdate = true;
   });
 
-  const config = {
-    light: {
-      angle: Math.PI / 40,
-      penumbra: 0.1,
-      decay: 1.5,
-      distance: 300,
-      intensity: 500,
+  const config = useMemo(
+    () => ({
+      light: {
+        angle: Math.PI / 40,
+        penumbra: 0.1,
+        decay: 1.5,
+        distance: 300,
+        intensity: 500,
+      },
+      animation: {
+        radius: 40,
+        height: 20,
+        speed: 1 / 3,
+      },
+      target: [0, 0, 0] as const,
+    }),
+    [],
+  );
+
+  const calculatePosition = useCallback(
+    (time: number) => {
+      return new Vector3(
+        Math.cos(time) * config.animation.radius,
+        config.animation.height,
+        Math.sin(time) * config.animation.radius,
+      );
     },
-    animation: {
-      radius: 40,
-      height: 20,
-      speed: 1 / 3,
-    },
-    target: [0, 0, 0] as const,
-  };
+    [config],
+  );
 
   useEffect(() => {
     if (spotLightRef.current && targetRef.current) {
@@ -58,12 +72,7 @@ export function SpotLightAnimation() {
       spotLightRef.current.intensity = config.light.intensity;
     }
 
-    positionVector.current.set(
-      Math.cos(time) * config.animation.radius,
-      config.animation.height,
-      Math.sin(time) * config.animation.radius,
-    );
-
+    positionVector.current = calculatePosition(time);
     spotLightRef.current.position.copy(positionVector.current);
   });
 
@@ -81,7 +90,7 @@ export function SpotLightAnimation() {
         target-position={config.target}
         power={20}
         volumetric={true}
-        opacity={0}
+        opacity={0.5}
       />
       <object3D ref={targetRef} position={config.target} />
     </>
