@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
 import { Html, Preload } from "@react-three/drei";
-import { LucyAndEarth } from "../components/react/threeJs/LucyAndEarth";
-import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
-/* import { Sphere } from "../components/react/threeJs/Sphere"; */
-import { Stars } from "../components/react/threeJs/Stars";
 import { CameraControl } from "../components/react/threeJs/CameraControl";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
 import { isMobileDevice } from "../utils/deviceDetection";
@@ -42,6 +37,20 @@ function ThreeScene() {
   /*   const [isLucyReady, setIsLucyReady] = useState(false); */
   const [isMobile] = useState(isMobileDevice);
 
+  const Stars = lazy(() =>
+    import("../components/react/threeJs/Stars").then((module) => ({ default: module.Stars })),
+  );
+  const SpotLightAnimation = lazy(() =>
+    import("../components/react/threeJs/SpotLightAnimation").then((module) => ({
+      default: module.SpotLightAnimation,
+    })),
+  );
+  const LucyAndEarth = lazy(() =>
+    import("../components/react/threeJs/LucyAndEarth").then((module) => ({
+      default: module.LucyAndEarth,
+    })),
+  );
+
   return (
     <div
       style={{
@@ -59,6 +68,8 @@ function ThreeScene() {
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded} />
       <Canvas
+        dpr={[1, 2]}
+        performance={{ min: 0.5 }}
         camera={{ position: [0, 2, 5], fov: 75 }}
         key={key}
         style={{
@@ -66,17 +77,17 @@ function ThreeScene() {
           touchAction: "none",
         }}
       >
-        <color attach="background" args={[0x000000]} />
-
-        {/* First stage - Lucy */}
-        <Suspense>
+        <Suspense fallback={<Loader onLoad={() => {}} />}>
           <Stars />
           <ambientLight intensity={0.2} />
           <hemisphereLight intensity={0.5} color="#b380ff" groundColor="#080820" />
           <CameraControl />
-          <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
-          <SpotLightAnimation />
-          <Preload all />
+          <Suspense fallback={null}>
+            <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
+          </Suspense>
+          <Suspense fallback={null}>
+            <SpotLightAnimation />
+          </Suspense>
         </Suspense>
       </Canvas>
     </div>
