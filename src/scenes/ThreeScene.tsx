@@ -104,8 +104,9 @@ function ThreeScene() {
         >
           <Suspense fallback={<Loader onLoad={() => {}} />}>
             <Stars />
-            <ambientLight intensity={0.2} />
-            <hemisphereLight intensity={0.5} color="#b380ff" groundColor="#080820" />
+            <ambientLight intensity={0.3} />
+            <hemisphereLight intensity={0.3} color="#ffffff" groundColor="#080820" />
+            <directionalLight position={[5, 5, 5]} intensity={0.5} color="#ffffff" />
             <CameraControl />
             <Suspense fallback={null}>
               <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />

@@ -33,6 +33,9 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
           child.material.transparent = false;
           child.material.depthWrite = true;
           child.material.needsUpdate = true;
+          child.material.color = new THREE.Color("#c0c0c0");
+          child.material.roughness = 0.3;
+          child.material.metalness = 0.1;
         }
       }
     });
