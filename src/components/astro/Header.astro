@@ -11,8 +11,9 @@ const positionClass = isHome ? "absolute top-0 left-0 right-0" : "relative top-0
 <header
   class:list={[
     positionClass,
-    "w-full lg:min-h-[245px] min-h-[240px] flex flex-col justify-center text-white bg-black/95 z-50 overflow-x-hidden",
+    "w-full lg:min-h-[245px] min-h-[240px] flex flex-col justify-center text-white bg-black/95 z-50 overflow-x-hidden opacity-0",
   ]}
+  id="main-header"
 >
   <div
     class="px-4 max-w-[90%] mx-auto sm:px-8 md:ml-[60px] md:max-w-none relative overflow-x-hidden"
@@ -25,3 +26,31 @@ const positionClass = isHome ? "absolute top-0 left-0 right-0" : "relative top-0
     </p>
   </div>
 </header>
+
+<script>
+  import gsap from "gsap";
+
+  const header = document.getElementById("main-header");
+
+  if (header) {
+    // Set initial state immediately
+    gsap.set(header, {
+      opacity: 0,
+      y: "100%",
+      willChange: "transform",
+      backfaceVisibility: "hidden",
+      perspective: 1000,
+    });
+
+    // Start animation in the next frame
+    requestAnimationFrame(() => {
+      gsap.to(header, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        clearProps: "willChange",
+      });
+    });
+  }
+</script>

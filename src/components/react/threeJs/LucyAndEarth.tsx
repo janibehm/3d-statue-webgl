@@ -23,17 +23,14 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     if (!model) return null;
 
     const modelInstance = model.clone();
-    modelInstance.visible = false;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.position.set(1.5, 1, 0);
-    /*    modelInstance.rotation.x = Math.PI / 2; */
 
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.frustumCulled = true;
         if (child.material) {
-          child.material.transparent = true;
-          child.material.opacity = 0;
+          child.material.transparent = false;
           child.material.depthWrite = true;
           child.material.needsUpdate = true;
         }
@@ -51,29 +48,6 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     scene.add(setupModel);
 
     onLoad?.();
-
-    // Optimized fade in using GSAP or simple opacity setting
-    setupModel.visible = true;
-    const materials: THREE.Material[] = [];
-
-    // Collect materials once
-    setupModel.traverse((child) => {
-      if (child instanceof THREE.Mesh && child.material) {
-        materials.push(child.material);
-        child.material.opacity = 0;
-      }
-    });
-
-    // Single animation for all materials
-    const duration = 2;
-    gsap.to(materials, {
-      opacity: 1,
-      duration,
-      ease: "power2.out",
-      onUpdate: () => {
-        materials.forEach((material) => (material.needsUpdate = true));
-      },
-    });
 
     return () => {
       scene.remove(setupModel);
