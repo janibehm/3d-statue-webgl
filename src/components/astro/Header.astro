@@ -11,7 +11,7 @@ const positionClass = isHome ? "absolute top-0 left-0 right-0" : "relative top-0
 <header
   class:list={[
     positionClass,
-    "w-full lg:min-h-[245px] min-h-[240px] flex flex-col justify-center text-white bg-black/95 z-50 overflow-x-hidden opacity-0",
+    "w-full lg:min-h-[245px] min-h-[240px] flex flex-col justify-center text-white bg-black/95 z-50 overflow-x-hidden",
   ]}
   id="main-header"
 >
@@ -26,17 +26,3 @@ const positionClass = isHome ? "absolute top-0 left-0 right-0" : "relative top-0
     </p>
   </div>
 </header>
-
-<script>
-  import gsap from "gsap";
-
-  const header = document.getElementById("main-header");
-
-  if (header) {
-    gsap.to(header, {
-      opacity: 1,
-      duration: 1,
-      ease: "power1.inOut",
-    });
-  }
-</script>
