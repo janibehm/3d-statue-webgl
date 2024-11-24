@@ -54,13 +54,12 @@ function ThreeScene() {
 
   useEffect(() => {
     if (isSceneLoaded) {
-      // Animate curtain away when scene is loaded
+      // Fade out curtain instead of sliding it
       gsap.to("#scene-curtain", {
-        yPercent: -100,
+        opacity: 0,
         duration: 1.2,
-        ease: "power3.inOut",
+        ease: "power2.inOut",
         onComplete: () => {
-          // Optional: remove curtain from DOM after animation
           document.getElementById("scene-curtain")?.remove();
         },
       });
@@ -79,6 +78,7 @@ function ThreeScene() {
           height: "100%",
           background: "black",
           zIndex: 2,
+          opacity: 1,
         }}
       />
       <div
