@@ -10,6 +10,9 @@ export function CameraControl() {
   const touchStart = useRef(0);
 
   useEffect(() => {
+    let isPointerDown = false;
+    let lastPointerY = 0;
+
     // Mouse wheel handler
     const handleWheel = (event: WheelEvent) => {
       targetScrollY.current += event.deltaY * 0.0007;
@@ -28,16 +31,43 @@ export function CameraControl() {
       touchStart.current = event.touches[0].clientY;
     };
 
-    // Add event listeners
+    // Add pointer event handlers
+    const handlePointerDown = (event: PointerEvent) => {
+      isPointerDown = true;
+      lastPointerY = event.clientY;
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!isPointerDown) return;
+
+      const deltaY = lastPointerY - event.clientY;
+      targetScrollY.current += deltaY * 0.005; // Same sensitivity as touch
+      targetScrollY.current = Math.max(0, Math.min(1, targetScrollY.current));
+      lastPointerY = event.clientY;
+    };
+
+    const handlePointerUp = () => {
+      isPointerDown = false;
+    };
+
+    // Add all event listeners
     window.addEventListener("wheel", handleWheel, { passive: true });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointerleave", handlePointerUp);
 
     // Cleanup
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointerleave", handlePointerUp);
     };
   }, []);
 
