@@ -2,6 +2,7 @@ import { useRef, useEffect, useMemo } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress } from "@react-three/drei";
+import gsap from "gsap";
 
 const MODEL_SCALE = 2.05;
 
@@ -51,28 +52,28 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
 
     onLoad?.();
 
-    // Fade in animation
-    const duration = 2000;
-    const startTime = performance.now();
+    // Optimized fade in using GSAP or simple opacity setting
+    setupModel.visible = true;
+    const materials: THREE.Material[] = [];
 
-    const fadeIn = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      setupModel.visible = true;
-      setupModel.traverse((child) => {
-        if (child instanceof THREE.Mesh && child.material) {
-          child.material.opacity = progress;
-          child.material.needsUpdate = true;
-        }
-      });
-
-      if (progress < 1) {
-        requestAnimationFrame(fadeIn);
+    // Collect materials once
+    setupModel.traverse((child) => {
+      if (child instanceof THREE.Mesh && child.material) {
+        materials.push(child.material);
+        child.material.opacity = 0;
       }
-    };
+    });
 
-    requestAnimationFrame(fadeIn);
+    // Single animation for all materials
+    const duration = 2;
+    gsap.to(materials, {
+      opacity: 1,
+      duration,
+      ease: "power2.out",
+      onUpdate: () => {
+        materials.forEach((material) => (material.needsUpdate = true));
+      },
+    });
 
     return () => {
       scene.remove(setupModel);

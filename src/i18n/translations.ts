@@ -7,7 +7,7 @@ export const DefaultLang = "fi";
 
 export const LanguageText = {
   en: {
-    "header.slogan": "Web solutions that create a recognizable brand for your business.",
+    "header.slogan": "We create a recognizable brand for your business.",
     "nav.home": "Home",
     "nav.services": "Services",
     "nav.pricing": "Pricing",
@@ -61,7 +61,7 @@ export const LanguageText = {
     "footer.bottomBar.cookies": "Cookies",
   },
   fi: {
-    "header.slogan": "Verkkoratkaisuja jotka luovat tunnistettavan brändin liiketoiminnallesi.",
+    "header.slogan": "Me luomme tunnistettavan brändin liiketoiminnallesi.",
     //Nav
     "nav.home": "Etusivu",
     "nav.services": "Palvelut",
