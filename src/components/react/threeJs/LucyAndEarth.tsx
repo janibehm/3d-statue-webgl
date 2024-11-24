@@ -27,9 +27,6 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     modelInstance.position.set(1.5, 1, 0);
     /*    modelInstance.rotation.x = Math.PI / 2; */
 
-    console.log("Model scale:", modelInstance.scale);
-    console.log("Model position:", modelInstance.position);
-
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.frustumCulled = true;
@@ -44,13 +41,6 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
 
     return modelInstance;
   }, [model]);
-
-  useEffect(() => {
-    if (setupModel) {
-      console.log("Lucy position:", setupModel.position);
-      console.log("Lucy visible:", setupModel.visible);
-    }
-  }, [setupModel]);
 
   useEffect(() => {
     if (!setupModel || progress !== 100) return;
