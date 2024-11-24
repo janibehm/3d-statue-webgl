@@ -5,18 +5,18 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<div class="scrollable-content w-[100vw] overflow-x-hidden" style="height: 100dvh;">
+<div class="scrollable-content w-[100vw] overflow-x-hidden z-[10]" style="height: 100dvh;">
   <main
-    class="absolute text-white z-[1] grid grid-cols-12 pointer-events-auto top-[70vh]
-          w-[100vw] overflow-x-hidden left-0 right-0
-          md:top-[400px] xl:ml-5 md:ml-5 pl-5 pr-5"
+    class="absolute text-white z-[11] grid grid-cols-12 pointer-events-auto top-0
+          w-[100vw] overflow-x-hidden left-0 right-0 min-h-[200vh]
+          md:ml-5 xl:ml-5 pl-5 pr-5"
   >
     <blockquote
       class="col-span-12 mb-spacing overflow-x-hidden w-full
             sm:col-span-10 sm:col-start-2
             md:col-start-1"
     >
-      <div class="h-[65vh] col-span-12"></div>
+      <div class="h-[100vh] col-span-12 md:h-[40vh]"></div>
       <div class="xl:w-[42%]">
         <h1 class="text-white lg:text-3xl md:text-3xl text-2xl relative w-full max-w-[800px]">
           {t("hero")}

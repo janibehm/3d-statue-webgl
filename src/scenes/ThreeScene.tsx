@@ -70,15 +70,10 @@ function ThreeScene() {
     <>
       <div
         id="scene-curtain"
+        className="fixed inset-0 bg-black z-[2]"
         style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: "black",
-          zIndex: 2,
-          opacity: 1,
+          animation: isSceneLoaded ? "fadeOutThrough 2.2s ease-in-out forwards" : "none",
+          pointerEvents: isSceneLoaded ? "none" : "auto",
         }}
       />
       <div
