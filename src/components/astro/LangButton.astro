@@ -46,7 +46,8 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
       <a
         href={getLocalizedPath(pathname, lang)}
         class={`p-2 text-white hover:underline active:underline cursor-pointer
-          ${currentLang === lang ? "font-bold underline" : ""}`}
+          ${currentLang === lang ? "hidden md:inline md:underline md:font-bold" : ""}
+        `}
       >
         {lang.toUpperCase()}
       </a>
