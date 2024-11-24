@@ -71,17 +71,13 @@ function ThreeScene() {
         {/* First stage - Lucy */}
         <Suspense>
           <Stars />
-          <ambientLight intensity={0.15} />
-          <hemisphereLight intensity={0.7} color="#b380ff" groundColor="#080820" />
+          <ambientLight intensity={0.2} />
+          <hemisphereLight intensity={0.5} color="#b380ff" groundColor="#080820" />
           <CameraControl />
           <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
           <SpotLightAnimation />
           <Preload all />
         </Suspense>
-
-        {/* Second stage - Sphere and Spotlight */}
-
-        <Suspense fallback={null}></Suspense>
       </Canvas>
     </div>
   );

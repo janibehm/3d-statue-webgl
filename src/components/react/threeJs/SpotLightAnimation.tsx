@@ -17,14 +17,14 @@ export function SpotLightAnimation() {
 
   const config = {
     light: {
-      angle: Math.PI / 30,
-      penumbra: 0.5,
-      decay: 1,
-      distance: 200,
-      intensity: 80,
+      angle: Math.PI / 40,
+      penumbra: 0.1,
+      decay: 1.5,
+      distance: 300,
+      intensity: 500,
     },
     animation: {
-      radius: 80,
+      radius: 40,
       height: 20,
       speed: 1 / 3,
     },
