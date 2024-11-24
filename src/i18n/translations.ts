@@ -7,7 +7,7 @@ export const DefaultLang = "fi";
 
 export const LanguageText = {
   en: {
-    "header.slogan": "Web services that create a recognizable brand for your business.",
+    "header.slogan": "Web solutions that create a recognizable brand for your business.",
     "nav.home": "Home",
     "nav.services": "Services",
     "nav.pricing": "Pricing",
