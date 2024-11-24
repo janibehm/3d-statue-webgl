@@ -33,24 +33,10 @@ const positionClass = isHome ? "absolute top-0 left-0 right-0" : "relative top-0
   const header = document.getElementById("main-header");
 
   if (header) {
-    // Set initial state immediately
-    gsap.set(header, {
-      opacity: 0,
-      y: "100%",
-      willChange: "transform",
-      backfaceVisibility: "hidden",
-      perspective: 1000,
-    });
-
-    // Start animation in the next frame
-    requestAnimationFrame(() => {
-      gsap.to(header, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        clearProps: "willChange",
-      });
+    gsap.to(header, {
+      opacity: 1,
+      duration: 1,
+      ease: "power1.inOut",
     });
   }
 </script>
