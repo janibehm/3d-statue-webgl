@@ -71,8 +71,8 @@ function ThreeScene() {
         {/* First stage - Lucy */}
         <Suspense>
           <Stars />
-          <ambientLight intensity={0.1} />
-          <hemisphereLight intensity={0.8} color="#b380ff" groundColor="#080820" />
+          <ambientLight intensity={0.15} />
+          <hemisphereLight intensity={0.7} color="#b380ff" groundColor="#080820" />
           <CameraControl />
           <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
           <SpotLightAnimation />
