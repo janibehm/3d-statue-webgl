@@ -104,7 +104,7 @@ function ThreeScene() {
         >
           <Suspense fallback={<Loader onLoad={() => {}} />}>
             <Stars />
-            <ambientLight intensity={0.5} color="#404040" />
+            <ambientLight intensity={2.5} color="#404040" />
             <hemisphereLight intensity={0.3} color="#9370DB" groundColor="#080820" />
             <spotLight position={[5, 5, 5]} intensity={3} angle={0.4} penumbra={0.3} castShadow />
             <CameraControl />
