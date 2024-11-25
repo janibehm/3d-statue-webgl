@@ -134,7 +134,7 @@
     "packages": [
       {
         "name": "Ylläpito",
-        "price_per_month": "120€ + alv",
+        "price_per_month": "150€ + alv",
         "features": [
           "Sisältää jopa 1 TB liikennettä kuukaudessa (lisäliikenne maksaa 0,15 €/GB)",
           "Sivuston ylläpito ja tuki"
@@ -142,7 +142,7 @@
       },
       {
         "name": "Ylläpito+",
-        "price_per_month": "220€ + alv",
+        "price_per_month": "250€ + alv",
         "features": [
           "Sisältää jopa 1 TB liikennettä kuukaudessa (lisäliikenne maksaa 0,15 €/GB)",
           "Sivuston ylläpito ja tuki",

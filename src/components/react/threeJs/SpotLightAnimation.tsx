@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useFrame } from "@react-three/fiber";
 import { SpotLight } from "@react-three/drei";
 import {
@@ -37,6 +37,17 @@ export function SpotLightAnimation() {
     },
     target: [0, 0, 0] as const,
   };
+
+  const calculatePosition = useCallback(
+    (time: number) => {
+      return new Vector3(
+        Math.cos(time) * config.animation.radius,
+        config.animation.height,
+        Math.sin(time) * config.animation.radius,
+      );
+    },
+    [config.animation.radius, config.animation.height],
+  );
 
   useEffect(() => {
     if (spotLightRef.current && targetRef.current) {
@@ -78,12 +89,7 @@ export function SpotLightAnimation() {
       spotLightRef.current.intensity = config.light.intensity;
     }
 
-    positionVector.current.set(
-      Math.cos(time) * config.animation.radius,
-      config.animation.height,
-      Math.sin(time) * config.animation.radius,
-    );
-
+    positionVector.current = calculatePosition(time);
     spotLightRef.current.position.copy(positionVector.current);
   });
 

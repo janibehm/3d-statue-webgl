@@ -36,8 +36,8 @@ export function ScrollIndicator({ isSceneLoaded }: ScrollIndicatorProps) {
     <div
       style={{
         position: "fixed",
-        bottom: "80px",
-        right: "40px",
+        bottom: "110px",
+        right: "20px",
         color: "white",
         textAlign: "center",
         opacity: isVisible ? 1 : 0,

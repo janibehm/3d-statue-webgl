@@ -7,7 +7,7 @@ const heroTranslations = await import(`../../../i18n/hero/en.json`);
 export const prerender = true;
 ---
 
-<Layout title="Contact - Behm Digital">
+<Layout title="Behm Digital - Contact">
   <Hero heroTranslations={heroTranslations.default.hero} page="contact" />
   <ContactForm client:load translations={english.default} />
 </Layout>
