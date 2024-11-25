@@ -23,7 +23,7 @@ function generateRandomPoints(
   return positions;
 }
 
-const MODEL_SCALE = 0.0027;
+const MODEL_SCALE = 0.0035;
 
 interface LucyModelProps {
   onLoad?: () => void;
@@ -94,8 +94,20 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
 
   return (
     <>
-      {/*  <Sphere /> */}
-      <Plane args={[30, 30]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
+      <hemisphereLight
+        intensity={0.4}
+        groundColor="#7c4dff"
+        color="#4fc3f7"
+        position={[0, 20, 0]}
+      />
+      <hemisphereLight
+        intensity={0.3}
+        groundColor="#e040fb"
+        color="#2196f3"
+        position={[0, -20, 0]}
+      />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
+        <circleGeometry args={[15, 64]} />
         <meshStandardMaterial
           transparent
           opacity={0.8}
@@ -109,7 +121,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
             colors={["#4fc3f7", "#7c4dff", "#e040fb", "#2196f3"]}
           />
         </meshStandardMaterial>
-      </Plane>
+      </mesh>
       <Points positions={generateRandomPoints(2000, -15, 15, -0.5, 0.5, -15, 15)}>
         <pointsMaterial
           size={0.03}

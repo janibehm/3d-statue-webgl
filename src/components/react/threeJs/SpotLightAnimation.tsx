@@ -33,7 +33,7 @@ export function SpotLightAnimation() {
     animation: {
       radius: 60,
       height: 60,
-      speed: 1 / 3,
+      speed: 1 / 6,
     },
     target: [0, 0, 0] as const,
   };
