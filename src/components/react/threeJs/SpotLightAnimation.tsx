@@ -24,16 +24,16 @@ export function SpotLightAnimation() {
 
   const config = {
     light: {
-      angle: Math.PI / 30,
-      penumbra: 0.5,
-      decay: 1,
-      distance: 500,
-      intensity: 80,
+      angle: Math.PI / 3,
+      penumbra: 1,
+      decay: 1.5,
+      distance: 50,
+      intensity: 200,
     },
     animation: {
-      radius: 60,
-      height: 60,
-      speed: 1 / 3,
+      radius: 10,
+      height: 15,
+      speed: 1 / 8,
     },
     target: [0, 0, 0] as const,
   };
@@ -79,17 +79,14 @@ export function SpotLightAnimation() {
   useFrame(({ clock }) => {
     if (!spotLightRef.current) return;
 
-    const time = clock.getElapsedTime() * config.animation.speed - Math.PI / 2;
-    const elapsedTime = clock.getElapsedTime();
+    const time = clock.getElapsedTime() * config.animation.speed;
 
-    if (initialRender.current && elapsedTime < 1) {
-      spotLightRef.current.intensity = config.light.intensity * Math.min(elapsedTime, 1);
-    } else if (initialRender.current) {
-      initialRender.current = false;
-      spotLightRef.current.intensity = config.light.intensity;
-    }
+    positionVector.current.set(
+      Math.cos(time) * config.animation.radius,
+      config.animation.height,
+      Math.sin(time) * config.animation.radius,
+    );
 
-    positionVector.current = calculatePosition(time);
     spotLightRef.current.position.copy(positionVector.current);
   });
 
@@ -105,16 +102,16 @@ export function SpotLightAnimation() {
         intensity={config.light.intensity}
         map={texture}
         target-position={config.target}
-        power={20}
-        volumetric={true}
-        opacity={0}
+        power={100}
+        volumetric={false}
+        opacity={1}
         castShadow
-        shadow-mapSize={[8192, 8192]}
-        shadow-bias={-0.0001}
+        shadow-mapSize={[1024, 1024]}
+        shadow-bias={-0.001}
         shadow-camera-near={1}
-        shadow-camera-far={config.light.distance}
-        shadow-camera-fov={90}
-        shadow-radius={2}
+        shadow-camera-far={50}
+        shadow-camera-fov={30}
+        shadow-focus={1}
       />
       <object3D ref={targetRef} position={config.target} />
     </>

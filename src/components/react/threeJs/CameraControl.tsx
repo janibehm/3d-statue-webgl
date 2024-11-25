@@ -76,7 +76,7 @@ export function CameraControl() {
     const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const radius = 3.5;
+    const radius = 7.5;
     // Add initial rotation offset (40 degrees = ~0.698 radians)
     const targetAngle = -scrollY.current * Math.PI * 2;
 
@@ -88,11 +88,14 @@ export function CameraControl() {
     camera.position.x = Math.sin(currentAngle.current) * radius;
     camera.position.z = Math.cos(currentAngle.current) * radius;
 
-    /*   const targetY = 2 + scrollY.current * 3;
-    camera.position.y += (targetY - camera.position.y) * 0.05; */
+    // Adjust camera height
+    const baseHeight = 10; // Base height of the camera
+    const heightRange = 3; // How much additional height to add during scroll
+    const targetY = baseHeight + scrollY.current * heightRange;
+    camera.position.y += (targetY - camera.position.y) * 0.05;
 
-    // Create a look-at point that's slightly above the center
-    const lookAtY = 3; // Adjust this value to change the tilt angle (higher = more tilt up)
+    // Adjust look-at point height
+    const lookAtY = 2; // Increased from 1 to match higher camera position
 
     // Allow manual rotation to override the scroll-based position
     // but keep updating the base position from scroll

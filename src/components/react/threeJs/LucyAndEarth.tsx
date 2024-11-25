@@ -5,7 +5,7 @@ import { useGLTF, useProgress, Plane } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Sphere } from "./Sphere";
 
-const MODEL_SCALE = 0.0027;
+const MODEL_SCALE = 1;
 
 interface LucyModelProps {
   onLoad?: () => void;
@@ -14,7 +14,7 @@ interface LucyModelProps {
 const gltfLoader = new GLTFLoader();
 
 export function LucyAndEarth({ onLoad }: LucyModelProps) {
-  const { scene: model } = useGLTF("/models/Lucy.glb");
+  const { scene: model } = useGLTF("/models/angel.glb");
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>(null);
   const { progress } = useProgress();
@@ -24,7 +24,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
 
     const modelInstance = model.clone();
     modelInstance.scale.setScalar(MODEL_SCALE);
-    modelInstance.position.set(1.5, 1, 0);
+    modelInstance.position.set(10, 7, 10);
 
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -51,28 +51,6 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     scene.add(setupModel);
 
     onLoad?.();
-
-    // Fade in animation
-    const duration = 5000;
-    const startTime = performance.now();
-
-    const fadeIn = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      setupModel.visible = true;
-      setupModel.traverse((child) => {
-        if (child instanceof THREE.Mesh && child.material) {
-          child.material.opacity = progress;
-        }
-      });
-
-      if (progress < 1) {
-        requestAnimationFrame(fadeIn);
-      }
-    };
-
-    requestAnimationFrame(fadeIn);
 
     return () => {
       scene.remove(setupModel);
@@ -104,9 +82,14 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
   return (
     <>
       <Sphere />
-      {/*   <Plane receiveShadow args={[20, 20]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
-        <meshStandardMaterial color="#808080" />
-      </Plane> */}
+      <Plane
+        receiveShadow
+        args={[100, 100]} // Increased size to catch shadows
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -0.55, 0]}
+      >
+        <meshStandardMaterial color="#808080" transparent={false} opacity={1} depthWrite={true} />
+      </Plane>
     </>
   );
 }
