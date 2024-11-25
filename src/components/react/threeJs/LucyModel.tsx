@@ -23,18 +23,18 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     if (!model) return null;
 
     const modelInstance = model.clone();
-    modelInstance.visible = false;
+    modelInstance.visible = true;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
-    modelInstance.position.set(0, -0.5, 0);
+    modelInstance.position.set(0, -0.15, 3);
 
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.frustumCulled = true;
         child.castShadow = true;
         if (child.material) {
-          child.material.transparent = true;
-          child.material.opacity = 0;
+          child.material.transparent = false;
+          child.material.opacity = 1;
         }
       }
     });
@@ -43,41 +43,11 @@ export function LucyModel({ onLoad }: LucyModelProps) {
   }, [model]);
 
   useEffect(() => {
-    if (setupModel) {
-      console.log("Lucy position:", setupModel.position);
-      console.log("Lucy visible:", setupModel.visible);
-    }
-  }, [setupModel]);
-
-  useEffect(() => {
     if (!setupModel || progress !== 100) return;
 
     gl.compile(setupModel, camera);
     scene.add(setupModel);
-
     onLoad?.();
-
-    // Fade in animation
-    const duration = 5000;
-    const startTime = performance.now();
-
-    const fadeIn = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      setupModel.visible = true;
-      setupModel.traverse((child) => {
-        if (child instanceof THREE.Mesh && child.material) {
-          child.material.opacity = progress;
-        }
-      });
-
-      if (progress < 1) {
-        requestAnimationFrame(fadeIn);
-      }
-    };
-
-    requestAnimationFrame(fadeIn);
 
     return () => {
       scene.remove(setupModel);
@@ -108,10 +78,21 @@ export function LucyModel({ onLoad }: LucyModelProps) {
 
   return (
     <>
-      <Sphere />
-      {/*   <Plane receiveShadow args={[20, 20]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
-        <meshStandardMaterial color="#808080" />
+      {/*  <Sphere /> */}
+      {/*      <Plane args={[30, 30]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
+        <meshStandardMaterial
+          color="#1a237e"
+          emissive="#303f9f"
+          roughness={0.5}
+          metalness={0.3}
+          transparent
+          opacity={0.8}
+        />
       </Plane> */}
+      <mesh position={[0, -12, 0]}>
+        <sphereGeometry args={[12, 32, 32]} />
+        <meshStandardMaterial color="#1a237e" emissive="#303f9f" roughness={0.4} metalness={0.8} />
+      </mesh>
     </>
   );
 }
