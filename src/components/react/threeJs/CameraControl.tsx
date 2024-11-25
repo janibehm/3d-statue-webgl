@@ -76,7 +76,7 @@ export function CameraControl() {
     const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const radius = 8.5; // Distance from center
+    const radius = 7.5; // Distance from center
     const targetAngle = -scrollY.current * Math.PI * 2; // Negative for opposite direction
 
     // Smooth camera rotation
@@ -88,7 +88,7 @@ export function CameraControl() {
     camera.position.z = Math.cos(currentAngle.current) * radius;
 
     // Adjust camera height
-    const baseHeight = 10; // Base height of the camera
+    const baseHeight = 5; // Base height of the camera
     const heightRange = 3; // How much additional height to add during scroll
     const targetY = baseHeight + scrollY.current * heightRange;
     camera.position.y += (targetY - camera.position.y) * 0.05;
