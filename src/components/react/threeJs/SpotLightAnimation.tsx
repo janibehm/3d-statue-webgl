@@ -24,16 +24,16 @@ export function SpotLightAnimation() {
 
   const config = {
     light: {
-      angle: Math.PI / 30,
+      angle: Math.PI / 10,
       penumbra: 0.5,
       decay: 1,
-      distance: 500,
-      intensity: 80,
+      distance: 300,
+      intensity: 40,
     },
     animation: {
-      radius: 60,
-      height: 60,
-      speed: 1 / 8,
+      radius: 30,
+      height: 40,
+      speed: 1 / 16,
     },
     target: [0, 0, 0] as const,
   };
@@ -99,16 +99,16 @@ export function SpotLightAnimation() {
         intensity={config.light.intensity}
         map={texture}
         target-position={config.target}
-        power={20}
+        power={10}
         volumetric={true}
         opacity={0}
         castShadow
-        shadow-mapSize={[8192, 8192]}
+        shadow-mapSize={[4096, 4096]}
         shadow-bias={-0.0001}
         shadow-camera-near={1}
         shadow-camera-far={config.light.distance}
         shadow-camera-fov={90}
-        shadow-radius={2}
+        shadow-radius={1}
       />
       <object3D ref={targetRef} position={config.target} />
     </>
