@@ -95,13 +95,13 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
   return (
     <>
       <hemisphereLight
-        intensity={0.4}
+        intensity={0.2}
         groundColor="#7c4dff"
         color="#4fc3f7"
         position={[0, 20, 0]}
       />
       <hemisphereLight
-        intensity={0.3}
+        intensity={0.1}
         groundColor="#e040fb"
         color="#2196f3"
         position={[0, -20, 0]}

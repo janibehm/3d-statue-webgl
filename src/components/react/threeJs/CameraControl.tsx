@@ -76,31 +76,34 @@ export function CameraControl() {
     const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const radius = 7.5; // Distance from center
-    const targetAngle = -scrollY.current * Math.PI * 2; // Negative for opposite direction
+    const minRadius = 8; // Starting (closest) distance
+    const maxRadius = 14; // Ending (farthest) distance
+    const currentRadius = minRadius + scrollY.current * (maxRadius - minRadius);
+
+    const targetAngle = -scrollY.current * Math.PI * 2;
 
     // Smooth camera rotation
     const rotationEasing = 0.1; // Adjust this value to change rotation smoothness (0.01 to 0.1)
     currentAngle.current += (targetAngle - currentAngle.current) * rotationEasing;
 
-    // Calculate camera position
-    camera.position.x = Math.sin(currentAngle.current) * radius;
-    camera.position.z = Math.cos(currentAngle.current) * radius;
+    // Calculate camera position with dynamic radius
+    camera.position.x = Math.sin(currentAngle.current) * currentRadius;
+    camera.position.z = Math.cos(currentAngle.current) * currentRadius;
 
     // Adjust camera height
-    const baseHeight = 5; // Base height of the camera
-    const heightRange = 3; // How much additional height to add during scroll
-    const targetY = baseHeight + scrollY.current * heightRange;
+    const minHeight = 5; // Starting height
+    const maxHeight = 8; // Ending height
+    const targetY = minHeight + scrollY.current * (maxHeight - minHeight);
     camera.position.y += (targetY - camera.position.y) * 0.05;
 
     // Adjust look-at point height
-    const lookAtY = 2; // Increased from 1 to match higher camera position
+    const lookAtY = 2.5; // Slightly increased from 2
 
     // Allow manual rotation to override the scroll-based position
     // but keep updating the base position from scroll
     const manualRotation = camera.position.clone();
-    const scrollBasedX = Math.sin(currentAngle.current) * radius;
-    const scrollBasedZ = Math.cos(currentAngle.current) * radius;
+    const scrollBasedX = Math.sin(currentAngle.current) * currentRadius;
+    const scrollBasedZ = Math.cos(currentAngle.current) * currentRadius;
 
     // Only update if the position significantly differs from the scroll-based position
     if (Math.abs(manualRotation.x - scrollBasedX) < 0.1) {
