@@ -39,14 +39,15 @@ if (Astro.cookies.get("lang")?.value !== currentLang) {
 
 <div
   id="langButtons"
-  class="fixed bottom-4 right-4 flex gap-4 bg-black p-[0.2rem] rounded shadow-md z-[1000] transition-opacity duration-300"
+  class="fixed top-[15px] left-[0.5rem] flex gap-4 bg-black rounded shadow-md z-[1000] transition-opacity duration-300"
 >
   {
     LanguageOptions.map((lang) => (
       <a
         href={getLocalizedPath(pathname, lang)}
         class={`p-2 text-white hover:underline active:underline cursor-pointer
-          ${currentLang === lang ? "font-bold underline" : ""}`}
+          ${currentLang === lang ? "hidden md:inline md:underline md:font-bold" : ""}
+        `}
       >
         {lang.toUpperCase()}
       </a>

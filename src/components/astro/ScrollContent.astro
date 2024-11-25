@@ -5,43 +5,43 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<div class="scrollable-content overflow-x-hidden w-[100vw]">
+<div class="scrollable-content w-[100vw] overflow-x-hidden z-[10]" style="height: 100dvh;">
   <main
-    class="absolute text-white z-[1] grid grid-cols-12 pointer-events-auto top-[70vh]
-          w-[100vw] overflow-x-hidden left-0 right-0
-          md:top-[400px] xl:ml-5 md:ml-5 pl-5 pr-5"
+    class="absolute text-white z-[11] grid grid-cols-12 pointer-events-auto top-0
+          w-[100vw] overflow-x-hidden left-0 right-0 min-h-[200vh]
+          md:ml-5 xl:ml-5 pl-5 pr-5"
   >
     <blockquote
       class="col-span-12 mb-spacing overflow-x-hidden w-full
             sm:col-span-10 sm:col-start-2
             md:col-start-1"
     >
-      <div class="h-[65vh] col-span-12"></div>
+      <div class="h-[100vh] col-span-12"></div>
       <div class="xl:w-[42%]">
-        <h1 class="text-white lg:text-3xl md:text-3xl text-2xl relative w-full max-w-[800px]">
+        <h1 class="text-white lg:text-3xl md:text-3xl text-2xl relative w-full max-w-[800px] mb-2">
           {t("hero")}
         </h1>
         <section
-          class="col-span-full w-full leading-relaxed mb-spacing
+          class="col-span-full w-full leading-relaxed
                 sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
-                md:text-xl pt-8 pb-8"
+                md:text-lg lg:text-xl pt-4"
         >
-          <div class="space-y-6">
+          <div class="space-y-4">
             <h3 class="leading-loose">{t("about.introduction.subtitle")}</h3>
             <p class="leading-loose">{t("about.introduction.description")}</p>
           </div>
         </section>
       </div>
       <section
-        class="col-span-full w-screen text-base leading-relaxed mb-spacing
+        class="col-span-full w-full text-base leading-relaxed
               sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
               md:text-xl"
       >
-        <h2 class="font-['Exo'] font-bold py-4 text-1xl px-4 sm:px-0">
+        <h2 class="font-['Exo'] font-bold py-4 text-1xl">
           {t("contact")}
         </h2>
       </section>
-      <div class="h-[50vh] col-span-12"></div>
+      <div class="h-[100vh] col-span-12"></div>
     </blockquote>
   </main>
 </div>

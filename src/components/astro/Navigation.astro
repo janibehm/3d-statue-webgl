@@ -34,13 +34,36 @@ const navItems = [
 ] as const;
 
 const currentPath = Astro.url.pathname;
+
+const routeMapping = {
+  services: "palvelut",
+  about: "meista",
+  contact: "yhteydenotto",
+};
+
+function getLocalizedPath(path: string, targetLang: string) {
+  const segments = path.split("/").filter(Boolean);
+  const route = segments[0];
+
+  if (targetLang === "fi") {
+    const currentRoute = segments.length > 1 ? segments[1] : "";
+    return currentRoute in routeMapping
+      ? `/${routeMapping[currentRoute as keyof typeof routeMapping]}`
+      : "/";
+  } else {
+    const englishRoute = Object.entries(routeMapping).find(([_, fi]) => fi === route)?.[0];
+    return englishRoute ? `/${targetLang}/${englishRoute}` : `/${targetLang}`;
+  }
+}
 ---
 
 <nav class="side-nav" id="navigation">
-  <div class="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
+  <div class="nav-header">
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
   <ul>
     {
@@ -55,6 +78,7 @@ const currentPath = Astro.url.pathname;
                   currentPath === item.path || (currentPath === "/" && item.path === `/${lang}`),
               },
             ]}
+            style="pointer-events: auto; cursor: pointer;"
           >
             {t(item.key)}
           </a>
@@ -111,23 +135,59 @@ const currentPath = Astro.url.pathname;
   };
 
   document.addEventListener("astro:before-swap", cleanup);
+
+  let lastY = 0;
+  const navLang = document.getElementById("navLang");
+
+  const updateButtonVisibility = (e: TouchEvent | WheelEvent) => {
+    if (!navLang) return;
+
+    let scrollingDown: boolean;
+
+    if (e instanceof WheelEvent) {
+      scrollingDown = e.deltaY > 0;
+    } else if (e instanceof TouchEvent && e.touches[0]) {
+      const currentY = e.touches[0].clientY;
+      scrollingDown = currentY < lastY;
+      lastY = currentY;
+    } else {
+      return;
+    }
+
+    navLang.style.opacity = scrollingDown ? "0" : "1";
+    navLang.style.pointerEvents = scrollingDown ? "none" : "auto";
+  };
+
+  window.addEventListener("wheel", updateButtonVisibility, { passive: true });
+  window.addEventListener("touchmove", updateButtonVisibility, { passive: true });
+  window.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches[0]) lastY = e.touches[0].clientY;
+    },
+    { passive: true },
+  );
 </script>
 
 <style>
   .side-nav {
     position: fixed;
-    right: 5%;
-    top: 5%;
+    right: 1rem;
+    top: 1rem;
     z-index: 9999;
-    padding: 10px;
   }
 
   .side-nav ul {
     display: none;
     list-style-type: none;
-    padding: 0 15px;
     margin: 0;
     width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .side-nav ul {
+      padding: 0;
+    }
   }
 
   .hamburger {
@@ -136,6 +196,28 @@ const currentPath = Astro.url.pathname;
     padding: 10px;
     border-radius: 5px;
     display: block;
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  @media (min-width: 768px) {
+    .side-nav {
+      right: 2%;
+    }
+
+    .hamburger {
+      margin-right: -10px;
+    }
+
+    .side-nav.open {
+      right: 1rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .side-nav {
+      right: 1rem;
+    }
   }
 
   .hamburger span {
@@ -152,11 +234,14 @@ const currentPath = Astro.url.pathname;
     background-color: rgba(0, 0, 0, 0.85);
     border-radius: 5px;
     width: 200px;
+    padding-bottom: 10px;
+    margin-left: 10px;
   }
 
   .side-nav.open ul {
     display: block;
-    margin-top: 10px;
+    padding: 0 15px;
+    pointer-events: auto;
   }
 
   .nav-link {
@@ -169,6 +254,9 @@ const currentPath = Astro.url.pathname;
     font-weight: 700;
     transition: all 0.3s ease;
     padding: 8px 0;
+    cursor: pointer;
+    z-index: 10;
+    position: relative;
   }
 
   .nav-link:hover {
@@ -189,5 +277,19 @@ const currentPath = Astro.url.pathname;
 
   .side-nav.open .hamburger span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  .nav-header {
+    position: relative;
+    width: 100%;
+  }
+
+  .nav-lang,
+  .nav-lang-link {
+    display: none;
+  }
+
+  .side-nav.open .hamburger {
+    margin-right: 10px;
   }
 </style>
