@@ -1,9 +1,9 @@
 import { useRef, useEffect, useMemo, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useGLTF, useProgress } from "@react-three/drei";
+import { useGLTF, useProgress, Plane } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import { Sphere } from "./Sphere";
 
 const MODEL_SCALE = 0.0027;
 
@@ -11,31 +11,13 @@ interface LucyModelProps {
   onLoad?: () => void;
 }
 
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath("/draco/");
-dracoLoader.setDecoderConfig({ type: "js" });
-
 const gltfLoader = new GLTFLoader();
-gltfLoader.setDRACOLoader(dracoLoader);
 
 export function LucyModel({ onLoad }: LucyModelProps) {
-  const [model, setModel] = useState<THREE.Group>();
+  const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>(null);
   const { progress } = useProgress();
-
-  useEffect(() => {
-    gltfLoader.load(
-      "/models/Lucy.glb",
-      (gltf) => {
-        setModel(gltf.scene);
-      },
-      undefined,
-      (error) => {
-        console.error("Error loading model:", error);
-      },
-    );
-  }, []);
 
   const setupModel = useMemo(() => {
     if (!model) return null;
@@ -49,6 +31,7 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     modelInstance.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.frustumCulled = true;
+        child.castShadow = true;
         if (child.material) {
           child.material.transparent = true;
           child.material.opacity = 0;
@@ -123,5 +106,12 @@ export function LucyModel({ onLoad }: LucyModelProps) {
     });
   }, [model]);
 
-  return null;
+  return (
+    <>
+      <Sphere />
+      {/*   <Plane receiveShadow args={[20, 20]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
+        <meshStandardMaterial color="#808080" />
+      </Plane> */}
+    </>
+  );
 }

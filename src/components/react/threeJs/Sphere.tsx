@@ -1,50 +1,24 @@
 import * as THREE from "three";
-import { useRef, useEffect, useMemo, useState } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { Group, Mesh, Material } from "three";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { sharedAnimation } from "./constants/animations";
 
 const MODEL_PATH = "/models/earth_extra_comp.glb";
-const MODEL_SCALE = 4;
-const SPAWN_POSITION = [0, -4.8, 0] as const;
+const MODEL_SCALE = 6;
+const SPAWN_POSITION = [0, -6.8, 0] as const;
 const FADE_DURATION = 2000;
-
-// Configure Draco
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath("/draco/");
-
-// Configure GLTF to use Draco
-const gltfLoader = new GLTFLoader();
-gltfLoader.setDRACOLoader(dracoLoader);
-
-// Preload with the configured loader
-useGLTF.preload(MODEL_PATH);
+const ANIMATION_DELAY = 0;
 
 export function Sphere() {
-  const [model, setModel] = useState<THREE.Group>();
+  const { scene: gltfScene } = useGLTF(MODEL_PATH);
   const { scene, gl, camera } = useThree();
   const modelRef = useRef<THREE.Group>();
 
-  useEffect(() => {
-    gltfLoader.load(
-      MODEL_PATH,
-      (gltf) => {
-        setModel(gltf.scene);
-      },
-      undefined,
-      (error) => {
-        console.error("Error loading model:", error);
-      },
-    );
-  }, []);
-
   const setupModel = useMemo(() => {
-    if (!model) return null;
+    if (!gltfScene) return null;
 
-    const modelInstance = model.clone();
+    const modelInstance = gltfScene.clone();
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.position.set(...SPAWN_POSITION);
     modelInstance.visible = false;
@@ -54,13 +28,15 @@ export function Sphere() {
         const material = child.material as Material;
         material.transparent = true;
         material.opacity = 0;
+        child.receiveShadow = true;
+        child.castShadow = true;
       }
     });
 
     gl.compile(modelInstance, camera);
 
     return modelInstance;
-  }, [model, gl, camera]);
+  }, [gltfScene, gl, camera]);
 
   useEffect(() => {
     if (!setupModel) return;
@@ -89,7 +65,7 @@ export function Sphere() {
       };
 
       requestAnimationFrame(fadeIn);
-    }, sharedAnimation.delay);
+    }, ANIMATION_DELAY);
 
     return () => {
       scene.remove(setupModel);
@@ -99,11 +75,11 @@ export function Sphere() {
       });
     };
   }, [setupModel, scene]);
-  /* 
-  useEffect(() => {
-    if (!model) return;
 
-    model.traverse((child) => {
+  useEffect(() => {
+    if (!gltfScene) return;
+
+    gltfScene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         // Remove duplicate color attribute if it exists
         if (child.geometry.attributes.color && child.geometry.attributes.color_1) {
@@ -114,23 +90,7 @@ export function Sphere() {
         console.log("Geometry attributes:", child.geometry.attributes);
       }
     });
-  }, [model]); */
-
-  useEffect(() => {
-    if (!model) return;
-
-    model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        // Remove duplicate color attribute if it exists
-        if (child.geometry.attributes.color && child.geometry.attributes.color_1) {
-          console.log("Found duplicate color attributes, removing color_1");
-          delete child.geometry.attributes.color_1;
-        }
-
-        console.log("Geometry attributes:", child.geometry.attributes);
-      }
-    });
-  }, [model]);
+  }, [gltfScene]);
 
   return null;
 }

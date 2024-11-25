@@ -59,6 +59,7 @@ function ThreeScene() {
     >
       <ScrollIndicator isSceneLoaded={isSceneLoaded} />
       <Canvas
+        shadows
         camera={{ position: [0, 2, 5], fov: 75 }}
         key={key}
         style={{
@@ -67,7 +68,7 @@ function ThreeScene() {
         }}
       >
         <color attach="background" args={[0x000000]} />
-
+        <SpotLightAnimation />
         {/* First stage - Lucy */}
         <Suspense>
           <Stars />
@@ -75,8 +76,8 @@ function ThreeScene() {
           <hemisphereLight intensity={0.2} groundColor="#080820" />
           <CameraControl />
           <LucyModel onLoad={() => setIsSceneLoaded(true)} />
-          <Sphere />
-          <SpotLightAnimation />
+          {/*   <Sphere /> */}
+
           <Preload all />
         </Suspense>
 
