@@ -1,39 +1,26 @@
-import { useRef, useEffect, useMemo, useState } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useGLTF, useProgress, Plane, Points, GradientTexture } from "@react-three/drei";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Sphere } from "./Sphere";
+import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei";
 
-function generateRandomPoints(
-  count: number,
-  xMin: number,
-  xMax: number,
-  yMin: number,
-  yMax: number,
-  zMin: number,
-  zMax: number,
-): Float32Array {
+const generatePoints = (count: number) => {
   const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    positions[i * 3] = Math.random() * (xMax - xMin) + xMin; // x
-    positions[i * 3 + 1] = Math.random() * (yMax - yMin) + yMin; // y
-    positions[i * 3 + 2] = Math.random() * (zMax - zMin) + zMin; // z
+  for (let i = 0; i < count * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 30; // x: -15 to 15
+    positions[i + 1] = Math.random() - 0.5; // y: -0.5 to 0.5
+    positions[i + 2] = (Math.random() - 0.5) * 30; // z: -15 to 15
   }
   return positions;
-}
+};
 
 const MODEL_SCALE = 0.0035;
 
-interface LucyModelProps {
-  onLoad?: () => void;
-}
-
-export function LucyAndEarth({ onLoad }: LucyModelProps) {
+export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
   const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
-  const modelRef = useRef<THREE.Group>(null);
   const { progress } = useProgress();
+
+  const points = useMemo(() => generatePoints(1000), []);
 
   const setupModel = useMemo(() => {
     if (!model) return null;
@@ -76,21 +63,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
     };
   }, [setupModel, scene, gl, camera, progress, onLoad]);
 
-  useEffect(() => {
-    if (!model) return;
-
-    model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        // Remove duplicate color attribute if it exists
-        if (child.geometry.attributes.color && child.geometry.attributes.color_1) {
-          console.log("Found duplicate color attributes, removing color_1");
-          delete child.geometry.attributes.color_1;
-        }
-
-        console.log("Geometry attributes:", child.geometry.attributes);
-      }
-    });
-  }, [model]);
+  const circleGeometry = useMemo(() => new THREE.CircleGeometry(15, 64), []);
 
   return (
     <>
@@ -106,8 +79,7 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
         color="#2196f3"
         position={[0, -20, 0]}
       />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
-        <circleGeometry args={[15, 64]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]} geometry={circleGeometry}>
         <meshStandardMaterial
           transparent
           opacity={0.8}
@@ -122,9 +94,9 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
           />
         </meshStandardMaterial>
       </mesh>
-      <Points positions={generateRandomPoints(2000, -15, 15, -0.5, 0.5, -15, 15)}>
+      <Points positions={points}>
         <pointsMaterial
-          size={0.03}
+          size={0.05}
           transparent
           opacity={0.4}
           sizeAttenuation
@@ -132,10 +104,6 @@ export function LucyAndEarth({ onLoad }: LucyModelProps) {
           color="#00bcd4"
         />
       </Points>
-      {/*   <mesh position={[0, -12, 0]} receiveShadow>
-        <sphereGeometry args={[12, 32, 32]} />
-        <meshStandardMaterial color="#1a237e" emissive="#303f9f" roughness={0.4} metalness={0.8} />
-      </mesh> */}
     </>
   );
 }

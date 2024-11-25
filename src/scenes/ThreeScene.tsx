@@ -1,30 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
 import { Html, Preload } from "@react-three/drei";
-
-import { SpotLightAnimation } from "../components/react/threeJs/SpotLightAnimation";
-import { Sphere } from "../components/react/threeJs/Sphere";
-import { Stars } from "../components/react/threeJs/Stars";
-import { CameraControl } from "../components/react/threeJs/CameraControl";
-import { ScrollIndicator } from "../components/react/ScrollIndicator";
 import { isMobileDevice } from "../utils/deviceDetection";
-import { LucyAndEarth } from "@/components/react/threeJs/LucyAndEarth";
+import { ScrollIndicator } from "../components/react/ScrollIndicator";
 
-// Loading canvas
-function Loader({ onLoad }: { onLoad: () => void }) {
-  useEffect(() => {
-    return () => {
-      onLoad();
-    };
-  }, [onLoad]);
+// Lazy load components
+const Stars = lazy(() =>
+  import("../components/react/threeJs/Stars").then((module) => ({
+    default: module.Stars,
+  })),
+);
+const CameraControl = lazy(() =>
+  import("../components/react/threeJs/CameraControl").then((module) => ({
+    default: module.CameraControl,
+  })),
+);
+const LucyAndEarth = lazy(() =>
+  import("../components/react/threeJs/LucyAndEarth").then((module) => ({
+    default: module.LucyAndEarth,
+  })),
+);
+const SpotLightAnimation = lazy(() =>
+  import("../components/react/threeJs/SpotLightAnimation").then((module) => ({
+    default: module.SpotLightAnimation,
+  })),
+);
 
+// Loading component
+function LoadingScreen() {
   return (
     <Html center>
       <div
         style={{
           color: "white",
-          fontSize: "1.2em",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -32,7 +40,53 @@ function Loader({ onLoad }: { onLoad: () => void }) {
           height: "100vh",
           background: "black",
         }}
-      ></div>
+      >
+        <div className="orbital-loader">
+          <div className="orbital"></div>
+          <div className="orbital"></div>
+          <div className="orbital"></div>
+        </div>
+        <style>{`
+          .orbital-loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+          }
+          .orbital {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top-color: #4fc3f7;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+          }
+          .orbital:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-top-color: #7c4dff;
+            animation-duration: 2s;
+          }
+          .orbital:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-top-color: #e040fb;
+            animation-duration: 2.5s;
+          }
+          @keyframes spin {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+        `}</style>
+      </div>
     </Html>
   );
 }
@@ -40,8 +94,18 @@ function Loader({ onLoad }: { onLoad: () => void }) {
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
-  /*   const [isLucyReady, setIsLucyReady] = useState(false); */
   const [isMobile] = useState(isMobileDevice);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isSceneLoaded) {
+        console.warn("Scene load timeout reached, forcing load state");
+        setIsSceneLoaded(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [isSceneLoaded]);
 
   return (
     <div
@@ -58,6 +122,20 @@ function ThreeScene() {
         pointerEvents: isMobile ? "none" : "auto",
       }}
     >
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "black",
+          opacity: isSceneLoaded ? 0 : 1,
+          transition: "opacity 2s ease-out",
+          pointerEvents: "none",
+          zIndex: 2,
+        }}
+      />
       <ScrollIndicator isSceneLoaded={isSceneLoaded} />
       <Canvas
         shadows
@@ -69,22 +147,13 @@ function ThreeScene() {
         }}
       >
         <color attach="background" args={[0x000000]} />
-        <SpotLightAnimation />
-        {/* First stage - Lucy */}
-        <Suspense>
+        <Suspense fallback={<LoadingScreen />}>
+          <SpotLightAnimation />
           <Stars />
-          {/*         <ambientLight intensity={0.05} />
-          <hemisphereLight intensity={0.2} groundColor="#080820" /> */}
           <CameraControl />
           <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
-          {/*   <Sphere /> */}
-
           <Preload all />
         </Suspense>
-
-        {/* Second stage - Sphere and Spotlight */}
-
-        <Suspense fallback={null}></Suspense>
       </Canvas>
     </div>
   );

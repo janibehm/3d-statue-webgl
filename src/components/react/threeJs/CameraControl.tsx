@@ -10,6 +10,15 @@ export function CameraControl() {
   const touchStart = useRef(0);
 
   useEffect(() => {
+    const minRadius = 8;
+    const minHeight = 5;
+
+    // Set initial camera position
+    camera.position.set(0, minHeight, minRadius);
+    camera.lookAt(0.2, 2.5, 0);
+  }, [camera]);
+
+  useEffect(() => {
     let isPointerDown = false;
     let lastPointerY = 0;
 
