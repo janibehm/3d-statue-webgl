@@ -50,6 +50,7 @@ export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
     modelInstance.visible = true;
     modelInstance.scale.setScalar(MODEL_SCALE);
     modelInstance.rotation.x = Math.PI / 2;
+    modelInstance.rotation.z = Math.PI * -0.1;
     modelInstance.position.set(0, -0.15, 3);
 
     modelInstance.traverse((child) => {
