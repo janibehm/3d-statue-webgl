@@ -77,7 +77,7 @@ export const LanguageText = {
       "Projekteissamme design kohtaa modernin teknologian muovaten verkkonäkyvyyden tulevaisuutta.",
     "about.introduction.description":
       "Olemme erikoistuneet luomaan ainutlaatuisia brändi-identiteettejä ja kustomoituja verkkoratkaisuja, jotka puhuttelevat kohdeyleisöäsi. Suomalaista innovaatiota, sekä huipputeknologiaa hyödyntäen tuomme visiosi eloon tyylikkäillä ratkaisuilla, jotka erottavat brändisi muista.",
-    contact: "Ota yhteyttä jo tänään.",
+    contact: "Ota yhteyttä.",
     //Footer
     "footer.company.title": "Sivut",
     "footer.company.home": "Etusivu",

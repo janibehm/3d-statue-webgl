@@ -98,13 +98,23 @@ function getLocalizedPath(path: string, targetLang: string) {
 
     const nav = document.getElementById("navigation");
     const hamburger = nav?.querySelector(".hamburger");
+    const isHomePage = window.location.pathname === "/" || window.location.pathname === "/en";
+    const isDesktop = window.innerWidth >= 990;
+
+    // Automatically open menu on home page only on desktop
+    if (isHomePage && isDesktop && nav) {
+      nav.classList.add("open");
+    }
 
     // Update active state on navigation
     const updateActiveState = () => {
       const currentPath = window.location.pathname;
       const links = nav?.querySelectorAll(".nav-link");
-      // Ensure menu is closed on navigation
-      nav?.classList.remove("open");
+
+      // Only close menu on navigation if we're not on home page or if we're on mobile
+      if (!isHomePage || !isDesktop) {
+        nav?.classList.remove("open");
+      }
 
       links?.forEach((link) => {
         if (link instanceof HTMLAnchorElement) {
@@ -112,6 +122,16 @@ function getLocalizedPath(path: string, targetLang: string) {
         }
       });
     };
+
+    // Handle window resize
+    window.addEventListener("resize", () => {
+      const isCurrentlyDesktop = window.innerWidth >= 768;
+      if (!isCurrentlyDesktop && nav) {
+        nav.classList.remove("open");
+      } else if (isHomePage && isCurrentlyDesktop && nav) {
+        nav.classList.add("open");
+      }
+    });
 
     // Toggle menu
     hamburger?.addEventListener("click", () => {

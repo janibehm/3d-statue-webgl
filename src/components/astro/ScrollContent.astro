@@ -37,9 +37,14 @@ const t = useTranslations(lang);
               sm:col-span-10 sm:col-start-2 sm:w-full sm:px-8
               md:text-xl"
       >
-        <h2 class="font-['Exo'] font-bold py-4 text-1xl">
-          {t("contact")}
-        </h2>
+        <a
+          href={lang === "fi" ? "/yhteydenotto" : `/${lang}/contact`}
+          class="block hover:opacity-80 transition-opacity cursor-pointer"
+        >
+          <h2 class="font-['Exo'] font-bold py-4 text-1xl underline">
+            {t("contact")}
+          </h2>
+        </a>
       </section>
       <div class="h-[100vh] col-span-12"></div>
     </blockquote>
