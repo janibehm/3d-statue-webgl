@@ -1,4 +1,5 @@
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
+import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { SpotLight } from "@react-three/drei";
 import {
@@ -10,6 +11,8 @@ import {
   ShadowMaterial,
 } from "three";
 import { useTexture } from "@react-three/drei";
+import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
+import { useThree } from "@react-three/fiber";
 
 // Move constants outside component
 const PLANE_SIZE = 200;
@@ -44,11 +47,24 @@ export function SpotLightAnimation() {
   const initialRender = useRef(true);
   const positionVector = useRef(new Vector3());
   const lastTime = useRef(0);
+  const { gl } = useThree();
+  const [texture, setTexture] = useState<THREE.Texture | null>(null);
 
-  const texture = useTexture("/textures/painted-worn-asphalt_albedo.webp", (t) => {
-    t.flipY = false;
-    t.needsUpdate = true;
-  });
+  // Replace the texture useMemo with useEffect
+  useEffect(() => {
+    const loader = new KTX2Loader().setTranscoderPath("/basis/").detectSupport(gl);
+
+    loader.load("/textures/painted-worn-asphalt_albedo.ktx2", (loadedTexture) => {
+      loadedTexture.flipY = false;
+      loadedTexture.needsUpdate = true;
+      setTexture(loadedTexture);
+    });
+
+    // Cleanup
+    return () => {
+      if (texture) texture.dispose();
+    };
+  }, [gl]);
 
   // Memoize shadow plane creation
   const shadowPlane = useMemo(() => {
