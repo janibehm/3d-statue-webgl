@@ -1,6 +1,3 @@
-/* Import Exo font from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Exo:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -88,7 +85,7 @@
   }
 
   html {
-    font-family: "Exo", sans-serif;
+    font-family: "Exo", system-ui, sans-serif;
     overflow: hidden;
     background-color: black;
     position: fixed;
@@ -114,7 +111,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Exo", sans-serif;
+    font-family: "Exo", system-ui, sans-serif;
     overscroll-behavior: none;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -132,24 +129,4 @@
   #root {
     @apply min-h-screen m-0 p-0;
   }
-}
-
-/* Add font-display to your @font-face if it's defined here */
-@font-face {
-  font-family: "Exo 2";
-  src: url("/static/exo2-regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Optional: Add a fallback font */
-body {
-  font-family:
-    "Exo 2",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
 }
