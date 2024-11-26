@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { SpotLight } from "@react-three/drei";
 import {
@@ -11,77 +11,103 @@ import {
 } from "three";
 import { useTexture } from "@react-three/drei";
 
+// Move constants outside component
+const PLANE_SIZE = 200;
+const SHADOW_MATERIAL = new ShadowMaterial({ opacity: 0.5 });
+const PLANE_GEOMETRY = new PlaneGeometry(PLANE_SIZE, PLANE_SIZE);
+
+// Pre-define configuration
+const CONFIG = {
+  light: {
+    angle: Math.PI / 10,
+    penumbra: 0.5,
+    decay: 1,
+    distance: 300,
+    intensity: 40,
+    shadowMapSize: [4096, 4096] as [number, number],
+    shadowBias: -0.0001,
+    shadowNear: 1,
+    shadowFov: 90,
+    shadowRadius: 1,
+  },
+  animation: {
+    radius: 30,
+    height: 40,
+    speed: 1 / 16,
+  },
+  target: [0, 0, 0] as const,
+} as const;
+
 export function SpotLightAnimation() {
   const spotLightRef = useRef<ThreeSpotLight>(null);
   const targetRef = useRef<Object3D>(null);
   const initialRender = useRef(true);
   const positionVector = useRef(new Vector3());
+  const lastTime = useRef(0);
 
   const texture = useTexture("/textures/painted-worn-asphalt_albedo.webp", (t) => {
     t.flipY = false;
     t.needsUpdate = true;
   });
 
-  const config = {
-    light: {
-      angle: Math.PI / 10,
-      penumbra: 0.5,
-      decay: 1,
-      distance: 300,
-      intensity: 40,
-    },
-    animation: {
-      radius: 30,
-      height: 40,
-      speed: 1 / 16,
-    },
-    target: [0, 0, 0] as const,
-  };
+  // Memoize shadow plane creation
+  const shadowPlane = useMemo(() => {
+    const plane = new Mesh(PLANE_GEOMETRY, SHADOW_MATERIAL);
+    plane.rotateX(-Math.PI / 2);
+    plane.position.y = 0;
+    plane.receiveShadow = true;
+    return plane;
+  }, []);
 
   useEffect(() => {
-    if (spotLightRef.current && targetRef.current) {
-      spotLightRef.current.target = targetRef.current;
-      spotLightRef.current.intensity = config.light.intensity;
+    if (!spotLightRef.current || !targetRef.current) return;
 
-      positionVector.current.set(
-        Math.cos(0) * config.animation.radius,
-        config.animation.height,
-        Math.sin(0) * config.animation.radius,
-      );
-      spotLightRef.current.position.copy(positionVector.current);
+    const spotlight = spotLightRef.current;
+    const target = targetRef.current;
 
-      // Create a shadow-receiving plane
-      const planeSize = 200; // Adjust based on your scene scale
-      const shadowPlane = new Mesh(
-        new PlaneGeometry(planeSize, planeSize),
-        new ShadowMaterial({ opacity: 0.5 }),
-      );
-      shadowPlane.rotateX(-Math.PI / 2); // Rotate to be horizontal
-      shadowPlane.position.y = 0; // Adjust based on your scene
-      shadowPlane.receiveShadow = true;
+    spotlight.target = target;
+    spotlight.intensity = CONFIG.light.intensity;
 
-      // Get the scene from the target's parent
-      targetRef.current.parent?.add(shadowPlane);
-    }
-  }, []);
+    positionVector.current.set(
+      Math.cos(0) * CONFIG.animation.radius,
+      CONFIG.animation.height,
+      Math.sin(0) * CONFIG.animation.radius,
+    );
+    spotlight.position.copy(positionVector.current);
+
+    // Add shadow plane
+    target.parent?.add(shadowPlane);
+
+    return () => {
+      target.parent?.remove(shadowPlane);
+    };
+  }, [shadowPlane]);
 
   useFrame(({ clock }) => {
     if (!spotLightRef.current) return;
 
-    const time = clock.getElapsedTime() * config.animation.speed + 0;
     const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - lastTime.current;
+    lastTime.current = elapsedTime;
 
-    if (initialRender.current && elapsedTime < 1) {
-      spotLightRef.current.intensity = config.light.intensity * Math.min(elapsedTime, 1);
-    } else if (initialRender.current) {
-      initialRender.current = false;
-      spotLightRef.current.intensity = config.light.intensity;
+    // Skip frame if delta is too small
+    if (deltaTime < 0.016) return; // ~60fps
+
+    const time = elapsedTime * CONFIG.animation.speed;
+
+    if (initialRender.current) {
+      if (elapsedTime < 1) {
+        spotLightRef.current.intensity = CONFIG.light.intensity * Math.min(elapsedTime, 1);
+      } else {
+        initialRender.current = false;
+        spotLightRef.current.intensity = CONFIG.light.intensity;
+      }
     }
 
     positionVector.current.set(
-      Math.cos(time) * config.animation.radius,
-      config.animation.height,
-      Math.sin(time) * config.animation.radius,
+      Math.cos(time) * CONFIG.animation.radius,
+      CONFIG.animation.height,
+      Math.sin(time) * CONFIG.animation.radius,
     );
 
     spotLightRef.current.position.copy(positionVector.current);
@@ -92,25 +118,25 @@ export function SpotLightAnimation() {
       <SpotLight
         ref={spotLightRef}
         position={positionVector.current.toArray()}
-        angle={config.light.angle}
-        penumbra={config.light.penumbra}
-        decay={config.light.decay}
-        distance={config.light.distance}
-        intensity={config.light.intensity}
+        angle={CONFIG.light.angle}
+        penumbra={CONFIG.light.penumbra}
+        decay={CONFIG.light.decay}
+        distance={CONFIG.light.distance}
+        intensity={CONFIG.light.intensity}
         map={texture}
-        target-position={config.target}
+        target-position={CONFIG.target}
         power={10}
         volumetric={true}
         opacity={0}
         castShadow
-        shadow-mapSize={[4096, 4096]}
-        shadow-bias={-0.0001}
-        shadow-camera-near={1}
-        shadow-camera-far={config.light.distance}
-        shadow-camera-fov={90}
-        shadow-radius={1}
+        shadow-mapSize={CONFIG.light.shadowMapSize}
+        shadow-bias={CONFIG.light.shadowBias}
+        shadow-camera-near={CONFIG.light.shadowNear}
+        shadow-camera-far={CONFIG.light.distance}
+        shadow-camera-fov={CONFIG.light.shadowFov}
+        shadow-radius={CONFIG.light.shadowRadius}
       />
-      <object3D ref={targetRef} position={config.target} />
+      <object3D ref={targetRef} position={CONFIG.target} />
     </>
   );
 }

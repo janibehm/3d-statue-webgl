@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useEffect, useState, lazy, Suspense } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
+=======
+import { useEffect, useState, lazy, Suspense, useMemo } from "react";
+import { Canvas } from "@react-three/fiber";
+>>>>>>> dev
 import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
@@ -92,6 +97,7 @@ function LoadingScreen() {
   );
 }
 
+<<<<<<< HEAD
 function Cleanup() {
   const { scene } = useThree();
 
@@ -108,11 +114,67 @@ function Cleanup() {
 
   return null;
 }
+=======
+// Pre-define styles to prevent object recreation
+const CONTAINER_STYLE = {
+  position: "fixed" as const,
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  overflow: "hidden",
+  zIndex: 1,
+  userSelect: "none",
+} as const;
+
+const FADE_OVERLAY_STYLE = {
+  position: "fixed" as const,
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "black",
+  pointerEvents: "none" as const,
+  zIndex: 2,
+} as const;
+
+const CANVAS_SETTINGS = {
+  shadows: true,
+  camera: { position: [0, 2, 5], fov: 75 },
+} as const;
+>>>>>>> dev
 
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
   const [isMobile] = useState(isMobileDevice);
+
+  // Memoize dynamic styles
+  const containerStyle = useMemo(
+    () => ({
+      ...CONTAINER_STYLE,
+      touchAction: isMobile ? "pan-y" : "none",
+      pointerEvents: isMobile ? ("none" as const) : ("auto" as const),
+    }),
+    [isMobile],
+  );
+
+  const fadeStyle = useMemo(
+    () => ({
+      ...FADE_OVERLAY_STYLE,
+      opacity: isSceneLoaded ? 0 : 1,
+      transition: "opacity 2s ease-out",
+    }),
+    [isSceneLoaded],
+  );
+
+  const canvasStyle = useMemo(
+    () => ({
+      pointerEvents: isMobile ? ("none" as const) : ("auto" as const),
+      touchAction: "none",
+    }),
+    [isMobile],
+  );
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -126,44 +188,10 @@ function ThreeScene() {
   }, [isSceneLoaded]);
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        overflow: "hidden",
-        zIndex: 1,
-        touchAction: isMobile ? "pan-y" : "none",
-        userSelect: "none",
-        pointerEvents: isMobile ? "none" : "auto",
-      }}
-    >
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "black",
-          opacity: isSceneLoaded ? 0 : 1,
-          transition: "opacity 2s ease-out",
-          pointerEvents: "none",
-          zIndex: 2,
-        }}
-      />
+    <div style={containerStyle}>
+      <div style={fadeStyle} />
       <ScrollIndicator isSceneLoaded={isSceneLoaded} />
-      <Canvas
-        shadows
-        camera={{ position: [0, 2, 5], fov: 75 }}
-        key={key}
-        style={{
-          pointerEvents: isMobile ? "none" : "auto",
-          touchAction: "none",
-        }}
-      >
+      <Canvas {...CANVAS_SETTINGS} key={key} style={canvasStyle}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<LoadingScreen />}>
           <Cleanup />
