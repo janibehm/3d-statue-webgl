@@ -1,6 +1,9 @@
 ---
 import { Picture } from "astro:assets";
 import jani from "../../images/jani.jpeg";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
 
 interface AboutProps {
   translations?: {
@@ -15,7 +18,7 @@ interface AboutProps {
     cta: string;
     contactButton: string;
   };
-  lang?: string;
+  urlLang?: string;
 }
 
 const {
@@ -31,7 +34,7 @@ const {
     name: "",
     professionalRole: "",
   },
-  lang = "",
+  urlLang = getLangFromUrl(Astro.url),
 }: AboutProps = Astro.props;
 ---
 
@@ -98,7 +101,7 @@ const {
           </p>
           <button>
             <a
-              href={lang === "fi" ? "/yhteydenotto" : "/en/contact"}
+              href={urlLang === "fi" ? "/yhteydenotto" : `/${urlLang}/contact`}
               class="inline-block bg-green-400 text-black px-8 py-3 rounded-full
                    hover:bg-green-300 transition-colors duration-300"
             >

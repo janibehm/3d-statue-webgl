@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { getLangFromUrl } from "../../i18n/utils";
 import touchOfTechnology from "../../images/touch_of_technology.jpeg";
 import futuristicGlasses from "../../images/futuristic_glasses.jpeg";
 import developingComputer from "../../images/developing_computer.jpeg";
@@ -130,7 +131,7 @@ interface ServicesProps {
     };
     contactButton: string;
   };
-  lang?: string;
+  urlLang?: string;
 }
 
 const {
@@ -182,7 +183,7 @@ const {
     },
     contactButton: "",
   },
-  lang = "en",
+  urlLang = getLangFromUrl(Astro.url),
 }: ServicesProps = Astro.props;
 const { sections, process, hosting_maintenance_packages } = translations;
 ---
@@ -493,7 +494,7 @@ const { sections, process, hosting_maintenance_packages } = translations;
       <!-- Contact Button -->
       <div class="text-center mt-12">
         <a
-          href={lang === "fi" ? "/yhteydenotto" : "/en/contact"}
+          href={urlLang === "fi" ? "/yhteydenotto" : `/${urlLang}/contact`}
           class="inline-block bg-green-400 text-black px-8 py-3 rounded-full
                  hover:bg-green-300 transition-colors duration-300"
         >

@@ -1,8 +1,8 @@
 ---
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const urlLang = getLangFromUrl(Astro.url);
+const t = useTranslations(urlLang);
 ---
 
 <div class="scrollable-content w-[100vw] overflow-x-hidden z-[10]" style="height: 100dvh;">
@@ -38,7 +38,7 @@ const t = useTranslations(lang);
               md:text-xl"
       >
         <a
-          href={lang === "fi" ? "/yhteydenotto" : `/${lang}/contact`}
+          href={urlLang === "fi" ? "/yhteydenotto" : `/${urlLang}/contact`}
           class="block hover:opacity-80 transition-opacity cursor-pointer"
         >
           <h2 class="font-['Exo'] font-bold py-4 text-1xl underline">
