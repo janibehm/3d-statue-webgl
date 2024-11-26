@@ -1,8 +1,9 @@
 import { useEffect, useState, lazy, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
+import { Mesh } from "three";
 
 // Lazy load components
 const Stars = lazy(() =>
@@ -91,6 +92,23 @@ function LoadingScreen() {
   );
 }
 
+function Cleanup() {
+  const { scene } = useThree();
+
+  useEffect(() => {
+    return () => {
+      scene.traverse((object) => {
+        if (object instanceof Mesh) {
+          object.geometry.dispose();
+          object.material.dispose();
+        }
+      });
+    };
+  }, [scene]);
+
+  return null;
+}
+
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
@@ -148,6 +166,7 @@ function ThreeScene() {
       >
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<LoadingScreen />}>
+          <Cleanup />
           <SpotLightAnimation />
           <Stars />
           <CameraControl />
