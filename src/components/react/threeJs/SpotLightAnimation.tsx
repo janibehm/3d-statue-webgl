@@ -13,6 +13,7 @@ import {
 import { useTexture } from "@react-three/drei";
 import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
 import { useThree } from "@react-three/fiber";
+import gsap from "gsap";
 
 // Move constants outside component
 const PLANE_SIZE = 200;
@@ -41,7 +42,7 @@ const CONFIG = {
   target: [0, 0, 0] as const,
 } as const;
 
-export function SpotLightAnimation() {
+export function SpotLightAnimation({ waitForTexture = false, startAnimation = false }) {
   const spotLightRef = useRef<ThreeSpotLight>(null);
   const targetRef = useRef<Object3D>(null);
   const initialRender = useRef(true);
@@ -131,6 +132,34 @@ export function SpotLightAnimation() {
 
     spotLightRef.current.position.copy(positionVector.current);
   });
+
+  useEffect(() => {
+    if (!spotLightRef.current) return;
+
+    // Initial small angle
+    spotLightRef.current.angle = Math.PI / 100;
+
+    if (!startAnimation) return;
+
+    // Animate to larger angle when ready to start
+    gsap
+      .timeline()
+      .to(spotLightRef.current, {
+        angle: Math.PI / 10,
+        duration: 1,
+        ease: "power2.inOut",
+        delay: 0.1,
+      })
+      .to(
+        spotLightRef.current,
+        {
+          intensity: CONFIG.light.intensity,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+        "-=1.5",
+      ); // Overlap with angle animation
+  }, [startAnimation]);
 
   return (
     <>

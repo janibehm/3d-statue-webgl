@@ -1,8 +1,10 @@
-import { useEffect, useState, lazy, Suspense, useMemo } from "react";
-import { Canvas } from "@react-three/fiber";
+import { useEffect, useState, lazy, Suspense, useMemo, useRef } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
+import gsap from "gsap";
+import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
 /* import { MemoryMonitor } from "../components/react/threeJs/MemoryMonitor";
  */
 // Lazy load components
@@ -120,10 +122,29 @@ const CANVAS_SETTINGS = {
   camera: { position: [0, 2, 5], fov: 75 },
 } as const;
 
+// Add TextureLoader component
+function TextureLoader({ onLoad }: { onLoad: () => void }) {
+  const { gl } = useThree();
+
+  useEffect(() => {
+    const loader = new KTX2Loader().setTranscoderPath("/basis/").detectSupport(gl);
+
+    loader.load("/textures/painted-worn-asphalt_albedo.ktx2", () => {
+      onLoad();
+    });
+  }, [gl, onLoad]);
+
+  return null;
+}
+
 function ThreeScene() {
   const [key] = useState(0);
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
+  const [texturesLoaded, setTexturesLoaded] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
+  const fadeOverlayRef = useRef<HTMLDivElement>(null);
   const [isMobile] = useState(isMobileDevice);
+  const [assetsReady, setAssetsReady] = useState(false);
 
   // Memoize dynamic styles
   const containerStyle = useMemo(
@@ -135,14 +156,31 @@ function ThreeScene() {
     [isMobile],
   );
 
-  const fadeStyle = useMemo(
-    () => ({
-      ...FADE_OVERLAY_STYLE,
-      opacity: isSceneLoaded ? 0 : 1,
-      transition: "opacity 2s ease-out",
-    }),
-    [isSceneLoaded],
-  );
+  // Combine loading states with a delay
+  useEffect(() => {
+    if (modelLoaded && texturesLoaded) {
+      // First let the texture and model settle
+      setTimeout(() => {
+        setAssetsReady(true);
+        // Then start the fade after assets are ready
+        setTimeout(() => {
+          setIsSceneLoaded(true);
+        }, 500);
+      }, 300);
+    }
+  }, [modelLoaded, texturesLoaded]);
+
+  // Use GSAP for smoother fade
+  useEffect(() => {
+    if (fadeOverlayRef.current && assetsReady) {
+      gsap.to(fadeOverlayRef.current, {
+        opacity: 0,
+        duration: 2.5,
+        ease: "power2.inOut",
+        delay: 0.2,
+      });
+    }
+  }, [assetsReady]);
 
   const canvasStyle = useMemo(
     () => ({
@@ -152,30 +190,24 @@ function ThreeScene() {
     [isMobile],
   );
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!isSceneLoaded) {
-        console.warn("Scene load timeout reached, forcing load state");
-        setIsSceneLoaded(true);
-      }
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, [isSceneLoaded]);
-
   return (
     <div style={containerStyle}>
-      <div style={fadeStyle} />
+      <div
+        ref={fadeOverlayRef}
+        style={{
+          ...FADE_OVERLAY_STYLE,
+          opacity: 1, // Initial state, GSAP will handle the animation
+        }}
+      />
       <ScrollIndicator isSceneLoaded={isSceneLoaded} />
-      {/*       <MemoryMonitor />
-       */}{" "}
       <Canvas {...CANVAS_SETTINGS} key={key} style={canvasStyle}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<LoadingScreen />}>
-          <SpotLightAnimation />
+          <TextureLoader onLoad={() => setTexturesLoaded(true)} />
+          <SpotLightAnimation waitForTexture={!texturesLoaded} startAnimation={assetsReady} />
           <Stars />
           <CameraControl />
-          <LucyAndEarth onLoad={() => setIsSceneLoaded(true)} />
+          <LucyAndEarth onLoad={() => setModelLoaded(true)} startAnimation={assetsReady} />
           <Preload all />
         </Suspense>
       </Canvas>
