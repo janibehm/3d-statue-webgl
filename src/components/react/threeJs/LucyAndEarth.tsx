@@ -2,11 +2,15 @@ import { useEffect, useMemo, useCallback } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei";
+import gsap from "gsap";
 
 const MODEL_SCALE = 0.0035;
 const CIRCLE_RADIUS = 15;
 const CIRCLE_SEGMENTS = 64;
-const POINTS_COUNT = 1000;
+const GALAXY_POINTS = 3000;
+const GALAXY_RADIUS = 20;
+const GALAXY_BRANCHES = 3;
+const SPIN = 1.5;
 
 const LIGHT_CONFIG = {
   upper: {
@@ -23,25 +27,50 @@ const LIGHT_CONFIG = {
   },
 } as const;
 
-const generatePoints = (count: number) => {
+const generateGalaxyPoints = (count: number) => {
   const positions = new Float32Array(count * 3);
-  const halfCount = count * 3;
-  for (let i = 0; i < halfCount; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 30;
-    positions[i + 1] = Math.random() - 0.5;
-    positions[i + 2] = (Math.random() - 0.5) * 30;
+  const colors = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3;
+
+    // Radius
+    const radius = Math.random() * GALAXY_RADIUS;
+    const branchAngle = ((i % GALAXY_BRANCHES) / GALAXY_BRANCHES) * Math.PI * 2;
+    const spinAngle = radius * SPIN;
+
+    // Calculate position with some randomness
+    const randomOffset = Math.random() * 0.5;
+    positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomOffset;
+    positions[i3 + 1] = 3 + (Math.random() - 0.5) * 2; // Height variation around y=3
+    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomOffset;
+
+    // Add colors
+    const mixedColor = new THREE.Color();
+    mixedColor.setHSL(0.6 + Math.random() * 0.2, 0.7, 0.4 + Math.random() * 0.3); // Blue-ish colors
+
+    colors[i3] = mixedColor.r;
+    colors[i3 + 1] = mixedColor.g;
+    colors[i3 + 2] = mixedColor.b;
   }
-  return positions;
+
+  return { positions, colors };
 };
 
 const circleGeometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_SEGMENTS);
 
-export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
+// Add interface for props
+interface LucyAndEarthProps {
+  onLoad?: () => void;
+  startAnimation?: boolean;
+}
+
+export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthProps) {
   const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
   const { progress } = useProgress();
 
-  const points = useMemo(() => generatePoints(POINTS_COUNT), []);
+  const { positions, colors } = useMemo(() => generateGalaxyPoints(3000), []);
 
   const setupModel = useCallback(() => {
     if (!model) return null;
@@ -73,9 +102,13 @@ export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
     const modelInstance = setupModel();
     if (!modelInstance) return;
 
+    // Compile and wait for next frame to ensure everything is ready
     gl.compile(modelInstance, camera);
-    scene.add(modelInstance);
-    onLoad?.();
+
+    requestAnimationFrame(() => {
+      scene.add(modelInstance);
+      onLoad?.();
+    });
 
     return () => {
       scene.remove(modelInstance);
@@ -87,6 +120,25 @@ export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
       });
     };
   }, [model, scene, gl, camera, progress, onLoad, setupModel]);
+
+  useEffect(() => {
+    if (!model || !startAnimation) return;
+
+    // Animate model appearance
+    gsap.from(model.position, {
+      y: -1,
+      duration: 2,
+      ease: "power2.out",
+      delay: 0.5,
+    });
+
+    gsap.from(model.rotation, {
+      z: Math.PI * -0.2,
+      duration: 2,
+      ease: "power2.out",
+      delay: 0.5,
+    });
+  }, [model, startAnimation]);
 
   return (
     <>
@@ -109,14 +161,15 @@ export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
         </meshStandardMaterial>
       </mesh>
 
-      <Points positions={points}>
+      <Points positions={positions} renderOrder={999}>
         <pointsMaterial
-          size={0.05}
-          transparent
-          opacity={0.4}
-          sizeAttenuation
+          size={0.15}
+          sizeAttenuation={true}
+          transparent={true}
+          opacity={0.6}
           depthWrite={false}
-          color="#00bcd4"
+          vertexColors={true}
+          blending={THREE.AdditiveBlending}
         />
       </Points>
     </>

@@ -42,7 +42,15 @@ const CONFIG = {
   target: [0, 0, 0] as const,
 } as const;
 
-export function SpotLightAnimation({ waitForTexture = false, startAnimation = false }) {
+interface SpotLightAnimationProps {
+  waitForTexture?: boolean;
+  startAnimation?: boolean;
+}
+
+export function SpotLightAnimation({
+  waitForTexture = false,
+  startAnimation = false,
+}: SpotLightAnimationProps) {
   const spotLightRef = useRef<ThreeSpotLight>(null);
   const targetRef = useRef<Object3D>(null);
   const initialRender = useRef(true);
