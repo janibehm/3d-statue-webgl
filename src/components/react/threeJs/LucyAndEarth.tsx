@@ -1,28 +1,49 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei";
 
+const MODEL_SCALE = 0.0035;
+const CIRCLE_RADIUS = 15;
+const CIRCLE_SEGMENTS = 64;
+const POINTS_COUNT = 1000;
+
+const LIGHT_CONFIG = {
+  upper: {
+    intensity: 0.2,
+    groundColor: "#7c4dff",
+    color: "#4fc3f7",
+    position: [0, 20, 0],
+  },
+  lower: {
+    intensity: 0.1,
+    groundColor: "#e040fb",
+    color: "#2196f3",
+    position: [0, -20, 0],
+  },
+} as const;
+
 const generatePoints = (count: number) => {
   const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 30; // x: -15 to 15
-    positions[i + 1] = Math.random() - 0.5; // y: -0.5 to 0.5
-    positions[i + 2] = (Math.random() - 0.5) * 30; // z: -15 to 15
+  const halfCount = count * 3;
+  for (let i = 0; i < halfCount; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 30;
+    positions[i + 1] = Math.random() - 0.5;
+    positions[i + 2] = (Math.random() - 0.5) * 30;
   }
   return positions;
 };
 
-const MODEL_SCALE = 0.0035;
+const circleGeometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_SEGMENTS);
 
 export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
   const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
   const { progress } = useProgress();
 
-  const points = useMemo(() => generatePoints(1000), []);
+  const points = useMemo(() => generatePoints(POINTS_COUNT), []);
 
-  const setupModel = useMemo(() => {
+  const setupModel = useCallback(() => {
     if (!model) return null;
 
     const modelInstance = model.clone();
@@ -46,39 +67,31 @@ export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
   }, [model]);
 
   useEffect(() => {
-    if (!setupModel || progress !== 100) return;
+    if (!model || progress !== 100) return;
 
-    gl.compile(setupModel, camera);
-    scene.add(setupModel);
+    const modelInstance = setupModel();
+    if (!modelInstance) return;
+
+    gl.compile(modelInstance, camera);
+    scene.add(modelInstance);
     onLoad?.();
 
     return () => {
-      scene.remove(setupModel);
-      setupModel.traverse((child) => {
+      scene.remove(modelInstance);
+      modelInstance.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.geometry.dispose();
           child.material.dispose();
         }
       });
     };
-  }, [setupModel, scene, gl, camera, progress, onLoad]);
-
-  const circleGeometry = useMemo(() => new THREE.CircleGeometry(15, 64), []);
+  }, [model, scene, gl, camera, progress, onLoad, setupModel]);
 
   return (
     <>
-      <hemisphereLight
-        intensity={0.2}
-        groundColor="#7c4dff"
-        color="#4fc3f7"
-        position={[0, 20, 0]}
-      />
-      <hemisphereLight
-        intensity={0.1}
-        groundColor="#e040fb"
-        color="#2196f3"
-        position={[0, -20, 0]}
-      />
+      <hemisphereLight {...LIGHT_CONFIG.upper} />
+      <hemisphereLight {...LIGHT_CONFIG.lower} />
+
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]} geometry={circleGeometry}>
         <meshStandardMaterial
           transparent
@@ -94,6 +107,7 @@ export function LucyAndEarth({ onLoad }: { onLoad?: () => void }) {
           />
         </meshStandardMaterial>
       </mesh>
+
       <Points positions={points}>
         <pointsMaterial
           size={0.05}
