@@ -5,12 +5,10 @@ import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei
 import gsap from "gsap";
 
 const MODEL_SCALE = 0.0035;
+const POINTS_COUNT = 300;
+const FIELD_SIZE = 12;
 const CIRCLE_RADIUS = 15;
 const CIRCLE_SEGMENTS = 64;
-const GALAXY_POINTS = 3000;
-const GALAXY_RADIUS = 20;
-const GALAXY_BRANCHES = 3;
-const SPIN = 1.5;
 
 const LIGHT_CONFIG = {
   upper: {
@@ -27,39 +25,27 @@ const LIGHT_CONFIG = {
   },
 } as const;
 
-const generateGalaxyPoints = (count: number) => {
-  const positions = new Float32Array(count * 3);
-  const colors = new Float32Array(count * 3);
+const generatePoints = () => {
+  const positions = new Float32Array(POINTS_COUNT * 3);
+  const stride = 3;
+  const angleStep = (Math.PI * 2) / POINTS_COUNT;
 
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3;
+  for (let i = 0; i < POINTS_COUNT; i++) {
+    const i3 = i * stride;
+    const angle = angleStep * i;
 
-    // Radius
-    const radius = Math.random() * GALAXY_RADIUS;
-    const branchAngle = ((i % GALAXY_BRANCHES) / GALAXY_BRANCHES) * Math.PI * 2;
-    const spinAngle = radius * SPIN;
+    const radius = Math.sqrt(Math.random()) * FIELD_SIZE;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
 
-    // Calculate position with some randomness
-    const randomOffset = Math.random() * 0.5;
-    positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomOffset;
-    positions[i3 + 1] = 3 + (Math.random() - 0.5) * 2; // Height variation around y=3
-    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomOffset;
-
-    // Add colors
-    const mixedColor = new THREE.Color();
-    mixedColor.setHSL(0.6 + Math.random() * 0.2, 0.7, 0.4 + Math.random() * 0.3); // Blue-ish colors
-
-    colors[i3] = mixedColor.r;
-    colors[i3 + 1] = mixedColor.g;
-    colors[i3 + 2] = mixedColor.b;
+    positions[i3] = cos * radius;
+    positions[i3 + 1] = 0.2 + Math.random() * 2;
+    positions[i3 + 2] = sin * radius;
   }
 
-  return { positions, colors };
+  return { positions };
 };
 
-const circleGeometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_SEGMENTS);
-
-// Add interface for props
 interface LucyAndEarthProps {
   onLoad?: () => void;
   startAnimation?: boolean;
@@ -70,7 +56,7 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
   const { scene, gl, camera } = useThree();
   const { progress } = useProgress();
 
-  const { positions, colors } = useMemo(() => generateGalaxyPoints(3000), []);
+  const { positions } = useMemo(() => generatePoints(), []);
 
   const setupModel = useCallback(() => {
     if (!model) return null;
@@ -140,11 +126,15 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
     });
   }, [model, startAnimation]);
 
+  // Add back the circle geometry
+  const circleGeometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_SEGMENTS);
+
   return (
     <>
       <hemisphereLight {...LIGHT_CONFIG.upper} />
       <hemisphereLight {...LIGHT_CONFIG.lower} />
 
+      {/* Add back the circle plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]} geometry={circleGeometry}>
         <meshStandardMaterial
           transparent
@@ -161,14 +151,14 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
         </meshStandardMaterial>
       </mesh>
 
-      <Points positions={positions} renderOrder={999}>
+      <Points positions={positions}>
         <pointsMaterial
-          size={0.15}
+          size={0.03}
           sizeAttenuation={true}
+          color="#4fc3f7"
           transparent={true}
-          opacity={0.6}
+          opacity={0.5}
           depthWrite={false}
-          vertexColors={true}
           blending={THREE.AdditiveBlending}
         />
       </Points>
