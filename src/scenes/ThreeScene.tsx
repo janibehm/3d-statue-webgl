@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-import { useEffect, useState, lazy, Suspense } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
-=======
 import { useEffect, useState, lazy, Suspense, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
->>>>>>> dev
 import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
-import { Mesh } from "three";
 
 // Lazy load components
 const Stars = lazy(() =>
@@ -97,24 +91,6 @@ function LoadingScreen() {
   );
 }
 
-<<<<<<< HEAD
-function Cleanup() {
-  const { scene } = useThree();
-
-  useEffect(() => {
-    return () => {
-      scene.traverse((object) => {
-        if (object instanceof Mesh) {
-          object.geometry.dispose();
-          object.material.dispose();
-        }
-      });
-    };
-  }, [scene]);
-
-  return null;
-}
-=======
 // Pre-define styles to prevent object recreation
 const CONTAINER_STYLE = {
   position: "fixed" as const,
@@ -142,7 +118,6 @@ const CANVAS_SETTINGS = {
   shadows: true,
   camera: { position: [0, 2, 5], fov: 75 },
 } as const;
->>>>>>> dev
 
 function ThreeScene() {
   const [key] = useState(0);
@@ -194,7 +169,6 @@ function ThreeScene() {
       <Canvas {...CANVAS_SETTINGS} key={key} style={canvasStyle}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<LoadingScreen />}>
-          <Cleanup />
           <SpotLightAnimation />
           <Stars />
           <CameraControl />
