@@ -22,7 +22,7 @@ const PLANE_GEOMETRY = new PlaneGeometry(PLANE_SIZE, PLANE_SIZE);
 // Pre-define configuration
 const CONFIG = {
   light: {
-    angle: Math.PI / 10,
+    angle: Math.PI / 100,
     penumbra: 0.5,
     decay: 1,
     distance: 300,
@@ -112,11 +112,14 @@ export function SpotLightAnimation() {
     const time = elapsedTime * CONFIG.animation.speed;
 
     if (initialRender.current) {
-      if (elapsedTime < 1) {
-        spotLightRef.current.intensity = CONFIG.light.intensity * Math.min(elapsedTime, 1);
+      if (elapsedTime < 4) {
+        spotLightRef.current.intensity = CONFIG.light.intensity * Math.min(elapsedTime / 4, 1);
+        spotLightRef.current.angle =
+          Math.PI / 100 + (Math.PI / 10 - Math.PI / 100) * Math.min(elapsedTime / 4, 1);
       } else {
         initialRender.current = false;
         spotLightRef.current.intensity = CONFIG.light.intensity;
+        spotLightRef.current.angle = Math.PI / 10;
       }
     }
 

@@ -3,7 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
-
+/* import { MemoryMonitor } from "../components/react/threeJs/MemoryMonitor";
+ */
 // Lazy load components
 const Stars = lazy(() =>
   import("../components/react/threeJs/Stars").then((module) => ({
@@ -166,6 +167,8 @@ function ThreeScene() {
     <div style={containerStyle}>
       <div style={fadeStyle} />
       <ScrollIndicator isSceneLoaded={isSceneLoaded} />
+      {/*       <MemoryMonitor />
+       */}{" "}
       <Canvas {...CANVAS_SETTINGS} key={key} style={canvasStyle}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<LoadingScreen />}>
