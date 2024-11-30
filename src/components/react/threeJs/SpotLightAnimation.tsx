@@ -11,7 +11,7 @@ import {
   ShadowMaterial,
 } from "three";
 import { useTexture } from "@react-three/drei";
-import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
+import { getKTX2Loader, disposeKTX2Loader } from "../../../utils/ktx2Loader";
 import { useThree } from "@react-three/fiber";
 import gsap from "gsap";
 
@@ -61,7 +61,7 @@ export function SpotLightAnimation({
 
   // Replace the texture useMemo with useEffect
   useEffect(() => {
-    const loader = new KTX2Loader().setTranscoderPath("/basis/").detectSupport(gl);
+    const loader = getKTX2Loader(gl);
 
     loader.load("/textures/painted-worn-asphalt_albedo.ktx2", (loadedTexture) => {
       loadedTexture.flipY = false;
@@ -69,9 +69,9 @@ export function SpotLightAnimation({
       setTexture(loadedTexture);
     });
 
-    // Cleanup
     return () => {
       if (texture) texture.dispose();
+      disposeKTX2Loader();
     };
   }, [gl]);
 
