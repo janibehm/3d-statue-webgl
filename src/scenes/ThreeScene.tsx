@@ -4,7 +4,7 @@ import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
 import { ScrollIndicator } from "../components/react/ScrollIndicator";
 import gsap from "gsap";
-import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
+import { getKTX2Loader, disposeKTX2Loader } from "../utils/ktx2Loader";
 /* import { MemoryMonitor } from "../components/react/threeJs/MemoryMonitor";
  */
 // Lazy load components
@@ -127,11 +127,15 @@ function TextureLoader({ onLoad }: { onLoad: () => void }) {
   const { gl } = useThree();
 
   useEffect(() => {
-    const loader = new KTX2Loader().setTranscoderPath("/basis/").detectSupport(gl);
+    const loader = getKTX2Loader(gl);
 
     loader.load("/textures/painted-worn-asphalt_albedo.ktx2", () => {
       onLoad();
     });
+
+    return () => {
+      disposeKTX2Loader();
+    };
   }, [gl, onLoad]);
 
   return null;
