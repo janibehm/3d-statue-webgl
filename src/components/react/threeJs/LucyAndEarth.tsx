@@ -13,7 +13,7 @@ const CIRCLE_SEGMENTS = 64;
 
 const LIGHT_CONFIG = {
   upper: {
-    intensity: 0.2,
+    intensity: 0.3,
     groundColor: "#7c4dff",
     color: "#4fc3f7",
     position: [0, 20, 0],
