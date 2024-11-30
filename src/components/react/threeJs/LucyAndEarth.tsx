@@ -3,6 +3,7 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei";
 import gsap from "gsap";
+import { isMobileDevice } from "../../../utils/deviceDetection";
 
 const MODEL_SCALE = 0.0035;
 const POINTS_COUNT = 300;
@@ -57,6 +58,7 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
   const { progress } = useProgress();
 
   const { positions } = useMemo(() => generatePoints(), []);
+  const isMobile = useMemo(() => isMobileDevice, []);
 
   const setupModel = useCallback(() => {
     if (!model) return null;
@@ -151,17 +153,20 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
         </meshStandardMaterial>
       </mesh>
 
-      <Points positions={positions}>
-        <pointsMaterial
-          size={0.03}
-          sizeAttenuation={true}
-          color="#4fc3f7"
-          transparent={true}
-          opacity={0.5}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </Points>
+      {/* Only render Points on non-mobile devices */}
+      {!isMobile && (
+        <Points positions={positions}>
+          <pointsMaterial
+            size={0.03}
+            sizeAttenuation={true}
+            color="#4fc3f7"
+            transparent={true}
+            opacity={0.5}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
+        </Points>
+      )}
     </>
   );
 }
