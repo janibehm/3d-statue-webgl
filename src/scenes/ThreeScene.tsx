@@ -211,7 +211,7 @@ function ThreeScene() {
           <SpotLightAnimation waitForTexture={!texturesLoaded} startAnimation={assetsReady} />
           <Stars />
           <CameraControl />
-          <LucyAndEarth onLoad={() => setModelLoaded(true)} startAnimation={assetsReady} />
+          <LucyAndEarth onLoad={() => setModelLoaded(true)} />
           <Preload all />
         </Suspense>
       </Canvas>
