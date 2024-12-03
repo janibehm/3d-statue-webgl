@@ -85,7 +85,7 @@ export function CameraControl() {
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
     const closeRadius = 4; // Radius for first 180°
-    const farRadius = 14; // Maximum radius for second 180°
+    const farRadius = 8; // Maximum radius for second 180°
 
     // Calculate rotation and radius
     const rotationProgress = scrollY.current * Math.PI * 2; // 0 to 2π
