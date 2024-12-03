@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei";
 import { isMobileDevice } from "../../../utils/deviceDetection";
 
-const MODEL_SCALE = 0.0033;
+const MODEL_SCALE = 0.0032;
 const POINTS_COUNT = 300;
 const FIELD_SIZE = 12;
 const CIRCLE_RADIUS = 15;
