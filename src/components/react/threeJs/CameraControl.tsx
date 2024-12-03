@@ -81,40 +81,42 @@ export function CameraControl() {
   }, []);
 
   useFrame(() => {
-    // Smooth scroll interpolation
-    const scrollEasing = 0.05; // Adjust this value to change scroll smoothness (0.01 to 0.1)
+    const scrollEasing = 0.05;
     scrollY.current += (targetScrollY.current - scrollY.current) * scrollEasing;
 
-    const minRadius = 8; // Starting (closest) distance
-    const maxRadius = 14; // Ending (farthest) distance
-    const currentRadius = minRadius + scrollY.current * (maxRadius - minRadius);
+    const closeRadius = 4; // Radius for first 180°
+    const farRadius = 14; // Maximum radius for second 180°
 
-    const targetAngle = -scrollY.current * Math.PI * 2;
+    // Calculate rotation and radius
+    const rotationProgress = scrollY.current * Math.PI * 2; // 0 to 2π
+    const isFirstHalf = rotationProgress < Math.PI;
 
-    // Smooth camera rotation
-    const rotationEasing = 0.1; // Adjust this value to change rotation smoothness (0.01 to 0.1)
+    // Use close radius for first 180°, then gradually move out
+    const currentRadius = isFirstHalf
+      ? closeRadius
+      : closeRadius + ((rotationProgress - Math.PI) / Math.PI) * (farRadius - closeRadius);
+
+    const targetAngle = -rotationProgress;
+    const rotationEasing = 0.1;
     currentAngle.current += (targetAngle - currentAngle.current) * rotationEasing;
 
-    // Calculate camera position with dynamic radius
+    // Calculate camera position
     camera.position.x = Math.sin(currentAngle.current) * currentRadius;
     camera.position.z = Math.cos(currentAngle.current) * currentRadius;
 
-    // Adjust camera height
-    const minHeight = 5; // Starting height
-    const maxHeight = 8; // Ending height
-    const targetY = minHeight + scrollY.current * (maxHeight - minHeight);
+    // Steady upward movement
+    const minHeight = 5;
+    const maxHeight = 8;
+    const heightProgress = scrollY.current;
+    const targetY = minHeight + (maxHeight - minHeight) * heightProgress;
     camera.position.y += (targetY - camera.position.y) * 0.05;
 
-    // Adjust look-at point height
-    const lookAtY = 2.5; // Slightly increased from 2
-
-    // Allow manual rotation to override the scroll-based position
-    // but keep updating the base position from scroll
+    // Rest of the code remains the same...
+    const lookAtY = 2.5;
     const manualRotation = camera.position.clone();
     const scrollBasedX = Math.sin(currentAngle.current) * currentRadius;
     const scrollBasedZ = Math.cos(currentAngle.current) * currentRadius;
 
-    // Only update if the position significantly differs from the scroll-based position
     if (Math.abs(manualRotation.x - scrollBasedX) < 0.1) {
       camera.position.x = scrollBasedX;
     }

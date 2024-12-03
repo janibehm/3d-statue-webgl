@@ -2,10 +2,9 @@ import { useEffect, useMemo, useCallback } from "react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGLTF, useProgress, Points, GradientTexture } from "@react-three/drei";
-import gsap from "gsap";
 import { isMobileDevice } from "../../../utils/deviceDetection";
 
-const MODEL_SCALE = 0.0035;
+const MODEL_SCALE = 0.0033;
 const POINTS_COUNT = 300;
 const FIELD_SIZE = 12;
 const CIRCLE_RADIUS = 15;
@@ -49,10 +48,9 @@ const generatePoints = () => {
 
 interface LucyAndEarthProps {
   onLoad?: () => void;
-  startAnimation?: boolean;
 }
 
-export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthProps) {
+export function LucyAndEarth({ onLoad }: LucyAndEarthProps) {
   const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
   const { progress } = useProgress();
@@ -60,17 +58,17 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
   const { positions } = useMemo(() => generatePoints(), []);
   const isMobile = useMemo(() => isMobileDevice, []);
 
-  const setupModel = useCallback(() => {
-    if (!model) return null;
+  useEffect(() => {
+    if (!model || progress !== 100) return;
 
-    const modelInstance = model.clone();
-    modelInstance.visible = true;
-    modelInstance.scale.setScalar(MODEL_SCALE);
-    modelInstance.rotation.x = Math.PI / 2;
-    modelInstance.rotation.z = Math.PI * -0.1;
-    modelInstance.position.set(0, -0.15, 3);
+    // Modify original model directly
+    model.visible = true;
+    model.scale.setScalar(MODEL_SCALE);
+    model.rotation.x = Math.PI / 2;
+    model.rotation.z = Math.PI * -0.1;
+    model.position.set(0, -0.15, 1);
 
-    modelInstance.traverse((child) => {
+    model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.frustumCulled = true;
         child.castShadow = true;
@@ -81,52 +79,24 @@ export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthPro
       }
     });
 
-    return modelInstance;
-  }, [model]);
-
-  useEffect(() => {
-    if (!model || progress !== 100) return;
-
-    const modelInstance = setupModel();
-    if (!modelInstance) return;
-
-    // Compile and wait for next frame to ensure everything is ready
-    gl.compile(modelInstance, camera);
+    // Compile and add to scene
+    gl.compile(model, camera);
 
     requestAnimationFrame(() => {
-      scene.add(modelInstance);
+      scene.add(model);
       onLoad?.();
     });
 
     return () => {
-      scene.remove(modelInstance);
-      modelInstance.traverse((child) => {
+      scene.remove(model);
+      model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.geometry.dispose();
           child.material.dispose();
         }
       });
     };
-  }, [model, scene, gl, camera, progress, onLoad, setupModel]);
-
-  useEffect(() => {
-    if (!model || !startAnimation) return;
-
-    // Animate model appearance
-    gsap.from(model.position, {
-      y: -1,
-      duration: 2,
-      ease: "power2.out",
-      delay: 0.5,
-    });
-
-    gsap.from(model.rotation, {
-      z: Math.PI * -0.2,
-      duration: 2,
-      ease: "power2.out",
-      delay: 0.5,
-    });
-  }, [model, startAnimation]);
+  }, [model, scene, gl, camera, progress, onLoad]);
 
   // Add back the circle geometry
   const circleGeometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_SEGMENTS);
