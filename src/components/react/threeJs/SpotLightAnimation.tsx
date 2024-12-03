@@ -10,7 +10,7 @@ import {
   PlaneGeometry,
   ShadowMaterial,
 } from "three";
-import { useTexture } from "@react-three/drei";
+
 import { getKTX2Loader, disposeKTX2Loader } from "../../../utils/ktx2Loader";
 import { useThree } from "@react-three/fiber";
 import gsap from "gsap";
