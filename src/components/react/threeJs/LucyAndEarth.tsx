@@ -48,9 +48,10 @@ const generatePoints = () => {
 
 interface LucyAndEarthProps {
   onLoad?: () => void;
+  startAnimation?: boolean;
 }
 
-export function LucyAndEarth({ onLoad }: LucyAndEarthProps) {
+export function LucyAndEarth({ onLoad, startAnimation = false }: LucyAndEarthProps) {
   const { scene: model } = useGLTF("/models/Lucy.glb");
   const { scene, gl, camera } = useThree();
   const { progress } = useProgress();
