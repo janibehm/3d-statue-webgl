@@ -9,10 +9,9 @@ import {
   Mesh,
   PlaneGeometry,
   ShadowMaterial,
+  TextureLoader,
 } from "three";
 
-import { getKTX2Loader, disposeKTX2Loader } from "../../../utils/ktx2Loader";
-import { useThree } from "@react-three/fiber";
 import gsap from "gsap";
 
 // Move constants outside component
@@ -56,14 +55,13 @@ export function SpotLightAnimation({
   const initialRender = useRef(true);
   const positionVector = useRef(new Vector3());
   const lastTime = useRef(0);
-  const { gl } = useThree();
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
 
   // Replace the texture useMemo with useEffect
   useEffect(() => {
-    const loader = getKTX2Loader(gl);
+    const loader = new TextureLoader();
 
-    loader.load("/textures/painted-worn-asphalt_albedo.ktx2", (loadedTexture) => {
+    loader.load("/textures/painted-worn-asphalt_albedo.webp", (loadedTexture) => {
       loadedTexture.flipY = false;
       loadedTexture.needsUpdate = true;
       setTexture(loadedTexture);
@@ -71,9 +69,8 @@ export function SpotLightAnimation({
 
     return () => {
       if (texture) texture.dispose();
-      disposeKTX2Loader();
     };
-  }, [gl]);
+  }, []);
 
   // Memoize shadow plane creation
   const shadowPlane = useMemo(() => {
