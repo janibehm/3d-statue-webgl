@@ -5,10 +5,6 @@ import Header from "../components/astro/Header.astro";
 
 import { getLangFromUrl } from "../utils/language";
 
-// Only load Speed Insights in production
-const SpeedInsights = import.meta.env.PROD
-  ? (await import("@vercel/speed-insights/astro")).default
-  : () => null;
 
 const lang = getLangFromUrl(Astro.url.pathname);
 
