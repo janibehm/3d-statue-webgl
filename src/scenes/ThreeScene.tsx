@@ -2,7 +2,7 @@ import { useEffect, useState, lazy, Suspense, useMemo, useRef } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Html, Preload } from "@react-three/drei";
 import { isMobileDevice } from "../utils/deviceDetection";
-import { ScrollIndicator } from "../components/react/ScrollIndicator";
+
 import gsap from "gsap";
 import { getKTX2Loader, disposeKTX2Loader } from "../utils/ktx2Loader";
 /* import { MemoryMonitor } from "../components/react/threeJs/MemoryMonitor";
@@ -203,7 +203,7 @@ function ThreeScene() {
           opacity: 1, // Initial state, GSAP will handle the animation
         }}
       />
-      <ScrollIndicator isSceneLoaded={isSceneLoaded} />
+
       <Canvas {...CANVAS_SETTINGS} key={key} style={canvasStyle}>
         <color attach="background" args={[0x000000]} />
         <Suspense fallback={<LoadingScreen />}>
