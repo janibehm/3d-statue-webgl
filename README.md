@@ -1,8 +1,15 @@
-# Astro Starter Kit: Basics
+# 3D experimenting with webgl
+An experimental Three.js project focused on 3D animations and real-time rendering.
 
-```sh
-npm create astro@latest -- --template basics
-```
+Wanna use it? okay then just follow these simple steps:
+
+Clone the repository;
+Open the folder in Visual Studio Code;
+Open the terminal and type this command: npm install
+Run the app on the server by typing this command: npx vite
+Ctrl + click on the server link "http://localhost:5173/" to open the app in your browser;
+Have fun!
+• The /public folder is where you put the images and 3D models.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
 [![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
